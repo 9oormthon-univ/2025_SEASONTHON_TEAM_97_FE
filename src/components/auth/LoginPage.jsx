@@ -61,11 +61,11 @@ export default function LoginPage() {
           {/* 아이디 입력 */}
           <div>
             <label
-              className="block mb-2 text-center"
+              className="block mb-2 text-left"
               style={{
                 color: "#00B44B",
                 fontFamily: "Pretendard",
-                fontSize: "0.75rem",
+                fontSize: "0.875rem",
                 fontStyle: "normal",
                 fontWeight: 600,
                 lineHeight: "normal",
@@ -79,7 +79,7 @@ export default function LoginPage() {
               value={formData.id}
               onChange={handleChange}
               placeholder="아이디를 입력해주세요."
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors"
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors text-sm"
               style={{ borderColor: "#13D564" }}
               required
             />
@@ -88,11 +88,11 @@ export default function LoginPage() {
           {/* 비밀번호 입력 */}
           <div>
             <label
-              className="block mb-2 text-center"
+              className="block mb-2 text-left"
               style={{
                 color: "#00B44B",
                 fontFamily: "Pretendard",
-                fontSize: "0.75rem",
+                fontSize: "0.875rem",
                 fontStyle: "normal",
                 fontWeight: 600,
                 lineHeight: "normal",
@@ -106,7 +106,7 @@ export default function LoginPage() {
               value={formData.password}
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요."
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors"
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors text-sm"
               style={{ borderColor: "#13D564" }}
               required
             />
@@ -149,7 +149,7 @@ export default function LoginPage() {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">또는</span>
+              <span className="px-2 bg-[#F0F6F4] text-gray-500">또는</span>
             </div>
           </div>
 
@@ -157,17 +157,17 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={KakaoLogin}
-            className="w-full bg-yellow-400 text-black py-3 rounded-lg font-medium hover:bg-yellow-500 transition-colors flex items-center justify-center space-x-2"
+            className="w-full bg-[#FEE500] text-[#3C1E1E] py-3 rounded-lg font-medium hover:bg-[#FDD800] transition-colors flex items-center justify-center space-x-2 cursor-pointer"
           >
-            <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center">
-              <span className="text-white text-xs">💬</span>
+            <div className="w-6 h-6 flex items-center justify-center">
+              <span className="text-[#3C1E1E] text-lg">💬</span>
             </div>
             <span>카카오로 로그인하기</span>
           </button>
 
           {/* 회원가입 버튼 */}
           <Link
-            to="/signup"
+            to="/signup-1"
             className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-colors text-center"
           >
             회원가입하기
