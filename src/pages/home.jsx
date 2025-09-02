@@ -1,9 +1,13 @@
-import {useState} from "react";
+
 import {Link} from "react-router-dom";
-import bellSvg from "../../assets/icons/Union.svg";
+import bellSvg from "../assets/icons/Union.svg";
+import MNotificationCard from "../components/common/mnotificationcard";
+import Button from "../components/common/NextButton";
+
+
 export default function Homepage(){
     return (
-        <div className="w-full max-w-md mx-auto p-4">
+        <div className="w-full max-w-md mx-auto p-4">          
             <div className="flex flex-row items-end w-full justify-end p-8" > 
                 <img src={bellSvg} alt="bell" style={{ width: '22px', height: '27px', flexShrink: 0 }} />
             </div>

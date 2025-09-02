@@ -6,7 +6,7 @@ import SignUp_2 from './components/auth/SignUp_2';
 import KakaoLoginCallback from './components/auth/KakaoLoginCallback';
 import LoginSuccess from './components/auth/LoginSuccess';
 import KakaoNickname from './components/auth/KakaoNickname';
-import Homepage from './components/home/home';
+import Homepage from './pages/home';
 
 
 export default function App() {
