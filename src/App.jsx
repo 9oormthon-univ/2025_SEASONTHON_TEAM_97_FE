@@ -6,6 +6,8 @@ import SignUp_2 from './components/auth/SignUp_2';
 import KakaoLoginCallback from './components/auth/KakaoLoginCallback';
 import LoginSuccess from './components/auth/LoginSuccess';
 import KakaoNickname from './components/auth/KakaoNickname';
+import Homepage from './components/home/home';
+
 
 export default function App() {
   return (
@@ -18,6 +20,7 @@ export default function App() {
         <Route path="/KakaoLoginCallback" element={<KakaoLoginCallback />} />
         <Route path="/LoginSuccess" element={<LoginSuccess />} />
         <Route path="/kakao-nickname" element={<KakaoNickname />} />
+        <Route path="/Home" element={<Homepage />} />
       </Routes>
     </Router>
   );
