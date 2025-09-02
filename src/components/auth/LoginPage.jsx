@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logoSvg from "../../assets/icons/청춘스케치.svg";
- 
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -50,7 +49,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-[#121212]">
+    <div className="h-screen flex items-center justify-center bg-[#BDBDBD]">
       {/* 메인 콘텐츠 카드 (로그인 폼 포함) */}
       <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#FAFAF8]">
         {/* 헤더 - 로고 */}
@@ -100,7 +99,7 @@ export default function LoginPage() {
               value={formData.id}
               onChange={handleChange}
               placeholder="아이디를 입력해주세요."
-              className="w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors text-sm"
+              className="w-full px-4 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors text-sm"
               style={{
                 paddingTop: "0.75rem",
                 paddingBottom: "0.75rem",
@@ -136,7 +135,7 @@ export default function LoginPage() {
               value={formData.password}
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요."
-              className="w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors text-sm"
+              className="w-full px-4 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors text-sm"
               style={{
                 paddingTop: "0.75rem",
                 paddingBottom: "0.75rem",
@@ -227,7 +226,7 @@ export default function LoginPage() {
             </div>
             <div className="relative flex justify-center text-sm">
               <span
-                className="px-2 bg-[#F0F6F4] text-gray-500"
+                className="px-2 bg-[#FAFAF8] text-gray-500"
                 style={{ paddingLeft: "0.5rem", paddingRight: "0.5rem" }}
               >
                 또는
