@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import homeO from '../../assets/icons/home-o.svg';
 import homeX from '../../assets/icons/home-x.svg';
 import searchO from '../../assets/icons/search-o.svg';
@@ -10,11 +11,29 @@ import mypageX from '../../assets/icons/mypage-x.svg';
 
 function MenuBar() {
   const [currentTab, setCurrentTab] = useState('home');
+  const navigate = useNavigate();
 
   const handleTabClick = (tabName) => {
     setCurrentTab(tabName);
-    // 여기에 실제 네비게이션 로직을 추가할 수 있습니다
-    console.log('탭 변경:', tabName);
+    
+    // 탭에 따른 페이지 이동
+    switch (tabName) {
+      case 'home':
+        navigate('/Home');
+        break;
+      case 'search':
+        navigate('/search');
+        break;
+      case 'bookmark':
+        // 북마크 페이지가 구현되면 여기에 경로 추가
+        console.log('북마크 페이지로 이동');
+        break;
+      case 'mypage':
+        navigate('/mypage');
+        break;
+      default:
+        break;
+    }
   };
 
   const tabs = [
