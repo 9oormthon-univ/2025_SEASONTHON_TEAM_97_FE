@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logoSvg from "../../assets/icons/청춘스케치.svg";
+import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
 
 export default function LoginPage() {
   const navigate = useNavigate();

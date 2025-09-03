@@ -1,119 +1,92 @@
-import { API_CONFIG, getApiUrl, getEndpoint } from '../config/api.js';
+// API 서비스 - HTTP 요청을 처리하는 함수들
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
-// Generic HTTP request function
-const apiRequest = async (endpoint, options = {}) => {
-  const url = getApiUrl(endpoint);
-  
-  const config = {
-    ...API_CONFIG.REQUEST_CONFIG,
-    ...options,
-    headers: {
-      ...API_CONFIG.REQUEST_CONFIG.headers,
-      ...options.headers,
-    },
-  };
-
-  try {
-    const response = await fetch(url, config);
-    
-    // Check if response is ok
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    // Parse response
-    const contentType = response.headers.get('content-type');
-    if (contentType && contentType.includes('application/json')) {
-      return await response.json();
-    } else {
-      return await response.text();
-    }
-  } catch (error) {
-    console.error('API request failed:', error);
-    throw error;
-  }
+// 기본 fetch 설정
+const defaultOptions = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
 };
 
-// HTTP methods
-export const api = {
-  // GET request
-  get: (endpoint, options = {}) => {
-    return apiRequest(endpoint, { ...options, method: 'GET' });
-  },
+// 응답 처리 함수
+const handleResponse = async (response) => {
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+  }
   
-  // POST request
-  post: (endpoint, data, options = {}) => {
-    return apiRequest(endpoint, {
+  const data = await response.json().catch(() => ({}));
+  return data;
+};
+
+// GET 요청
+export const api = {
+  get: async (endpoint, options = {}) => {
+    const url = `${BASE_URL}${endpoint}`;
+    const response = await fetch(url, {
+      ...defaultOptions,
+      ...options,
+      method: 'GET',
+    });
+    return handleResponse(response);
+  },
+
+  // POST 요청
+  post: async (endpoint, data, options = {}) => {
+    const url = `${BASE_URL}${endpoint}`;
+    const response = await fetch(url, {
+      ...defaultOptions,
       ...options,
       method: 'POST',
       body: JSON.stringify(data),
     });
+    return handleResponse(response);
   },
-  
-  // PUT request
-  put: (endpoint, data, options = {}) => {
-    return apiRequest(endpoint, {
+
+  // PUT 요청
+  put: async (endpoint, data, options = {}) => {
+    const url = `${BASE_URL}${endpoint}`;
+    const response = await fetch(url, {
+      ...defaultOptions,
       ...options,
       method: 'PUT',
       body: JSON.stringify(data),
     });
+    return handleResponse(response);
   },
-  
-  // DELETE request
-  delete: (endpoint, options = {}) => {
-    return apiRequest(endpoint, { ...options, method: 'DELETE' });
+
+  // DELETE 요청
+  delete: async (endpoint, options = {}) => {
+    const url = `${BASE_URL}${endpoint}`;
+    const response = await fetch(url, {
+      ...defaultOptions,
+      ...options,
+      method: 'DELETE',
+    });
+    return handleResponse(response);
   },
-  
-  // PATCH request
-  patch: (endpoint, data, options = {}) => {
-    return apiRequest(endpoint, {
+
+  // PATCH 요청
+  patch: async (endpoint, data, options = {}) => {
+    const url = `${BASE_URL}${endpoint}`;
+    const response = await fetch(url, {
+      ...defaultOptions,
       ...options,
       method: 'PATCH',
       body: JSON.stringify(data),
     });
+    return handleResponse(response);
   },
 };
 
-// Auth API functions
-export const authAPI = {
-  // Login
-  login: (credentials) => {
-    return api.post(getEndpoint('LOGIN'), credentials);
-  },
-  
-  // Signup
-  signup: (userData) => {
-    return api.post(getEndpoint('SIGNUP'), userData);
-  },
-  
-  // Logout
-  logout: () => {
-    return api.post(getEndpoint('LOGOUT'));
-  },
-  
-  // Kakao Login
-  kakaoLogin: (code) => {
-    return api.post(getEndpoint('KAKAO_LOGIN'), { code });
-  },
-  
-  // Kakao Complete (닉네임 설정)
-  kakaoComplete: (nickname) => {
-    return api.post(getEndpoint('KAKAO_COMPLETE'), { nickname });
-  },
+// 토큰 설정 함수
+export const setAuthToken = (token) => {
+  if (token) {
+    defaultOptions.headers.Authorization = `Bearer ${token}`;
+  } else {
+    delete defaultOptions.headers.Authorization;
+  }
 };
 
-// User API functions
-export const userAPI = {
-  // Get user profile
-  getProfile: () => {
-    return api.get(getEndpoint('USER_PROFILE'));
-  },
-  
-  // Update user profile
-  updateProfile: (userData) => {
-    return api.put(getEndpoint('USER_UPDATE'), userData);
-  },
-};
-
-// Export helper functions
-export { getApiUrl, getEndpoint };
+// 기본 export
+export default api;

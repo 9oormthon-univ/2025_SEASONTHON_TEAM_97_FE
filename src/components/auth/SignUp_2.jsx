@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logoSvg from "../../assets/icons/청춘스케치.svg";
+import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
 import { api } from "../../services/api.js";
 
 export default function SignUp_2() {

@@ -1,17 +1,17 @@
 
 import {Link} from "react-router-dom";
-import bellSvg from "../assets/icons/Union.svg";
+import bellSvg from "../assets/icons/union.svg";
 import MNotificationCard from "../components/common/mnotificationcard";
 import Button from "../components/common/NextButton";
 
-
 export default function Homepage(){
     return (
-        <div className="w-full max-w-md mx-auto p-4">          
-            <div className="flex flex-row items-end w-full justify-end p-8" > 
+        <div className="w-full max-w-md mx-auto">          
+            <div className="flex flex-row items-end w-full justify-end p-4" style={{ marginBottom: "20px" }}> 
                 <img src={bellSvg} alt="bell" style={{ width: '22px', height: '27px', flexShrink: 0 }} />
             </div>
-            <div >
+            
+            <div>
                 <h1 style={{ 
                 color: "#121212",
                 fontFamily: "Pretendard",
@@ -27,7 +27,8 @@ export default function Homepage(){
             <div className="p-2.75">
                 <div style={{
                     padding:'16px',
-                    width:'280px',
+                    width:'100%',
+                    maxWidth:'280px',
                     height:'200px',
                     backgroundColor: "#13D564",
                     borderRadius:"18px",
@@ -65,6 +66,7 @@ export default function Homepage(){
                 backgroundColor: "#FFF",
                 borderRadius: "12px",
                 marginTop: "8px",
+                marginBottom: "20px",
             }}>
                 <div style={{ padding: "16px", borderBottom: "1px solid #eee" }}>
                     <p style={{ fontSize: "12px", color: "#121212" }}>[제목] 테스트</p>
@@ -84,7 +86,6 @@ export default function Homepage(){
                     <p style={{ fontSize: "12px", color: "blue", marginTop: "6px" }}>D-50</p>
                 </div>
             </div>
-
         </div>
     );
 };

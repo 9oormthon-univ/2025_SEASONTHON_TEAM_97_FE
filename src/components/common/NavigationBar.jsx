@@ -27,7 +27,7 @@ function NavigationBar({
     <nav
       className={className}
       style={{
-        position: 'fixed',
+        position: 'relative',
         bottom: 0,
         left: 0,
         right: 0,
@@ -39,6 +39,7 @@ function NavigationBar({
         alignItems: 'center',
         boxShadow: '0 -2px 10px rgba(0,0,0,0.1)',
         zIndex: 1000,
+        marginTop: '20px',
         ...style,
       }}
     >

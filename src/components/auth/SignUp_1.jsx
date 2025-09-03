@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import logoSvg from "../../assets/icons/청춘스케치.svg";
+import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
 import { useNavigate } from "react-router-dom"; // 라우트 이동을 위한 임포트
 
 export default function SignUp_1() {
