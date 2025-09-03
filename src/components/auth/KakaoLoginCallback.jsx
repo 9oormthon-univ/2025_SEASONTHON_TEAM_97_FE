@@ -69,22 +69,25 @@ export default function KakaoLoginCallback() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-[#F0F6F4]">
-      <div className="text-center">
-        {isLoading ? (
-          <>
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">카카오 로그인 처리 중...</p>
-          </>
-        ) : error ? (
-          <>
-            <div className="text-red-500 text-lg mb-4">⚠️</div>
-            <p className="text-red-600 mb-2">{error}</p>
-            <p className="text-gray-500 text-sm">
-              로그인 페이지로 이동합니다...
-            </p>
-          </>
-        ) : null}
+    <div className="h-screen flex items-center justify-center bg-[#BDBDBD]">
+      {/* 메인 콘텐츠 영역 */}
+      <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#FAFAF8]">
+        <div className="text-center">
+          {isLoading ? (
+            <>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+              <p className="text-gray-600">카카오 로그인 처리 중...</p>
+            </>
+          ) : error ? (
+            <>
+              <div className="text-red-500 text-lg mb-4">⚠️</div>
+              <p className="text-red-600 mb-2">{error}</p>
+              <p className="text-gray-500 text-sm">
+                로그인 페이지로 이동합니다...
+              </p>
+            </>
+          ) : null}
+        </div>
       </div>
     </div>
   );

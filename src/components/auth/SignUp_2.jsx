@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logoSvg from "../../assets/icons/청춘스케치.svg";
+import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
 import { api } from "../../services/api.js";
 
 export default function SignUp_2() {
@@ -144,7 +144,7 @@ export default function SignUp_2() {
         const kakaoUserData = JSON.parse(
           localStorage.getItem("kakaoUserData") || "{}"
         );
-        
+
         // ERD에 맞춰 백엔드로 전송할 데이터 구성
         const userData = {
           login_id: localStorage.getItem("tempUserId") || "kakao_user", // 임시 저장된 아이디 또는 카카오 사용자
@@ -185,7 +185,7 @@ export default function SignUp_2() {
             userData: userData, // ERD에 맞춘 사용자 데이터
             completeSignupData: completeSignupData, // 전체 회원가입 과정 데이터
           });
-          
+
           console.log("회원가입 성공:", result);
 
           // 임시 저장된 데이터 삭제
@@ -224,9 +224,9 @@ export default function SignUp_2() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-[#121212]">
+    <div className="h-screen flex items-center justify-center bg-[#BDBDBD]">
       {/* 메인 콘텐츠 영역 */}
-      <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#F0F6F4]">
+      <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#FAFAF8]">
         {/* 헤더 - 로고 */}
         <div
           className="text-center"
@@ -275,7 +275,9 @@ export default function SignUp_2() {
               onChange={handleChange}
               placeholder="생년월일을 입력해주세요. 예시) 2000/01/01"
               className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm placeholder-gray-400 ${
-                errors.birthDate ? 'border-red-500 focus:ring-red-500' : 'border-green-500 focus:ring-green-500'
+                errors.birthDate
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-green-500 focus:ring-green-500"
               }`}
               style={{
                 paddingTop: "0.75rem",
@@ -287,9 +289,7 @@ export default function SignUp_2() {
               className="flex items-center justify-end mt-1"
             >
               {errors.birthDate && (
-                <p className="text-red-500 text-xs">
-                  {errors.birthDate}
-                </p>
+                <p className="text-red-500 text-xs">{errors.birthDate}</p>
               )}
             </div>
           </div>
@@ -315,7 +315,9 @@ export default function SignUp_2() {
               value={formData.region}
               onChange={handleChange}
               className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm text-gray-400 ${
-                errors.region ? 'border-red-500 focus:ring-red-500' : 'border-green-500 focus:ring-green-500'
+                errors.region
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-green-500 focus:ring-green-500"
               }`}
               style={{
                 color: formData.region ? "#000000" : "#9ca3af",
@@ -383,9 +385,7 @@ export default function SignUp_2() {
               className="flex items-center justify-end mt-1"
             >
               {errors.region && (
-                <p className="text-red-500 text-xs">
-                  {errors.region}
-                </p>
+                <p className="text-red-500 text-xs">{errors.region}</p>
               )}
             </div>
           </div>
@@ -413,7 +413,9 @@ export default function SignUp_2() {
               onChange={handleChange}
               placeholder="월 소득수준을 입력해주세요. (단위: 만원)"
               className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm placeholder-gray-400 ${
-                errors.incomeLevel ? 'border-red-500 focus:ring-red-500' : 'border-green-500 focus:ring-green-500'
+                errors.incomeLevel
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-green-500 focus:ring-green-500"
               }`}
               style={{
                 paddingTop: "0.75rem",
@@ -425,9 +427,7 @@ export default function SignUp_2() {
               className="flex items-center justify-end mt-1"
             >
               {errors.incomeLevel && (
-                <p className="text-red-500 text-xs">
-                  {errors.incomeLevel}
-                </p>
+                <p className="text-red-500 text-xs">{errors.incomeLevel}</p>
               )}
             </div>
           </div>
@@ -453,7 +453,9 @@ export default function SignUp_2() {
               value={formData.employmentStatus}
               onChange={handleChange}
               className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm text-gray-400 ${
-                errors.employmentStatus ? 'border-red-500 focus:ring-red-500' : 'border-green-500 focus:ring-green-500'
+                errors.employmentStatus
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-green-500 focus:ring-green-500"
               }`}
               style={{
                 color: formData.employmentStatus ? "#000000" : "#9ca3af",

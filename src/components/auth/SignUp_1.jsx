@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import logoSvg from "../../assets/icons/청춘스케치.svg";
+import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
 import { useNavigate } from "react-router-dom"; // 라우트 이동을 위한 임포트
 
 export default function SignUp_1() {
@@ -396,9 +396,9 @@ export default function SignUp_1() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-[#121212]">
+    <div className="h-screen flex items-center justify-center bg-[#BDBDBD]">
       {/* 메인 콘텐츠 영역 */}
-      <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#F0F6F4]">
+      <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#FAFAF8]">
         {/* 헤더 - 로고 */}
         <div
           className="text-center"
@@ -447,7 +447,9 @@ export default function SignUp_1() {
               onChange={handleChange}
               placeholder="아이디를 입력해주세요."
               className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm ${
-                errors.id ? 'border-red-500 focus:ring-red-500' : 'border-green-500 focus:ring-green-500'
+                errors.id
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-green-500 focus:ring-green-500"
               }`}
               style={{
                 paddingTop: "0.75rem",
@@ -461,14 +463,10 @@ export default function SignUp_1() {
               className="flex items-center justify-end mt-1"
             >
               {isCheckingId && (
-                <p className="text-gray-500 text-xs">
-                  확인 중...
-                </p>
+                <p className="text-gray-500 text-xs">확인 중...</p>
               )}
               {!isCheckingId && errors.id && (
-                <p className="text-red-500 text-xs">
-                  {errors.id}
-                </p>
+                <p className="text-red-500 text-xs">{errors.id}</p>
               )}
               {!isCheckingId && !errors.id && idCheckMessage && (
                 <p
@@ -506,7 +504,9 @@ export default function SignUp_1() {
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요."
               className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm ${
-                errors.password ? 'border-red-500 focus:ring-red-500' : 'border-green-500 focus:ring-green-500'
+                errors.password
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-green-500 focus:ring-green-500"
               }`}
               style={{
                 paddingTop: "0.75rem",
@@ -520,9 +520,7 @@ export default function SignUp_1() {
               className="flex items-center justify-end mt-1"
             >
               {errors.password && (
-                <p className="text-red-500 text-xs">
-                  {errors.password}
-                </p>
+                <p className="text-red-500 text-xs">{errors.password}</p>
               )}
             </div>
           </div>
@@ -550,7 +548,9 @@ export default function SignUp_1() {
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요."
               className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm ${
-                errors.confirmPassword ? 'border-red-500 focus:ring-red-500' : 'border-green-500 focus:ring-green-500'
+                errors.confirmPassword
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-green-500 focus:ring-green-500"
               }`}
               style={{
                 paddingTop: "0.75rem",
@@ -564,9 +564,7 @@ export default function SignUp_1() {
               className="flex items-center justify-end mt-1"
             >
               {errors.confirmPassword && (
-                <p className="text-red-500 text-xs">
-                  {errors.confirmPassword}
-                </p>
+                <p className="text-red-500 text-xs">{errors.confirmPassword}</p>
               )}
               {!errors.confirmPassword &&
                 formData.confirmPassword &&
@@ -601,7 +599,9 @@ export default function SignUp_1() {
               onChange={handleChange}
               placeholder="닉네임을 입력해주세요."
               className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm ${
-                errors.nickname ? 'border-red-500 focus:ring-red-500' : 'border-green-500 focus:ring-green-500'
+                errors.nickname
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-green-500 focus:ring-green-500"
               }`}
               style={{
                 paddingTop: "0.75rem",
@@ -615,14 +615,10 @@ export default function SignUp_1() {
               className="flex items-center justify-end mt-1"
             >
               {isCheckingNickname && (
-                <p className="text-gray-500 text-xs">
-                  확인 중...
-                </p>
+                <p className="text-gray-500 text-xs">확인 중...</p>
               )}
               {!isCheckingNickname && errors.nickname && (
-                <p className="text-red-500 text-xs">
-                  {errors.nickname}
-                </p>
+                <p className="text-red-500 text-xs">{errors.nickname}</p>
               )}
               {!isCheckingNickname &&
                 !errors.nickname &&
