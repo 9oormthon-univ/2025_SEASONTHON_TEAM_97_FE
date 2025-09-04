@@ -235,7 +235,7 @@ export default function SignUp_2() {
 
   const handleSkip = () => {
     console.log("건너뛰기 선택");
-    navigate("/LoginSuccess");
+    navigate("/Home");
   };
 
   return (
