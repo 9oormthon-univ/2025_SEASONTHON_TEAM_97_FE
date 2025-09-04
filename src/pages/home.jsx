@@ -1,12 +1,12 @@
 
-import bellSvg from "../assets/icons/union.svg";
-
 export default function Homepage() {
     return (
         <div className="w-[90%] max-w-sm mx-auto">          
             {/* 알림 아이콘 */}
             <div className="flex flex-row items-end w-full justify-end p-4 mb-5"> 
-                <img src={bellSvg} alt="bell" className="w-[22px] h-[27px] flex-shrink-0" />
+                <div className="w-[22px] h-[27px] bg-green-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs">🔔</span>
+                </div>
             </div>
             
             {/* 오늘 나와 비슷한 나이에게 추천 */}
