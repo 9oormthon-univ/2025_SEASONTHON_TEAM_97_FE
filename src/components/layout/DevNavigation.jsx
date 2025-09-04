@@ -7,7 +7,7 @@ function DevNavigation() {
   const location = useLocation();
 
   const pages = [
-    { name: '스플래시(완료)', path: '/', color: 'bg-purple-500' },
+    { name: '스플래시', path: '/', color: 'bg-purple-500' },
     { name: '로그인', path: '/login', color: 'bg-blue-500' },
     { name: '회원가입1', path: '/signup/step1', color: 'bg-indigo-500' },
     { name: '회원가입2', path: '/signup/step2', color: 'bg-cyan-500' },
