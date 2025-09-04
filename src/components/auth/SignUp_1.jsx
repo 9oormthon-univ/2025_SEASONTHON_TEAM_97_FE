@@ -377,7 +377,7 @@ export default function SignUp_1() {
         tempNickname: localStorage.getItem("tempNickname"),
         signupStep1Data: localStorage.getItem("signupStep1Data"),
       });
-      navigate("/signup-2"); // 유효성 검사 통과 시 SignUp_2로 이동
+      navigate("/signup/step2"); // 유효성 검사 통과 시 SignUp_2로 이동
     }
   };
 

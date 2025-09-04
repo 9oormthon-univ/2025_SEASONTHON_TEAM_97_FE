@@ -2,13 +2,13 @@ import { useLocation } from 'react-router-dom';
 
 function Header() {
   const location = useLocation();
-  const isHomePage = location.pathname === '/Home';
+  const isHomePage = location.pathname === '/home';
   
   // 신규 알람 상태 (실제로는 상태 관리나 API에서 가져올 값)
   const hasNewAlarm = true;
 
   return (
-    <header className="w-full bg-[#F5F5F5] text-white p-4 text-center fixed top-0 left-0 z-50 relative">
+    <header className="w-full bg-[#F5F5F5] text-white pt-10 pb-4 px-4 text-center fixed top-0 left-0 z-50 relative">
       
       {/* 홈페이지일 때만 알람 아이콘 표시 */}
       {isHomePage && (

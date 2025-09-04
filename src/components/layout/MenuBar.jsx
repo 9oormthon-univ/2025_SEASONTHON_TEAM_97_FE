@@ -19,7 +19,7 @@ function MenuBar() {
     // 탭에 따른 페이지 이동
     switch (tabName) {
       case 'home':
-        navigate('/Home');
+        navigate('/home');
         break;
       case 'search':
         navigate('/search');

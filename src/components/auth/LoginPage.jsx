@@ -46,7 +46,7 @@ export default function LoginPage() {
         loginType: "local",
       })
     );
-    navigate("/LoginSuccess");
+    navigate("/login-success");
   };
 
   return (

@@ -36,7 +36,7 @@ export default function KakaoLoginCallback() {
           // ⚠️ 가능하면 HttpOnly 쿠키로 처리하고, localStorage에는 최소한만 저장 권장
           localStorage.setItem("authToken", result.token);
           localStorage.setItem("userInfo", JSON.stringify(result.userInfo));
-          navigate("/login-success"); // 라우트 경로 대소문자 확인
+          navigate("/login-success");
         } else {
           navigate("/kakao-nickname");
         }

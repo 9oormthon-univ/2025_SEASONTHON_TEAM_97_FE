@@ -37,7 +37,7 @@ export default function KakaoNickname() {
         console.log("카카오 사용자 닉네임 설정 완료:", result);
 
         // SignUp_2로 이동
-        navigate("/signup-2");
+        navigate("/signup/step2");
       } else {
         setError(result.message || "닉네임 설정에 실패했습니다.");
       }
@@ -65,7 +65,7 @@ export default function KakaoNickname() {
         console.log("테스트 모드: 카카오 사용자 닉네임 설정 완료");
 
         // SignUp_2로 이동
-        navigate("/signup-2");
+        navigate("/signup/step2");
       } else {
         setError("닉네임 설정 중 오류가 발생했습니다.");
       }

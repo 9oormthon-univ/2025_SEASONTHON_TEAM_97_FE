@@ -12,19 +12,35 @@ import MyPage from "./pages/MyPage";
 import Header from "./components/layout/Header";
 import MainLayout from "./components/layout/MainLayout";
 import MenuBar from "./components/layout/MenuBar";
+import DevNavigation from "./components/layout/DevNavigation";
 
 function App() {
   return (
     <Router>
       <div className="App">
+        {/* 개발자용 네비게이션 - 모든 페이지에 표시 */}
+        <DevNavigation />
+        
         <Routes>
+          {/* 인증 관련 페이지 (레이아웃 없음) */}
           <Route path="/" element={<SplashScreen />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup-1" element={<SignUp_1 />} />
-          <Route path="/signup-2" element={<SignUp_2 />} />
-          <Route path="/KakaoLoginCallback" element={<KakaoLoginCallback />} />
-          <Route path="/LoginSuccess" element={<LoginSuccess />} />
+          <Route path="/signup/step1" element={<SignUp_1 />} />
+          <Route path="/signup/step2" element={<SignUp_2 />} />
+          <Route path="/kakao-login-callback" element={<KakaoLoginCallback />} />
+          <Route path="/login-success" element={<LoginSuccess />} />
           <Route path="/kakao-nickname" element={<KakaoNickname />} />
+          
+          {/* 메인 앱 페이지 (헤더 + 네비 포함) */}
+          <Route path="/home" element={
+            <>
+              <Header />
+              <MainLayout>
+                <Homepage />
+              </MainLayout>
+              <MenuBar />
+            </>
+          } />
           <Route path="/search" element={
             <>
               <Header />
@@ -39,15 +55,6 @@ function App() {
               <Header />
               <MainLayout>
                 <MyPage />
-              </MainLayout>
-              <MenuBar />
-            </>
-          } />
-          <Route path="/Home" element={
-            <>
-              <Header />
-              <MainLayout>
-                <Homepage />
               </MainLayout>
               <MenuBar />
             </>

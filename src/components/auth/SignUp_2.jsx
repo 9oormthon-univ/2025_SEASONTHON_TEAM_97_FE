@@ -221,7 +221,7 @@ export default function SignUp_2() {
           localStorage.removeItem("signupStep1Data");
 
           // 로그인 성공 페이지로 이동
-          navigate("/LoginSuccess");
+          navigate("/login-success");
         } catch (error) {
           console.error("회원가입 오류:", error);
           alert("회원가입 중 오류가 발생했습니다.");
@@ -235,7 +235,7 @@ export default function SignUp_2() {
 
   const handleSkip = () => {
     console.log("건너뛰기 선택");
-    navigate("/Home");
+    navigate("/home");
   };
 
   return (
