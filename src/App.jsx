@@ -20,7 +20,6 @@ function App() {
       <div className="App">
         {/* 개발자용 네비게이션 - 모든 페이지에 표시 */}
         <DevNavigation />
-        수
         <Routes>
           {/* 인증 관련 페이지 (레이아웃 없음) */}
           <Route path="/" element={<SplashScreen />} />
