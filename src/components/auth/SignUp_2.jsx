@@ -530,7 +530,7 @@ export default function SignUp_2() {
                       placeholder="2500"
                       value={manualIncome}
                       onChange={handleManualIncomeChange}
-                      className="w-full px-4 py-3 pr-12 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] text-sm"
+                      className="w-full px-4 py-3 pr-12 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 font-medium">
                       만원
