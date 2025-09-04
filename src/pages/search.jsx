@@ -26,7 +26,7 @@ export default function SearchPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="검색어를 입력해주세요."
-            className="w-full px-4 py-[0.7rem] border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] text-sm outline-none"
+            className="w-full px-4 py-[0.7rem] border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] text-sm outline-none text-black placeholder-[#D5E5DC]"
             style={{
               outline: "none",
               boxShadow: "none"

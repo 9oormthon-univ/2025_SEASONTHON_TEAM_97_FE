@@ -100,7 +100,7 @@ export default function LoginPage() {
               value={formData.id}
               onChange={handleChange}
               placeholder="아이디를 입력해주세요."
-              className="w-full px-4 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC]"
+              className="w-full px-4 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none text-black placeholder-[#D5E5DC]"
               style={{
                 paddingTop: "0.7rem",
                 paddingBottom: "0.7rem",
@@ -138,7 +138,7 @@ export default function LoginPage() {
               value={formData.password}
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요."
-              className="w-full px-4 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC]"
+              className="w-full px-4 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none text-black placeholder-[#D5E5DC]"
               style={{
                 paddingTop: "0.7rem",
                 paddingBottom: "0.7rem",

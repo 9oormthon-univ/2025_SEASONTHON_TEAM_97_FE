@@ -446,7 +446,7 @@ export default function SignUp_1() {
               value={formData.id}
               onChange={handleChange}
               placeholder="아이디를 입력해주세요."
-              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC] ${
+              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-black placeholder-[#D5E5DC] ${
                 errors.id
                   ? "border-red-500 focus:border-red-500"
                   : "border-[#13D564] focus:border-[#13D564]"
@@ -505,7 +505,7 @@ export default function SignUp_1() {
               value={formData.password}
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요."
-              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC] ${
+              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-black placeholder-[#D5E5DC] ${
                 errors.password
                   ? "border-red-500 focus:border-red-500"
                   : "border-[#13D564] focus:border-[#13D564]"
@@ -551,7 +551,7 @@ export default function SignUp_1() {
               value={formData.confirmPassword}
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요."
-              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC] ${
+              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-black placeholder-[#D5E5DC] ${
                 errors.confirmPassword
                   ? "border-red-500 focus:border-red-500"
                   : "border-[#13D564] focus:border-[#13D564]"
@@ -604,7 +604,7 @@ export default function SignUp_1() {
               value={formData.nickname}
               onChange={handleChange}
               placeholder="닉네임을 입력해주세요."
-              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC] ${
+              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-black placeholder-[#D5E5DC] ${
                 errors.nickname
                   ? "border-red-500 focus:border-red-500"
                   : "border-[#13D564] focus:border-[#13D564]"

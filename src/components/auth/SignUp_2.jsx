@@ -265,7 +265,7 @@ export default function SignUp_2() {
                   name="birthYear"
                   value={formData.birthYear}
                   onChange={handleChange}
-                  className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-[#D5E5DC]"
+                  className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-black"
                 >
                   <option value="">년도</option>
                   {Array.from({ length: 37 }, (_, i) => 2010 - i).map(
@@ -287,7 +287,7 @@ export default function SignUp_2() {
                   name="birthMonth"
                   value={formData.birthMonth}
                   onChange={handleChange}
-                  className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-[#D5E5DC]"
+                  className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-black"
                 >
                   <option value="">월</option>
                   {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
@@ -307,7 +307,7 @@ export default function SignUp_2() {
                   name="birthDay"
                   value={formData.birthDay}
                   onChange={handleChange}
-                  className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-[#D5E5DC]"
+                  className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-black"
                 >
                   <option value="">일</option>
                   {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
