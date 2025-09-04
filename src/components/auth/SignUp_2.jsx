@@ -18,6 +18,11 @@ export default function SignUp_2() {
   });
 
   const [errors, setErrors] = useState({});
+  
+  // 소득분위 자동 계산 관련 상태
+  const [incomeInputType, setIncomeInputType] = useState('dropdown'); // 'manual' 또는 'dropdown'
+  const [manualIncome, setManualIncome] = useState('');
+  const [calculatedLevel, setCalculatedLevel] = useState('');
 
   // 특화 분야 옵션들
   const interestOptions = [
@@ -123,6 +128,57 @@ export default function SignUp_2() {
         interests: currentInterests,
       };
     });
+  };
+
+  // 소득 입력 처리
+  const handleManualIncomeChange = (e) => {
+    const value = e.target.value;
+    setManualIncome(value);
+    // 입력할 때마다 계산 결과 초기화
+    setCalculatedLevel('');
+  };
+
+  // 소득분위 자동 계산 함수 (2025년 기준, 만원 단위)
+  const calculateIncomeLevel = () => {
+    const incomeInWon = parseInt(manualIncome) * 10000; // 만원을 원으로 변환
+    if (!manualIncome || parseInt(manualIncome) <= 0) {
+      alert('올바른 소득 금액을 입력해주세요.');
+      return;
+    }
+
+    const medianIncome = 2392013; // 2025년 기준 1인 가구 중위소득 (원)
+    const ratio = (incomeInWon / medianIncome) * 100;
+
+    let level = '';
+    if (ratio <= 30) {
+      level = '1분위';
+    } else if (ratio <= 50) {
+      level = '2분위';
+    } else if (ratio <= 70) {
+      level = '3분위';
+    } else if (ratio <= 90) {
+      level = '4분위';
+    } else if (ratio <= 100) {
+      level = '5분위';
+    } else if (ratio <= 130) {
+      level = '6분위';
+    } else if (ratio <= 150) {
+      level = '7분위';
+    } else if (ratio <= 200) {
+      level = '8분위';
+    } else if (ratio <= 300) {
+      level = '9분위';
+    } else {
+      level = '10분위';
+    }
+
+    setCalculatedLevel(level);
+    
+    // 계산된 결과를 formData에도 반영
+    setFormData(prev => ({
+      ...prev,
+      incomeLevel: level
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -408,31 +464,110 @@ export default function SignUp_2() {
             <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
               소득분위
             </label>
-            <div className="relative">
-              <select
-                name="incomeLevel"
-                value={formData.incomeLevel}
-                onChange={handleChange}
-                className="w-full px-4 py-3 pr-10 border-2 border-green-500 rounded-lg focus:outline-none focus:border-green-500 bg-white text-sm outline-none appearance-none"
+            
+            {/* 탭 스타일의 선택 버튼 */}
+            <div className="flex mb-3 bg-gray-100 rounded-lg p-1">
+              <button
+                type="button"
+                onClick={() => setIncomeInputType('dropdown')}
+                className={`flex-1 py-2 px-3 rounded-md text-xs font-medium transition-colors ${
+                  incomeInputType === 'dropdown'
+                    ? 'bg-white text-[#13D564] shadow-sm'
+                    : 'text-gray-600 hover:text-gray-800'
+                }`}
               >
-                <option value="">소득분위를 선택해주세요</option>
-                <option value="1분위">1분위</option>
-                <option value="2분위">2분위</option>
-                <option value="3분위">3분위</option>
-                <option value="4분위">4분위</option>
-                <option value="5분위">5분위</option>
-                <option value="6분위">6분위</option>
-                <option value="7분위">7분위</option>
-                <option value="8분위">8분위</option>
-                <option value="9분위">9분위</option>
-                <option value="10분위">10분위</option>
-              </select>
-              <img
-                src={dropDownSvg}
-                alt="dropdown"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
-              />
+                직접 선택
+              </button>
+              <button
+                type="button"
+                onClick={() => setIncomeInputType('manual')}
+                className={`flex-1 py-2 px-3 rounded-md text-xs font-medium transition-colors ${
+                  incomeInputType === 'manual'
+                    ? 'bg-white text-[#13D564] shadow-sm'
+                    : 'text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                소득으로 계산
+              </button>
             </div>
+            
+            {/* 드롭다운 선택 */}
+            {incomeInputType === 'dropdown' && (
+              <div className="relative">
+                <select
+                  name="incomeLevel"
+                  value={formData.incomeLevel}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 pr-10 border-2 border-green-500 rounded-lg focus:outline-none focus:border-green-500 bg-white text-sm outline-none appearance-none"
+                >
+                  <option value="">소득분위를 선택해주세요</option>
+                  <option value="1분위">1분위</option>
+                  <option value="2분위">2분위</option>
+                  <option value="3분위">3분위</option>
+                  <option value="4분위">4분위</option>
+                  <option value="5분위">5분위</option>
+                  <option value="6분위">6분위</option>
+                  <option value="7분위">7분위</option>
+                  <option value="8분위">8분위</option>
+                  <option value="9분위">9분위</option>
+                  <option value="10분위">10분위</option>
+                </select>
+                <img
+                  src={dropDownSvg}
+                  alt="dropdown"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                />
+              </div>
+            )}
+            
+            {/* 소득 직접 입력 */}
+            {incomeInputType === 'manual' && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="number"
+                      placeholder="2500"
+                      value={manualIncome}
+                      onChange={handleManualIncomeChange}
+                      className="w-full px-4 py-3 pr-12 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] text-sm"
+                    />
+                    <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 font-medium">
+                      만원
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={calculateIncomeLevel}
+                    className="px-5 py-3 bg-[#13D564] text-white rounded-lg text-sm font-medium hover:bg-[#0FB055] transition-colors whitespace-nowrap shadow-sm"
+                  >
+                    계산
+                  </button>
+                </div>
+                
+                {calculatedLevel && (
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm text-green-700 font-semibold">
+                      {calculatedLevel}
+                    </p>
+                    <p className="text-xs text-green-600 mt-0.5">
+                      중위소득 대비 {Math.round((parseInt(manualIncome) * 10000 / 2392013) * 100)}%
+                    </p>
+                  </div>
+                )}
+                
+                <div className="flex items-center justify-center">
+                  <a
+                    href="https://www.hometax.go.kr/websquare/websquare.html?w2xPath=/ui/pp/index_pp.xml"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-[#13D564] hover:text-[#0FB055] transition-colors underline"
+                  >
+                    소득금액 모르겠다면? 홈택스에서 확인
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 고용상태 */}
