@@ -1,2 +1,39 @@
 @import "tailwindcss";
 
+/* 입력창 outline 제거 및 추가 스타일링 */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  ring: none !important;
+}
+
+/* 브라우저 기본 outline 완전 제거 */
+input,
+select,
+textarea {
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* 포커스 상태에서 배경색과 변형 효과 방지 */
+input:focus,
+select:focus,
+textarea:focus {
+  background-color: inherit !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Tailwind CSS focus ring 완전 제거 */
+input:focus,
+select:focus,
+textarea:focus {
+  --tw-ring-shadow: none !important;
+}
+
+/* 테두리 색상은 개별 컴포넌트에서 focus:border-* 클래스로 제어 */
+

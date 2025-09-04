@@ -68,13 +68,13 @@ export default function MyPage() {
           <div className="space-y-2">
             <button
               onClick={() => handleMenuClick('이미지 변경')}
-              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors"
+              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors text-[0.85rem]"
             >
               이미지 변경
             </button>
             <button
               onClick={() => handleMenuClick('정보 변경')}
-              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors"
+              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors text-[0.85rem]"
             >
               정보 변경
             </button>
@@ -87,7 +87,7 @@ export default function MyPage() {
           <div className="space-y-2">
             <button
               onClick={() => handleMenuClick('기록 조회')}
-              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors"
+              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors text-[0.85rem]"
             >
               기록 조회
             </button>
@@ -100,7 +100,7 @@ export default function MyPage() {
           <div className="space-y-2">
             <button
               onClick={() => handleMenuClick('북마크')}
-              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors"
+              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors text-[0.85rem]"
             >
               북마크
             </button>
@@ -113,13 +113,13 @@ export default function MyPage() {
           <div className="space-y-2">
             <button
               onClick={() => handleMenuClick('비밀번호 변경')}
-              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors"
+              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors text-[0.85rem]"
             >
               비밀번호 변경
             </button>
             <button
               onClick={() => handleMenuClick('알림 설정')}
-              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors"
+              className="w-full text-left py-2 px-1 text-black hover:text-green-500 transition-colors text-[0.85rem]"
             >
               알림 설정
             </button>

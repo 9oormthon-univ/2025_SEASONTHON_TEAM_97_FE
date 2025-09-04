@@ -396,13 +396,13 @@ export default function SignUp_1() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-[#BDBDBD]">
+    <div className="h-screen bg-[#FAFAF8]">
       {/* 메인 콘텐츠 영역 */}
-      <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#FAFAF8]">
+      <div className="h-screen w-full flex flex-col items-center justify-center bg-[#FAFAF8]">
         {/* 헤더 - 로고 */}
         <div
           className="text-center"
-          style={{ position: "absolute", top: "3rem" }}
+          style={{ position: "absolute", top: "5rem" }}
         >
           <div
             className="flex flex-col justify-center flex-shrink-0 mx-auto"
@@ -422,7 +422,7 @@ export default function SignUp_1() {
         <form
           onSubmit={handleSubmit}
           className="w-full flex flex-col"
-          style={{ maxWidth: "22.5rem", marginTop: "8rem" }}
+          style={{ width: "90%", maxWidth: "20rem", marginTop: "8rem" }}
         >
           {/* 아이디 입력 */}
           <div>
@@ -446,15 +446,17 @@ export default function SignUp_1() {
               value={formData.id}
               onChange={handleChange}
               placeholder="아이디를 입력해주세요."
-              className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm ${
+              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC] ${
                 errors.id
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-green-500 focus:ring-green-500"
+                  ? "border-red-500 focus:border-red-500"
+                  : "border-[#13D564] focus:border-[#13D564]"
               }`}
               style={{
-                paddingTop: "0.75rem",
-                paddingBottom: "0.75rem",
+                paddingTop: "0.7rem",
+                paddingBottom: "0.7rem",
                 marginBottom: "0.1rem",
+                outline: "none",
+                boxShadow: "none",
               }}
               required
             />
@@ -503,15 +505,17 @@ export default function SignUp_1() {
               value={formData.password}
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요."
-              className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm ${
+              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC] ${
                 errors.password
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-green-500 focus:ring-green-500"
+                  ? "border-red-500 focus:border-red-500"
+                  : "border-[#13D564] focus:border-[#13D564]"
               }`}
               style={{
-                paddingTop: "0.75rem",
-                paddingBottom: "0.75rem",
+                paddingTop: "0.7rem",
+                paddingBottom: "0.7rem",
                 marginBottom: "0.1rem",
+                outline: "none",
+                boxShadow: "none",
               }}
               required
             />
@@ -547,15 +551,17 @@ export default function SignUp_1() {
               value={formData.confirmPassword}
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요."
-              className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm ${
+              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC] ${
                 errors.confirmPassword
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-green-500 focus:ring-green-500"
+                  ? "border-red-500 focus:border-red-500"
+                  : "border-[#13D564] focus:border-[#13D564]"
               }`}
               style={{
-                paddingTop: "0.75rem",
-                paddingBottom: "0.75rem",
+                paddingTop: "0.7rem",
+                paddingBottom: "0.7rem",
                 marginBottom: "0.1rem",
+                outline: "none",
+                boxShadow: "none",
               }}
               required
             />
@@ -598,15 +604,17 @@ export default function SignUp_1() {
               value={formData.nickname}
               onChange={handleChange}
               placeholder="닉네임을 입력해주세요."
-              className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm ${
+              className={`w-full px-4 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC] ${
                 errors.nickname
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-green-500 focus:ring-green-500"
+                  ? "border-red-500 focus:border-red-500"
+                  : "border-[#13D564] focus:border-[#13D564]"
               }`}
               style={{
-                paddingTop: "0.75rem",
-                paddingBottom: "0.75rem",
+                paddingTop: "0.7rem",
+                paddingBottom: "0.7rem",
                 marginBottom: "0.1rem",
+                outline: "none",
+                boxShadow: "none",
               }}
               required
             />
@@ -641,9 +649,9 @@ export default function SignUp_1() {
           <button
             type="submit"
             disabled={!isFormValid()}
-            className={`w-full rounded-lg font-medium transition-colors text-white cursor-pointer`}
+            className={`w-full rounded-lg font-medium transition-colors text-white cursor-pointer text-[0.85rem]`}
             style={{
-              backgroundColor: isFormValid() ? "#13D564" : "#CCF3DB",
+              backgroundColor: isFormValid() ? "#13D564" : "#AEEAC7",
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
               marginTop: "1.5rem",

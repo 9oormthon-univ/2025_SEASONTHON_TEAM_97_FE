@@ -10,7 +10,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-[90%] max-w-sm mx-auto">
       {/* 제목 */}
       <div className="text-center mb-6">
         <h1 className="text-xl font-bold text-black">
@@ -26,7 +26,11 @@ export default function SearchPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="검색어를 입력해주세요."
-            className="w-full px-4 py-3 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm"
+            className="w-full px-4 py-[0.7rem] border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] text-sm outline-none"
+            style={{
+              outline: "none",
+              boxShadow: "none"
+            }}
           />
           <button
             type="submit"

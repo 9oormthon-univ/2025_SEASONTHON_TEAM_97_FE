@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
+import kakaoTalkSvg from "../../assets/icons/kakao-talk.svg";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -49,13 +50,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-[#BDBDBD]">
+    <div className="h-screen bg-[#FAFAF8]">
       {/* 메인 콘텐츠 카드 (로그인 폼 포함) */}
-      <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#FAFAF8]">
+      <div className="h-screen w-full flex flex-col items-center justify-center bg-[#FAFAF8]">
         {/* 헤더 - 로고 */}
         <div
           className="text-center"
-          style={{ position: "absolute", top: "3rem" }}
+          style={{ position: "absolute", top: "5rem" }}
         >
           <div
             className="flex flex-col justify-center flex-shrink-0 mx-auto"
@@ -75,7 +76,7 @@ export default function LoginPage() {
         <form
           onSubmit={handleSubmit}
           className="w-full flex flex-col"
-          style={{ maxWidth: "22.5rem", marginTop: "8rem" }}
+          style={{ width: "90%", maxWidth: "20rem", marginTop: "8rem" }}
         >
           {/* 아이디 입력 */}
           <div>
@@ -99,11 +100,13 @@ export default function LoginPage() {
               value={formData.id}
               onChange={handleChange}
               placeholder="아이디를 입력해주세요."
-              className="w-full px-4 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors text-sm"
+              className="w-full px-4 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC]"
               style={{
-                paddingTop: "0.75rem",
-                paddingBottom: "0.75rem",
+                paddingTop: "0.7rem",
+                paddingBottom: "0.7rem",
                 marginBottom: "0.1rem",
+                outline: "none",
+                boxShadow: "none"
               }}
               required
             />
@@ -135,11 +138,13 @@ export default function LoginPage() {
               value={formData.password}
               onChange={handleChange}
               placeholder="비밀번호를 입력해주세요."
-              className="w-full px-4 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors text-sm"
+              className="w-full px-4 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none text-[#D5E5DC] placeholder-[#D5E5DC]"
               style={{
-                paddingTop: "0.75rem",
-                paddingBottom: "0.75rem",
+                paddingTop: "0.7rem",
+                paddingBottom: "0.7rem",
                 marginBottom: "0.1rem",
+                outline: "none",
+                boxShadow: "none"
               }}
               required
             />
@@ -152,7 +157,7 @@ export default function LoginPage() {
           {/* 로그인 버튼 */}
           <button
             type="submit"
-            className="w-full bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
+            className="w-full bg-[#13D564] text-white rounded-lg font-medium hover:bg-[#0FB055] transition-colors text-[0.85rem]"
             style={{
               marginBottom: "0.75rem",
               paddingTop: "0.75rem",
@@ -201,25 +206,29 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={KakaoLogin}
-            className="w-full bg-[#FEE500] text-[#3C1E1E] rounded-lg font-medium hover:bg-[#FDD800] transition-colors flex items-center justify-center cursor-pointer"
+            className="w-full bg-[#FEE500] text-[#353000] rounded-lg font-medium hover:bg-[#FDD800] transition-colors relative cursor-pointer text-[0.85rem]"
             style={{
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
             }}
           >
             <div
-              style={{ width: "1.5rem", height: "1.5rem" }}
-              className="flex items-center justify-center"
+              style={{ width: "1.2rem", height: "1.2rem" }}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 flex items-center justify-center"
             >
-              <span className="text-[#3C1E1E] text-lg">💬</span>
+              <img 
+                src={kakaoTalkSvg} 
+                alt="kakao talk" 
+                className="w-full h-full object-contain"
+              />
             </div>
-            <span style={{ marginLeft: "0.5rem" }}>카카오로 로그인하기</span>
+            <span className="w-full text-center block">카카오로 로그인하기</span>
           </button>
 
           {/* 구분선 */}
           <div
             className="relative"
-            style={{ marginTop: "1.25rem", marginBottom: "1.25rem" }}
+            style={{ marginTop: "0.8rem", marginBottom: "0.8rem" }}
           >
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
@@ -237,7 +246,7 @@ export default function LoginPage() {
           {/* 회원가입 버튼 */}
           <Link
             to="/signup-1"
-            className="w-full bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors text-center"
+            className="w-full bg-[#13D564] text-white rounded-lg font-medium hover:bg-[#0FB055] transition-colors text-center text-[0.85rem]"
             style={{
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",

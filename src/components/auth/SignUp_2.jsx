@@ -1,18 +1,34 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
+import dropDownSvg from "../../assets/icons/drop-down.svg";
 import { api } from "../../services/api.js";
 
 export default function SignUp_2() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    birthDate: "",
+    birthYear: "",
+    birthMonth: "",
+    birthDay: "",
     region: "",
+    school: "",
     incomeLevel: "",
     employmentStatus: "",
+    interests: [],
   });
 
   const [errors, setErrors] = useState({});
+
+  // 특화 분야 옵션들
+  const interestOptions = [
+    "중소기업",
+    "여성",
+    "저소득층",
+    "장애인",
+    "농업인",
+    "군인",
+    "지역인재",
+  ];
 
   // 페이지 로드 시 localStorage 데이터 콘솔에 출력
   useEffect(() => {
@@ -38,7 +54,11 @@ export default function SignUp_2() {
   // formData가 변경될 때마다 콘솔에 출력 (디바운스 적용)
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (Object.values(formData).some((value) => value !== "")) {
+      if (
+        Object.values(formData).some((value) =>
+          Array.isArray(value) ? value.length > 0 : value !== ""
+        )
+      ) {
         const signupStep1Data = JSON.parse(
           localStorage.getItem("signupStep1Data") || "{}"
         );
@@ -60,7 +80,7 @@ export default function SignUp_2() {
         });
         console.log("================================");
       }
-    }, 1000); // 1초 후에 콘솔 출력
+    }, 1000);
 
     return () => clearTimeout(timeoutId);
   }, [formData]);
@@ -75,24 +95,34 @@ export default function SignUp_2() {
     // 실시간 유효성 검사
     const newErrors = { ...errors };
 
-    if (name === "birthDate") {
-      // 생년월일 형식 검사 (YYYY/MM/DD)
-      const dateRegex = /^\d{4}\/\d{2}\/\d{2}$/;
-      if (value && !dateRegex.test(value)) {
-        newErrors.birthDate = "생년월일 양식이 맞지 않습니다.";
+    if (name === "region") {
+      if (!value) {
+        newErrors.region = "지역을 선택해주세요.";
       } else {
-        newErrors.birthDate = "";
-      }
-    } else if (name === "incomeLevel") {
-      // 소득 수준 숫자 검사
-      if (value && !/^\d+$/.test(value)) {
-        newErrors.incomeLevel = "숫자만 입력해주세요.";
-      } else {
-        newErrors.incomeLevel = "";
+        newErrors.region = "";
       }
     }
 
     setErrors(newErrors);
+  };
+
+  // 관심 분야 토글 처리
+  const handleInterestToggle = (interest) => {
+    setFormData((prev) => {
+      const currentInterests = [...prev.interests];
+      const index = currentInterests.indexOf(interest);
+
+      if (index > -1) {
+        currentInterests.splice(index, 1);
+      } else {
+        currentInterests.push(interest);
+      }
+
+      return {
+        ...prev,
+        interests: currentInterests,
+      };
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -101,13 +131,12 @@ export default function SignUp_2() {
     // 전체 유효성 검사
     const newErrors = {};
 
-    if (!formData.birthDate) {
-      newErrors.birthDate = "생년월일을 입력해주세요.";
-    } else {
-      const dateRegex = /^\d{4}\/\d{2}\/\d{2}$/;
-      if (!dateRegex.test(formData.birthDate)) {
-        newErrors.birthDate = "생년월일 양식이 맞지 않습니다.";
-      }
+    if (!formData.birthYear || !formData.birthMonth || !formData.birthDay) {
+      newErrors.birthDate = "생년월일을 모두 입력해주세요.";
+    }
+
+    if (!formData.region) {
+      newErrors.region = "지역을 선택해주세요.";
     }
 
     setErrors(newErrors);
@@ -122,13 +151,21 @@ export default function SignUp_2() {
           localStorage.getItem("signupStep1Data") || "{}"
         );
 
+        // 생년월일 합치기
+        const birthDate = `${formData.birthYear}/${formData.birthMonth.padStart(
+          2,
+          "0"
+        )}/${formData.birthDay.padStart(2, "0")}`;
+
         // 회원가입 2단계 데이터 구성
         const signupStep2Data = {
           step: 2,
-          birthDate: formData.birthDate,
+          birthDate: birthDate,
           region: formData.region,
+          school: formData.school,
           incomeLevel: formData.incomeLevel,
           employmentStatus: formData.employmentStatus,
+          interests: formData.interests,
           timestamp: new Date().toISOString(),
         };
 
@@ -147,18 +184,17 @@ export default function SignUp_2() {
 
         // ERD에 맞춰 백엔드로 전송할 데이터 구성
         const userData = {
-          login_id: localStorage.getItem("tempUserId") || "kakao_user", // 임시 저장된 아이디 또는 카카오 사용자
-          password: localStorage.getItem("tempPassword") || "kakao_auth", // 임시 저장된 비밀번호 또는 카카오 인증
-          name: localStorage.getItem("tempNickname") || "사용자", // 닉네임
-          birth: formData.birthDate.replace(/\//g, "-"), // YYYY-MM-DD 형식으로 변환
-          location: formData.region, // 지역
-          organization_status: formData.employmentStatus === "학생" ? 0 : 1, // 학생(0) | 직장인(1)
+          login_id: localStorage.getItem("tempUserId") || "kakao_user",
+          password: localStorage.getItem("tempPassword") || "kakao_auth",
+          name: localStorage.getItem("tempNickname") || "사용자",
+          birth: birthDate.replace(/\//g, "-"),
+          location: formData.region,
+          organization_status: formData.employmentStatus === "학생" ? 0 : 1,
           financial_status: formData.incomeLevel
             ? parseInt(formData.incomeLevel)
-            : 0, // 소득 수준 (만원 단위)
-          goal: 0, // 기본값: 취업
-          created_at: new Date().toISOString().split("T")[0], // 현재 날짜
-          // 카카오 사용자 추가 정보
+            : 0,
+          goal: 0,
+          created_at: new Date().toISOString().split("T")[0],
           kakao_id: kakaoUserData.id || null,
           email: kakaoUserData.email || null,
           profile_image: kakaoUserData.profile_image || null,
@@ -167,23 +203,13 @@ export default function SignUp_2() {
         console.log("=== 최종 제출 데이터 ===");
         console.log("백엔드로 전송할 데이터:", userData);
         console.log("전체 회원가입 데이터:", completeSignupData);
-        console.log(
-          "고용상태 숫자:",
-          formData.employmentStatus === "학생" ? 0 : 1
-        );
-        console.log("localStorage 최종 상태:", {
-          tempUserId: localStorage.getItem("tempUserId"),
-          tempPassword: localStorage.getItem("tempPassword"),
-          tempNickname: localStorage.getItem("tempNickname"),
-          signupStep1Data: localStorage.getItem("signupStep1Data"),
-        });
         console.log("================================");
 
-        // 백엔드 API 호출 - ERD 데이터와 전체 회원가입 데이터를 함께 전송
+        // 백엔드 API 호출
         try {
           const result = await api.post("/api/register", {
-            userData: userData, // ERD에 맞춘 사용자 데이터
-            completeSignupData: completeSignupData, // 전체 회원가입 과정 데이터
+            userData: userData,
+            completeSignupData: completeSignupData,
           });
 
           console.log("회원가입 성공:", result);
@@ -212,33 +238,13 @@ export default function SignUp_2() {
     navigate("/LoginSuccess");
   };
 
-  // 폼 유효성 검사 함수
-  const isFormValid = () => {
-    return (
-      formData.birthDate &&
-      formData.region &&
-      formData.incomeLevel &&
-      formData.employmentStatus &&
-      Object.keys(errors).every((key) => !errors[key])
-    );
-  };
-
   return (
-    <div className="h-screen flex items-center justify-center bg-[#BDBDBD]">
+    <div className="h-screen bg-[#FAFAF8]">
       {/* 메인 콘텐츠 영역 */}
-      <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#FAFAF8]">
+      <div className="h-screen w-full flex flex-col bg-[#FAFAF8] overflow-y-auto">
         {/* 헤더 - 로고 */}
-        <div
-          className="text-center"
-          style={{ position: "absolute", top: "3rem" }}
-        >
-          <div
-            className="flex flex-col justify-center flex-shrink-0 mx-auto"
-            style={{
-              width: "15.75rem", // 252px
-              height: "2.875rem", // 46px
-            }}
-          >
+        <div className="text-center pt-20 pb-16">
+          <div className="flex flex-col justify-center flex-shrink-0 mx-auto w-[252px] h-[46px]">
             <img
               src={logoSvg}
               alt="청춘스케치"
@@ -247,255 +253,249 @@ export default function SignUp_2() {
           </div>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="w-full flex flex-col"
-          style={{ maxWidth: "22.5rem", marginTop: "8rem" }}
-        >
-          {/* 생년월일 입력 */}
-          <div>
-            <label
-              className="block text-left"
-              style={{
-                color: "#00B44B",
-                fontFamily: "Pretendard",
-                fontSize: "0.875rem",
-                fontStyle: "normal",
-                fontWeight: 600,
-                lineHeight: "normal",
-                marginBottom: "0.25rem",
-              }}
-            >
+        <form onSubmit={handleSubmit} className="flex-1 pb-6" style={{ width: "90%", maxWidth: "20rem", margin: "0 auto" }}>
+          {/* 생년월일 */}
+          <div className="mb-6">
+            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
               생년월일
             </label>
-            <input
-              type="text"
-              name="birthDate"
-              value={formData.birthDate}
-              onChange={handleChange}
-              placeholder="생년월일을 입력해주세요. 예시) 2000/01/01"
-              className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm placeholder-gray-400 ${
-                errors.birthDate
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-green-500 focus:ring-green-500"
-              }`}
-              style={{
-                paddingTop: "0.75rem",
-                paddingBottom: "0.75rem",
-              }}
-            />
-            <div
-              style={{ height: "1.25rem" }}
-              className="flex items-center justify-end mt-1"
-            >
-              {errors.birthDate && (
-                <p className="text-red-500 text-xs">{errors.birthDate}</p>
-              )}
+            <div className="flex gap-3">
+              <div className="flex-1 relative">
+                <select
+                  name="birthYear"
+                  value={formData.birthYear}
+                  onChange={handleChange}
+                  className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-[#D5E5DC]"
+                >
+                  <option value="">년도</option>
+                  {Array.from({ length: 37 }, (_, i) => 2010 - i).map(
+                    (year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    )
+                  )}
+                </select>
+                <img
+                  src={dropDownSvg}
+                  alt="dropdown"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                />
+              </div>
+              <div className="flex-1 relative">
+                <select
+                  name="birthMonth"
+                  value={formData.birthMonth}
+                  onChange={handleChange}
+                  className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-[#D5E5DC]"
+                >
+                  <option value="">월</option>
+                  {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                    <option key={month} value={month}>
+                      {month}
+                    </option>
+                  ))}
+                </select>
+                <img
+                  src={dropDownSvg}
+                  alt="dropdown"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                />
+              </div>
+              <div className="flex-1 relative">
+                <select
+                  name="birthDay"
+                  value={formData.birthDay}
+                  onChange={handleChange}
+                  className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-[#D5E5DC]"
+                >
+                  <option value="">일</option>
+                  {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  ))}
+                </select>
+                <img
+                  src={dropDownSvg}
+                  alt="dropdown"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                />
+              </div>
             </div>
+            {errors.birthDate && (
+              <p className="text-red-500 text-xs mt-1">{errors.birthDate}</p>
+            )}
           </div>
 
-          {/* 지역 입력 */}
-          <div>
-            <label
-              className="block text-left"
-              style={{
-                color: "#00B44B",
-                fontFamily: "Pretendard",
-                fontSize: "0.875rem",
-                fontStyle: "normal",
-                fontWeight: 600,
-                lineHeight: "normal",
-                marginBottom: "0.25rem",
-              }}
-            >
+          {/* 지역 */}
+          <div className="mb-6">
+            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
               지역
             </label>
-            <select
-              name="region"
-              value={formData.region}
-              onChange={handleChange}
-              className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm text-gray-400 ${
-                errors.region
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-green-500 focus:ring-green-500"
-              }`}
-              style={{
-                color: formData.region ? "#000000" : "#9ca3af",
-                paddingTop: "0.75rem",
-                paddingBottom: "0.75rem",
-              }}
-            >
-              <option value="" style={{ color: "#9ca3af" }}>
-                지역을 선택해주세요
-              </option>
-              <option value="서울특별시" style={{ color: "#000000" }}>
-                서울특별시
-              </option>
-              <option value="부산광역시" style={{ color: "#000000" }}>
-                부산광역시
-              </option>
-              <option value="대구광역시" style={{ color: "#000000" }}>
-                대구광역시
-              </option>
-              <option value="인천광역시" style={{ color: "#000000" }}>
-                인천광역시
-              </option>
-              <option value="광주광역시" style={{ color: "#000000" }}>
-                광주광역시
-              </option>
-              <option value="대전광역시" style={{ color: "#000000" }}>
-                대전광역시
-              </option>
-              <option value="울산광역시" style={{ color: "#000000" }}>
-                울산광역시
-              </option>
-              <option value="세종특별자치시" style={{ color: "#000000" }}>
-                세종특별자치시
-              </option>
-              <option value="경기도" style={{ color: "#000000" }}>
-                경기도
-              </option>
-              <option value="강원도" style={{ color: "#000000" }}>
-                강원도
-              </option>
-              <option value="충청북도" style={{ color: "#000000" }}>
-                충청북도
-              </option>
-              <option value="충청남도" style={{ color: "#000000" }}>
-                충청남도
-              </option>
-              <option value="전라북도" style={{ color: "#000000" }}>
-                전라북도
-              </option>
-              <option value="전라남도" style={{ color: "#000000" }}>
-                전라남도
-              </option>
-              <option value="경상북도" style={{ color: "#000000" }}>
-                경상북도
-              </option>
-              <option value="경상남도" style={{ color: "#000000" }}>
-                경상남도
-              </option>
-              <option value="제주특별자치도" style={{ color: "#000000" }}>
-                제주특별자치도
-              </option>
-            </select>
-            <div
-              style={{ height: "1.25rem" }}
-              className="flex items-center justify-end mt-1"
-            >
-              {errors.region && (
-                <p className="text-red-500 text-xs">{errors.region}</p>
-              )}
+            <div className="relative">
+              <select
+                name="region"
+                value={formData.region}
+                onChange={handleChange}
+                className={`w-full px-4 py-[0.7rem] pr-10 border-2 rounded-lg focus:outline-none bg-white text-sm outline-none appearance-none ${
+                  errors.region
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-[#13D564] focus:border-[#13D564]"
+                }`}
+              >
+                <option value="">지역을 선택해주세요</option>
+                <option value="서울특별시">서울특별시</option>
+                <option value="부산광역시">부산광역시</option>
+                <option value="대구광역시">대구광역시</option>
+                <option value="인천광역시">인천광역시</option>
+                <option value="광주광역시">광주광역시</option>
+                <option value="대전광역시">대전광역시</option>
+                <option value="울산광역시">울산광역시</option>
+                <option value="세종특별자치시">세종특별자치시</option>
+                <option value="경기도">경기도</option>
+                <option value="강원도">강원도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도">충청남도</option>
+                <option value="전라북도">전라북도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="경상북도">경상북도</option>
+                <option value="경상남도">경상남도</option>
+                <option value="제주특별자치도">제주특별자치도</option>
+              </select>
+              <img
+                src={dropDownSvg}
+                alt="dropdown"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+              />
             </div>
+            {errors.region && (
+              <p className="text-red-500 text-xs mt-1">{errors.region}</p>
+            )}
+            {formData.region && !errors.region && (
+              <p className="text-red-500 text-xs mt-1">
+                생년월일 양식이 맞지 않습니다.
+              </p>
+            )}
           </div>
 
-          {/* 소득 수준 입력 */}
-          <div>
-            <label
-              className="block text-left"
-              style={{
-                color: "#00B44B",
-                fontFamily: "Pretendard",
-                fontSize: "0.875rem",
-                fontStyle: "normal",
-                fontWeight: 600,
-                lineHeight: "normal",
-                marginBottom: "0.25rem",
-              }}
-            >
-              소득 수준
+          {/* 학력 */}
+          <div className="mb-6">
+            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
+              학력
             </label>
-            <input
-              type="text"
-              name="incomeLevel"
-              value={formData.incomeLevel}
-              onChange={handleChange}
-              placeholder="월 소득수준을 입력해주세요. (단위: 만원)"
-              className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm placeholder-gray-400 ${
-                errors.incomeLevel
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-green-500 focus:ring-green-500"
-              }`}
-              style={{
-                paddingTop: "0.75rem",
-                paddingBottom: "0.75rem",
-              }}
-            />
-            <div
-              style={{ height: "1.25rem" }}
-              className="flex items-center justify-end mt-1"
-            >
-              {errors.incomeLevel && (
-                <p className="text-red-500 text-xs">{errors.incomeLevel}</p>
-              )}
+            <div className="relative">
+              <select
+                name="school"
+                value={formData.school}
+                onChange={handleChange}
+                className="w-full px-4 py-3 pr-10 border-2 border-green-500 rounded-lg focus:outline-none focus:border-green-500 bg-white text-sm outline-none appearance-none"
+              >
+                <option value="">학력을 선택해주세요</option>
+                <option value="고졸 미만">고졸 미만</option>
+                <option value="고교 재학">고교 재학</option>
+                <option value="고졸 예정">고졸 예정</option>
+                <option value="고교 졸업">고교 졸업</option>
+                <option value="대학 재학">대학 재학</option>
+                <option value="대졸 예정">대졸 예정</option>
+                <option value="대학 졸업">대학 졸업</option>
+              </select>
+              <img
+                src={dropDownSvg}
+                alt="dropdown"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+              />
             </div>
           </div>
 
-          {/* 고용상태 입력 */}
-          <div>
-            <label
-              className="block text-left"
-              style={{
-                color: "#00B44B",
-                fontFamily: "Pretendard",
-                fontSize: "0.875rem",
-                fontStyle: "normal",
-                fontWeight: 600,
-                lineHeight: "normal",
-                marginBottom: "0.25rem",
-              }}
-            >
+          {/* 소득분위 */}
+          <div className="mb-6">
+            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
+              소득분위
+            </label>
+            <div className="relative">
+              <select
+                name="incomeLevel"
+                value={formData.incomeLevel}
+                onChange={handleChange}
+                className="w-full px-4 py-3 pr-10 border-2 border-green-500 rounded-lg focus:outline-none focus:border-green-500 bg-white text-sm outline-none appearance-none"
+              >
+                <option value="">소득분위를 선택해주세요</option>
+                <option value="1분위">1분위</option>
+                <option value="2분위">2분위</option>
+                <option value="3분위">3분위</option>
+                <option value="4분위">4분위</option>
+                <option value="5분위">5분위</option>
+                <option value="6분위">6분위</option>
+                <option value="7분위">7분위</option>
+                <option value="8분위">8분위</option>
+                <option value="9분위">9분위</option>
+                <option value="10분위">10분위</option>
+              </select>
+              <img
+                src={dropDownSvg}
+                alt="dropdown"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+              />
+            </div>
+          </div>
+
+          {/* 고용상태 */}
+          <div className="mb-6">
+            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
               고용상태
             </label>
-            <select
-              name="employmentStatus"
-              value={formData.employmentStatus}
-              onChange={handleChange}
-              className={`w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:border-green-500 bg-white transition-colors text-sm text-gray-400 ${
-                errors.employmentStatus
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-green-500 focus:ring-green-500"
-              }`}
-              style={{
-                color: formData.employmentStatus ? "#000000" : "#9ca3af",
-                paddingTop: "0.75rem",
-                paddingBottom: "0.75rem",
-              }}
-            >
-              <option value="" style={{ color: "#9ca3af" }}>
-                고용상태를 선택해주세요
-              </option>
-              <option value="학생" style={{ color: "#000000" }}>
-                학생
-              </option>
-              <option value="직장인" style={{ color: "#000000" }}>
-                직장인
-              </option>
-            </select>
-            <div
-              style={{ height: "1.25rem" }}
-              className="flex items-center justify-end mt-1"
-            >
-              {errors.employmentStatus && (
-                <p className="text-red-500 text-xs">
-                  {errors.employmentStatus}
-                </p>
-              )}
+            <div className="relative">
+              <select
+                name="employmentStatus"
+                value={formData.employmentStatus}
+                onChange={handleChange}
+                className="w-full px-4 py-3 pr-10 border-2 border-green-500 rounded-lg focus:outline-none focus:border-green-500 bg-white text-sm outline-none appearance-none"
+              >
+                <option value="">고용 상태를 선택해주세요</option>
+                <option value="미취업자">미취업자</option>
+                <option value="재직자">재직자</option>
+                <option value="자영업자">자영업자</option>
+                <option value="프리랜서">프리랜서</option>
+                <option value="일용근로자">일용근로자</option>
+                <option value="단기근로자">단기근로자</option>
+                <option value="제한없음">제한없음</option>
+              </select>
+              <img
+                src={dropDownSvg}
+                alt="dropdown"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+              />
+            </div>
+          </div>
+
+          {/* 관심분야 */}
+          <div className="mb-8">
+            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-4">
+              관심분야
+            </label>
+            <div className="grid grid-cols-3 gap-3">
+              {interestOptions.map((interest) => (
+                <button
+                  key={interest}
+                  type="button"
+                  onClick={() => handleInterestToggle(interest)}
+                  className={`px-4 py-3 rounded-full text-[0.85rem] font-medium transition-colors ${
+                    formData.interests.includes(interest)
+                      ? "bg-[#13D564] text-white"
+                      : "bg-[#AEEAC7] text-[#00B44B]"
+                  }`}
+                >
+                  {interest}
+                </button>
+              ))}
             </div>
           </div>
 
           {/* 등록하기 버튼 */}
           <button
             type="submit"
-            disabled={!isFormValid()}
-            className={`w-full rounded-lg font-medium transition-colors text-white cursor-pointer`}
-            style={{
-              backgroundColor: isFormValid() ? "#13D564" : "#CCF3DB",
-              paddingTop: "0.75rem",
-              paddingBottom: "0.75rem",
-              marginTop: "1.5rem",
-            }}
+            className="w-full bg-[#13D564] text-white rounded-lg font-medium py-4 text-[0.85rem] mb-4"
           >
             등록하기
           </button>
@@ -504,11 +504,7 @@ export default function SignUp_2() {
           <button
             type="button"
             onClick={handleSkip}
-            className="w-full text-center text-green-600 hover:text-green-700 transition-colors"
-            style={{
-              paddingTop: "0.5rem",
-              paddingBottom: "0.5rem",
-            }}
+            className="w-full text-center text-green-600 hover:text-green-700 transition-colors py-2 text-[0.85rem]"
           >
             건너뛰기
           </button>
