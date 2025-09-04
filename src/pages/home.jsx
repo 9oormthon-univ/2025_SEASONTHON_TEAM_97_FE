@@ -1,5 +1,5 @@
 
-import bellSvg from "../assets/icons/union.svg";
+import bellSvg from "../assets/icons/union.svg?url";
 
 export default function Homepage() {
     return (
