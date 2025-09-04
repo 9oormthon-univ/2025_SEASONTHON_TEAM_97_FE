@@ -440,7 +440,7 @@ export default function SignUp_2() {
                 name="school"
                 value={formData.school}
                 onChange={handleChange}
-                className="w-full px-4 py-3 pr-10 border-2 border-green-500 rounded-lg focus:outline-none focus:border-green-500 bg-white text-sm outline-none appearance-none"
+                className="w-full px-4 py-3 pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none"
               >
                 <option value="">학력을 선택해주세요</option>
                 <option value="고졸 미만">고졸 미만</option>
@@ -498,7 +498,7 @@ export default function SignUp_2() {
                   name="incomeLevel"
                   value={formData.incomeLevel}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 pr-10 border-2 border-green-500 rounded-lg focus:outline-none focus:border-green-500 bg-white text-sm outline-none appearance-none"
+                  className="w-full px-4 py-3 pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none"
                 >
                   <option value="">소득분위를 선택해주세요</option>
                   <option value="1분위">1분위</option>
@@ -580,7 +580,7 @@ export default function SignUp_2() {
                 name="employmentStatus"
                 value={formData.employmentStatus}
                 onChange={handleChange}
-                className="w-full px-4 py-3 pr-10 border-2 border-green-500 rounded-lg focus:outline-none focus:border-green-500 bg-white text-sm outline-none appearance-none"
+                className="w-full px-4 py-3 pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none"
               >
                 <option value="">고용 상태를 선택해주세요</option>
                 <option value="미취업자">미취업자</option>
@@ -612,8 +612,8 @@ export default function SignUp_2() {
                   onClick={() => handleInterestToggle(interest)}
                   className={`px-4 py-3 rounded-full text-[0.85rem] font-medium transition-colors ${
                     formData.interests.includes(interest)
-                      ? "bg-[#13D564] text-white"
-                      : "bg-[#AEEAC7] text-[#00B44B]"
+                      ? "bg-[#FFFFFF] text-[#121212] border-2 border-[#13D564]"
+                      : "bg-[#F0F0F0] text-[#121212] border-2 border-transparent"
                   }`}
                 >
                   {interest}
