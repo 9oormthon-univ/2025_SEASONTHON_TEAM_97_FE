@@ -27,22 +27,17 @@ function DevNavigation() {
 
   return (
     <div className="fixed top-4 left-4 z-[9999]">
-      {/* 호버 트리거 영역 */}
-      <div
+      {/* 클릭 트리거 영역 */}
+      <div 
         className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-red-600 transition-all duration-200"
-        onMouseEnter={() => setIsVisible(true)}
-        onMouseLeave={() => setIsVisible(false)}
+        onClick={() => setIsVisible(!isVisible)}
       >
         <span className="text-white text-xs font-bold">DEV</span>
       </div>
 
       {/* 네비게이션 메뉴 */}
       {isVisible && (
-        <div
-          className="absolute top-14 left-0 bg-white rounded-lg shadow-xl border border-gray-200 p-3 min-w-[200px]"
-          onMouseEnter={() => setIsVisible(true)}
-          onMouseLeave={() => setIsVisible(false)}
-        >
+        <div className="absolute top-14 left-0 bg-white rounded-lg shadow-xl border border-gray-200 p-3 min-w-[200px]">
           <div className="text-xs text-gray-500 mb-2 font-semibold">
             현재: {currentPage?.name || '알 수 없음'}
           </div>
