@@ -30,33 +30,33 @@ function App() {
           <Route path="/login-success" element={<LoginSuccess />} />
           <Route path="/kakao-nickname" element={<KakaoNickname />} />
           
-          {/* 메인 앱 페이지 (헤더 + 네비 포함) */}
+          {/* 메인 앱 페이지 (헤더 + 콘텐츠 + 네비 포함) */}
           <Route path="/home" element={
-            <>
+            <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col">
               <Header />
               <MainLayout>
                 <Homepage />
               </MainLayout>
               <MenuBar />
-            </>
+            </div>
           } />
           <Route path="/search" element={
-            <>
+            <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col">
               <Header />
               <MainLayout>
                 <SearchPage />
               </MainLayout>
               <MenuBar />
-            </>
+            </div>
           } />
           <Route path="/mypage" element={
-            <>
+            <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col">
               <Header />
               <MainLayout>
                 <MyPage />
               </MainLayout>
               <MenuBar />
-            </>
+            </div>
           } />
         </Routes>
       </div>

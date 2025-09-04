@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import homeO from '../../assets/icons/home-o.svg';
 import homeX from '../../assets/icons/home-x.svg';
 import searchO from '../../assets/icons/search-o.svg';
@@ -10,12 +10,20 @@ import mypageO from '../../assets/icons/mypage-o.svg';
 import mypageX from '../../assets/icons/mypage-x.svg';
 
 function MenuBar() {
-  const [currentTab, setCurrentTab] = useState('home');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 현재 경로에 따라 활성 탭 결정
+  const getCurrentTab = () => {
+    if (location.pathname === '/home') return 'home';
+    if (location.pathname === '/search') return 'search';
+    if (location.pathname === '/mypage') return 'mypage';
+    return 'home'; // 기본값
+  };
+
+  const currentTab = getCurrentTab();
 
   const handleTabClick = (tabName) => {
-    setCurrentTab(tabName);
-    
     // 탭에 따른 페이지 이동
     switch (tabName) {
       case 'home':
@@ -44,7 +52,7 @@ function MenuBar() {
   ];
 
   return (
-    <footer className="w-full bg-white border-t border-gray-200 p-2 fixed bottom-0 left-0 z-50 flex justify-around items-center shadow-lg">
+    <footer className="w-full bg-white border-t border-gray-200 py-1 px-2 fixed bottom-0 left-0 z-50 flex justify-around items-center shadow-lg">
       {tabs.map((tab) => {
         const isActive = currentTab === tab.id;
         const currentIcon = isActive ? tab.iconO : tab.iconX;
@@ -54,16 +62,16 @@ function MenuBar() {
             key={tab.id}
             type="button"
             onClick={() => handleTabClick(tab.id)}
-            className={`flex flex-col items-center gap-1 bg-transparent border-none cursor-pointer p-2 rounded-lg transition-all duration-200 min-w-[60px] ${
+            className={`flex flex-col items-center gap-0.5 bg-transparent border-none cursor-pointer p-1 rounded-lg transition-all duration-200 min-w-[45px] ${
               isActive ? 'text-green-500' : 'text-gray-400'
             }`}
           >
             <img 
               src={currentIcon} 
               alt={tab.label}
-              className="w-6 h-6 transition-all duration-200"
+              className="w-4 h-4 transition-all duration-200"
             />
-            <span className={`text-xs font-medium transition-all duration-200 ${
+            <span className={`text-[10px] font-medium transition-all duration-200 ${
               isActive ? 'text-green-500' : 'text-gray-400'
             }`}>
               {tab.label}
