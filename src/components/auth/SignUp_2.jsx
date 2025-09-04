@@ -372,11 +372,6 @@ export default function SignUp_2() {
             {errors.region && (
               <p className="text-red-500 text-xs mt-1">{errors.region}</p>
             )}
-            {formData.region && !errors.region && (
-              <p className="text-red-500 text-xs mt-1">
-                생년월일 양식이 맞지 않습니다.
-              </p>
-            )}
           </div>
 
           {/* 학력 */}

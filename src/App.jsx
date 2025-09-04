@@ -6,9 +6,9 @@ import SignUp_2 from "./components/auth/SignUp_2";
 import KakaoLoginCallback from "./components/auth/KakaoLoginCallback";
 import LoginSuccess from "./components/auth/LoginSuccess";
 import KakaoNickname from "./components/auth/KakaoNickname";
-import Homepage from "./pages/Home";
-import SearchPage from "./pages/Search";
-import MyPage from "./pages/MyPage";
+import Homepage from "./pages/HomePage.jsx";
+import SearchPage from "./pages/Search.jsx";
+import MyPage from "./pages/MyPage.jsx";
 import Header from "./components/layout/Header";
 import MainLayout from "./components/layout/MainLayout";
 import MenuBar from "./components/layout/MenuBar";
@@ -20,7 +20,7 @@ function App() {
       <div className="App">
         {/* 개발자용 네비게이션 - 모든 페이지에 표시 */}
         <DevNavigation />
-        
+        수
         <Routes>
           {/* 인증 관련 페이지 (레이아웃 없음) */}
           <Route path="/" element={<SplashScreen />} />
