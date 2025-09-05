@@ -11,7 +11,7 @@ export default function SearchPage() {
 
   return (
     <div className="w-full bg-[#F5F5F5]">
-      <div className="ml-5 mx-auto pt-6">
+      <div className="ml-5 mr-5 mx-auto pt-6">
         {/* 제목 */}
         <div className="mb-6">
           <h1 className="ml-3 text-[#121212] font-['Pretendard'] text-xl font-semibold leading-normal text-left">

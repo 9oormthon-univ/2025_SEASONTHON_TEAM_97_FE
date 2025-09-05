@@ -35,20 +35,25 @@ export default function Homepage() {
           </div>
 
           {/* 두 번째 카드 (일부만 보이도록) */}
-          <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-4 relative">
-            <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-6">
+          <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-5 relative">
+            <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-8">
               매칭률 90%
             </div>
-            <div className="text-white">
-              <h3 className="font-['Pretendard'] text-lg font-bold mb-1">
+            <div className="text-white mt-1">
+              <h3 className="font-['Pretendard'] text-xl font-bold mb-1">
                 [국가 장학금]
               </h3>
-              <p className="font-['Pretendard'] text-sm font-medium mb-2">
-                최대 350만원
+              <p className="font-['Pretendard'] text-base font-medium mb-1">
+                최대 300만원
               </p>
-              <p className="font-['Pretendard'] text-xs opacity-90 mb-4">
-                2025.09.20 ~ 2025.11.30
+              <p className="font-['Pretendard'] text-sm absolute bottom-6">
+                2025.09.27 ~ 2025.12.21
               </p>
+            </div>
+            <div className="absolute bottom-6 right-6">
+              <button className="text-white text-sm font-['Pretendard'] cursor-pointer">
+                더보기
+              </button>
             </div>
           </div>
         </div>
