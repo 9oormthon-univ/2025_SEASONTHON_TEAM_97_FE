@@ -46,23 +46,8 @@ export default function KakaoLoginCallback() {
       }
     } catch (error) {
       console.error("카카오 로그인 오류:", error);
-
-      if (error?.response?.status === 404) {
-        console.log("백엔드 API가 준비되지 않음. 테스트 모드로 진행...");
-        const testKakaoData = {
-          id: "test_kakao_" + Date.now(),
-          email: "test@kakao.com",
-          profile_image: null,
-          nickname: null,
-        };
-        localStorage.setItem("kakaoUserData", JSON.stringify(testKakaoData));
-        localStorage.setItem("tempUserId", testKakaoData.id);
-        localStorage.setItem("tempPassword", "kakao_auth");
-        navigate("/kakao-nickname");
-      } else {
-        setError("카카오 로그인 처리 중 오류가 발생했습니다.");
-        setTimeout(() => navigate("/login"), 2000);
-      }
+      setError("카카오 로그인 처리 중 오류가 발생했습니다.");
+      setTimeout(() => navigate("/login"), 2000);
     } finally {
       setIsLoading(false);
     }
