@@ -20,7 +20,7 @@ function Header() {
         <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
           {hasNewAlarm ? (
             // 신규 알람이 있을 때 alarm-o.svg
-            <img 
+            <img
               src="/src/assets/icons/alarm-o.svg" 
               alt="New alarm" 
               className="w-6 h-6 cursor-pointer"
