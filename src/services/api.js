@@ -1,5 +1,5 @@
 // API 서비스 - HTTP 요청을 처리하는 함수들
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://84e87d01-5c0b-4a05-a00d-c4f82bfa8a31.mock.pstmn.io';
 
 // 기본 fetch 설정
 const defaultOptions = {
