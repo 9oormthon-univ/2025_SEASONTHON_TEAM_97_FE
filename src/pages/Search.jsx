@@ -78,10 +78,10 @@ export default function SearchPage() {
 
         {/* 검색 팁 */}
         <div className="px-3 mb-6">
-          <h2 className="text-lg font-semibold text-[#A6A6A6] font-['Pretendard'] mb-4">
-            이렇게 검색하면 원하는 검색 내용을 찾을 수 있어요!
-          </h2>
-          <ul className="space-y-2 text-sm text-[#A6A6A6]">
+                     <h3 className="text-base text-[#A6A6A6] font-['Pretendard'] mb-4">
+             이렇게 검색하면 원하는 검색 내용을 찾을 수 있어요!
+           </h3>
+           <ul className="space-y-2 text-sm text-[#A6A6A6]">
             <li className="flex items-start">
               <span className="text-[#A6A6A6] mr-2">•</span>
               문장보다는 단어로 검색을 해주세요!
