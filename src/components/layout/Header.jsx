@@ -1,11 +1,16 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isHomePage = location.pathname === '/home';
   
   // 신규 알람 상태 (실제로는 상태 관리나 API에서 가져올 값)
   const hasNewAlarm = true;
+
+  const handleAlarmClick = () => {
+    navigate('/alarm');
+  };
 
   return (
     <header className="w-full bg-[#F5F5F5] text-white pt-10 pb-4 px-4 text-center fixed top-0 left-0 z-50 relative">
@@ -19,6 +24,7 @@ function Header() {
               src="/src/assets/icons/alarm-o.svg" 
               alt="New alarm" 
               className="w-6 h-6 cursor-pointer"
+              onClick={handleAlarmClick}
             />
           ) : (
             // 신규 알람이 없을 때 alarm-x.svg
@@ -26,6 +32,7 @@ function Header() {
               src="/src/assets/icons/alarm-x.svg" 
               alt="No alarm" 
               className="w-6 h-6 cursor-pointer"
+              onClick={handleAlarmClick}
             />
           )}
         </div>

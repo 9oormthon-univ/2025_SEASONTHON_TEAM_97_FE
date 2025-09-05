@@ -9,6 +9,7 @@ import KakaoNickname from "./components/auth/KakaoNickname";
 import Homepage from "./pages/HomePage.jsx";
 import SearchPage from "./pages/Search.jsx";
 import MyPage from "./pages/MyPage.jsx";
+import AlarmPage from "./pages/AlarmPage.jsx";
 import Header from "./components/layout/Header";
 import MainLayout from "./components/layout/MainLayout";
 import MenuBar from "./components/layout/MenuBar";
@@ -26,6 +27,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup/step1" element={<SignUp_1 />} />
           <Route path="/signup/step2" element={<SignUp_2 />} />
+          <Route path="/kakao-login-callback" element={<KakaoLoginCallback />} />
           <Route path="/KakaoLoginCallback" element={<KakaoLoginCallback />} />
           <Route path="/login-success" element={<LoginSuccess />} />
           <Route path="/kakao-nickname" element={<KakaoNickname />} />
@@ -58,6 +60,7 @@ function App() {
               <MenuBar />
             </div>
           } />
+          <Route path="/alarm" element={<AlarmPage />} />
         </Routes>
       </div>
     </Router>
