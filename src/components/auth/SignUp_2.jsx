@@ -322,6 +322,8 @@ export default function SignUp_2() {
                   value={formData.birthYear}
                   onChange={handleChange}
                   className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-black"
+                  style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                  onTouchStart={(e) => e.stopPropagation()}
                 >
                   <option value="">년도</option>
                   {Array.from({ length: 37 }, (_, i) => 2010 - i).map(
@@ -344,6 +346,8 @@ export default function SignUp_2() {
                   value={formData.birthMonth}
                   onChange={handleChange}
                   className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-black"
+                  style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                  onTouchStart={(e) => e.stopPropagation()}
                 >
                   <option value="">월</option>
                   {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
@@ -364,6 +368,8 @@ export default function SignUp_2() {
                   value={formData.birthDay}
                   onChange={handleChange}
                   className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-black"
+                  style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                  onTouchStart={(e) => e.stopPropagation()}
                 >
                   <option value="">일</option>
                   {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
@@ -399,6 +405,8 @@ export default function SignUp_2() {
                     ? "border-red-500 focus:border-red-500"
                     : "border-[#13D564] focus:border-[#13D564]"
                 }`}
+                style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                onTouchStart={(e) => e.stopPropagation()}
               >
                 <option value="">지역을 선택해주세요</option>
                 <option value="서울특별시">서울특별시</option>
@@ -441,6 +449,8 @@ export default function SignUp_2() {
                 value={formData.school}
                 onChange={handleChange}
                 className="w-full px-4 py-3 pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none"
+                style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                onTouchStart={(e) => e.stopPropagation()}
               >
                 <option value="">학력을 선택해주세요</option>
                 <option value="고졸 미만">고졸 미만</option>
@@ -499,6 +509,8 @@ export default function SignUp_2() {
                   value={formData.incomeLevel}
                   onChange={handleChange}
                   className="w-full px-4 py-3 pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none"
+                  style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                  onTouchStart={(e) => e.stopPropagation()}
                 >
                   <option value="">소득분위를 선택해주세요</option>
                   <option value="1분위">1분위</option>
@@ -522,7 +534,7 @@ export default function SignUp_2() {
             
             {/* 소득 직접 입력 */}
             {incomeInputType === 'manual' && (
-              <div className="space-y-3">
+              <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <div className="relative flex-1">
                     <input
@@ -551,19 +563,19 @@ export default function SignUp_2() {
                       {calculatedLevel}
                     </p>
                     <p className="text-xs text-green-600 mt-0.5">
-                      중위소득 대비 {Math.round((parseInt(manualIncome) * 10000 / 2392013) * 100)}%
+                      중위소득 대비 {Math.round((parseInt(manualIncome) * 10000 / 2392013) * 100 * 10) / 10}%
                     </p>
                   </div>
                 )}
                 
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-end">
                   <a
                     href="https://www.hometax.go.kr/websquare/websquare.html?w2xPath=/ui/pp/index_pp.xml"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-[#13D564] hover:text-[#0FB055] transition-colors underline"
                   >
-                    소득금액 모르겠다면? 홈택스에서 확인
+                    자신의 소득 수준을 모르겠다면?
                   </a>
                 </div>
               </div>
@@ -581,6 +593,8 @@ export default function SignUp_2() {
                 value={formData.employmentStatus}
                 onChange={handleChange}
                 className="w-full px-4 py-3 pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none"
+                style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                onTouchStart={(e) => e.stopPropagation()}
               >
                 <option value="">고용 상태를 선택해주세요</option>
                 <option value="미취업자">미취업자</option>
@@ -610,7 +624,7 @@ export default function SignUp_2() {
                   key={interest}
                   type="button"
                   onClick={() => handleInterestToggle(interest)}
-                  className={`px-4 py-3 rounded-full text-[0.85rem] font-medium transition-colors ${
+                  className={`px-3 py-2 rounded-full text-[0.8rem] font-medium transition-colors ${
                     formData.interests.includes(interest)
                       ? "bg-[#FFFFFF] text-[#121212] border-2 border-[#13D564]"
                       : "bg-[#F0F0F0] text-[#121212] border-2 border-transparent"
@@ -625,7 +639,7 @@ export default function SignUp_2() {
           {/* 등록하기 버튼 */}
           <button
             type="submit"
-            className="w-full bg-[#13D564] text-white rounded-lg font-medium py-4 text-[0.85rem] mb-4"
+            className="w-full bg-[#13D564] text-white rounded-lg font-medium py-3 text-[0.85rem] mb-4"
           >
             등록하기
           </button>

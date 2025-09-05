@@ -10,32 +10,32 @@ export default function Homepage() {
         </div>
 
         {/* 장학금 카드들 */}
-        <div className="flex gap-2 mb-6 overflow-x-auto">
+        <div className="flex gap-6 mb-6 overflow-x-auto">
           {/* 첫 번째 카드 */}
-          <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-6 relative">
+          <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-5 relative">
             <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-8">
               매칭률 90%
             </div>
-            <div className="text-white mt-4">
-              <h3 className="font-['Pretendard'] text-xl font-bold mb-2">
+            <div className="text-white mt-1">
+              <h3 className="font-['Pretendard'] text-xl font-bold mb-1">
                 [국가 장학금]
               </h3>
-              <p className="font-['Pretendard'] text-base font-medium mb-3">
+              <p className="font-['Pretendard'] text-base font-medium mb-1">
                 최대 300만원
               </p>
-              <p className="font-['Pretendard'] text-sm opacity-90">
+              <p className="font-['Pretendard'] text-sm absolute bottom-6">
                 2025.09.27 ~ 2025.12.21
               </p>
             </div>
             <div className="absolute bottom-6 right-6">
-              <button className="bg-white bg-opacity-30 text-white px-4 py-2 rounded-lg text-sm font-['Pretendard'] font-medium">
+              <button className="text-white text-sm font-['Pretendard']">
                 더보기
               </button>
             </div>
           </div>
 
           {/* 두 번째 카드 (일부만 보이도록) */}
-          <div className="min-w-[280px] h-[160px] bg-[#13D564] rounded-[18px] p-4 relative">
+          <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-4 relative">
             <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-6">
               매칭률 90%
             </div>
