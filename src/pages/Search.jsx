@@ -61,16 +61,16 @@ export default function SearchPage() {
           <h2 className="text-lg font-semibold text-[#121212] font-['Pretendard'] mb-4">추천 검색어</h2>
           <div className="flex flex-wrap gap-2">
             {/* 추천 검색어 버튼들 - 빈 구역으로 유지 */}
-            <div className="w-24 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+            <div className="w-20 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               {/* 빈 구역 */}
             </div>
-            <div className="w-24 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+            <div className="w-20 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               {/* 빈 구역 */}
             </div>
-            <div className="w-24 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+            <div className="w-20 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               {/* 빈 구역 */}
             </div>
-            <div className="w-24 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+            <div className="w-20 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               {/* 빈 구역 */}
             </div>
           </div>
@@ -78,20 +78,20 @@ export default function SearchPage() {
 
         {/* 검색 팁 */}
         <div className="px-3 mb-6">
-          <h2 className="text-lg font-semibold text-[#121212] font-['Pretendard'] mb-4">
+          <h2 className="text-lg font-semibold text-[#A6A6A6] font-['Pretendard'] mb-4">
             이렇게 검색하면 원하는 검색 내용을 찾을 수 있어요!
           </h2>
-          <ul className="space-y-2 text-sm text-gray-600">
+          <ul className="space-y-2 text-sm text-[#A6A6A6]">
             <li className="flex items-start">
-              <span className="text-green-500 mr-2">•</span>
+              <span className="text-[#A6A6A6] mr-2">•</span>
               문장보다는 단어로 검색을 해주세요!
             </li>
             <li className="flex items-start">
-              <span className="text-green-500 mr-2">•</span>
+              <span className="text-[#A6A6A6] mr-2">•</span>
               검색어의 맞춤법, 오타를 확인한 후 검색해주세요!
             </li>
             <li className="flex items-start">
-              <span className="text-green-500 mr-2">•</span>
+              <span className="text-[#A6A6A6] mr-2">•</span>
               특수 기호는 검색 내용을 찾는데 어려움을 줄 수 있습니다!
             </li>
           </ul>
