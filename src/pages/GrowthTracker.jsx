@@ -100,7 +100,7 @@ export default function GrowthTracker() {
                     {day}
                   </span>
                   {eventDays.includes(day) && (
-                    <div className="absolute inset-0 bg-[#13D564] bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[#13D564] bg-opacity-50 rounded-lg flex items-center justify-center">
                       <span className="text-xs text-[#13D564] font-bold">
                         @@@ 신청하기
                       </span>

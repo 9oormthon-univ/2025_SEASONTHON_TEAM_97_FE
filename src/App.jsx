@@ -17,13 +17,15 @@ import Header from "./components/layout/Header";
 import MainLayout from "./components/layout/MainLayout";
 import MenuBar from "./components/layout/MenuBar";
 import DevNavigation from "./components/layout/DevNavigation";
+import { AlarmProvider } from "./contexts/AlarmContext";
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        {/* 개발자용 네비게이션 - 모든 페이지에 표시 */}
-        <DevNavigation />
+      <AlarmProvider>
+        <div className="App">
+          {/* 개발자용 네비게이션 - 모든 페이지에 표시 */}
+          <DevNavigation />
         <Routes>
           {/* 인증 관련 페이지 (레이아웃 없음) */}
           <Route path="/" element={<SplashScreen />} />
@@ -68,7 +70,8 @@ function App() {
           <Route path="/search-result" element={<SearchResult />} />
           <Route path="/growth-tracker" element={<GrowthTracker />} />
         </Routes>
-      </div>
+        </div>
+      </AlarmProvider>
     </Router>
   );
 }

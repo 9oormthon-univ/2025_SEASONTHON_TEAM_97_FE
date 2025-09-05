@@ -29,6 +29,19 @@ export default function Homepage() {
             .filter(policy => policy.plcyNm && policy.plcyNm.includes('장학'))
             .slice(0, 2);
           setScholarshipCards(scholarships);
+          
+          // 새로운 추천 정책이 있으면 알람 표시 (현재는 dev 버튼으로만 테스트)
+          // if (recommendedResponse.success && recommendedResponse.data && recommendedResponse.data.length > 0) {
+          //   const firstPolicy = recommendedResponse.data[0];
+          //   const userName = localStorage.getItem('userName') || '사용자';
+          //   
+          //   showRecommendationAlarm({
+          //     userName: userName,
+          //     category: '청년',
+          //     policyName: firstPolicy.plcyNm || '정책',
+          //     count: recommendedResponse.data.length - 1
+          //   });
+          // }
         } else {
           setScholarshipCards([]);
         }
@@ -47,6 +60,7 @@ export default function Homepage() {
   const handleMoreClick = () => {
     navigate("/all-recommendations");
   };
+
 
   const getDeadlineColor = (deadline) => {
     if (deadline.includes("오늘") || deadline.includes("D-0")) return "#FF4D4D";
@@ -261,6 +275,7 @@ export default function Homepage() {
           </button>
         </div>
       </div>
+
     </div>
   );
 }
