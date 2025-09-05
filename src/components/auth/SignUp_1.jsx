@@ -171,7 +171,7 @@ export default function SignUp_1() {
 
     const idRegex = /^[a-zA-Z][a-zA-Z0-9_-]*$/;
     if (!idRegex.test(id))
-      return "아이디는 영문자로 시작하고, 영문자, 숫자, _, -만 사용 가능합니다.";
+      return "영문자로 시작, 영문+숫자+_,- 사용 가능";
 
     if (/(\.\.|__)/.test(id)) return "연속된 특수문자는 사용할 수 없습니다.";
 

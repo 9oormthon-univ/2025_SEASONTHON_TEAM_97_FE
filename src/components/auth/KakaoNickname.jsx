@@ -8,16 +8,27 @@ export default function KakaoNickname() {
   const [nickname, setNickname] = useState("");
   const [error, setError] = useState("");
 
+  // 닉네임 유효성 검사 (SignUp_1과 동일)
+  const validateNickname = (nickname) => {
+    if (!nickname) return "닉네임을 입력해주세요.";
+    if (nickname.length < 2 || nickname.length > 10)
+      return "닉네임은 2자 이상 10자 이하여야 합니다.";
+
+    // 특수문자 제한 (한글, 영문, 숫자만 허용)
+    const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
+    if (!nicknameRegex.test(nickname))
+      return "닉네임은 한글, 영문, 숫자만 사용 가능합니다.";
+
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!nickname.trim()) {
-      setError("닉네임을 입력해주세요.");
-      return;
-    }
-
-    if (nickname.length < 2 || nickname.length > 10) {
-      setError("닉네임은 2자 이상 10자 이하여야 합니다.");
+    // 유효성 검사
+    const validationError = validateNickname(nickname.trim());
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
@@ -102,7 +113,7 @@ export default function KakaoNickname() {
           style={{ maxWidth: "22.5rem", marginTop: "8rem" }}
         >
           {/* 닉네임 입력 */}
-          <div style={{ marginBottom: "1.5rem" }}>
+          <div style={{ marginBottom: "1rem" }}>
             <label
               className="block text-left"
               style={{
@@ -121,8 +132,12 @@ export default function KakaoNickname() {
               type="text"
               value={nickname}
               onChange={(e) => {
-                setNickname(e.target.value);
-                setError(""); // 입력 시 에러 메시지 제거
+                const value = e.target.value;
+                setNickname(value);
+                
+                // 실시간 유효성 검사
+                const validationError = validateNickname(value);
+                setError(validationError);
               }}
               placeholder="닉네임을 입력해주세요."
               className="w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors text-sm"
@@ -147,14 +162,11 @@ export default function KakaoNickname() {
           {/* 다음 버튼 */}
           <button
             type="submit"
-            className="w-full rounded-lg font-medium transition-colors text-white cursor-pointer"
+            className="w-full rounded-lg font-medium transition-colors text-white cursor-pointer py-3"
             style={{
-              backgroundColor: nickname.trim() ? "#13D564" : "#CCF3DB",
-              paddingTop: "0.75rem",
-              paddingBottom: "0.75rem",
-              marginTop: "1.5rem",
+              backgroundColor: nickname.trim() && !error ? "#13D564" : "#CCF3DB",
             }}
-            disabled={!nickname.trim()}
+            disabled={!nickname.trim() || !!error}
           >
             다음
           </button>

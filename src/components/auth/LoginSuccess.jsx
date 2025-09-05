@@ -8,18 +8,21 @@ export default function LoginSuccess() {
   useEffect(() => {
     // 3초 후 메인 페이지로 이동 (임시로 홈으로 이동)
     const timer = setTimeout(() => {
-      navigate("/");
+      navigate("/home");
     }, 3000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
 
   return (
-    <div className="h-screen flex items-center justify-center bg-[#BDBDBD]">
+    <div className="h-screen bg-[#FAFAF8]">
       {/* 메인 콘텐츠 영역 */}
-      <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#FAFAF8]">
-        {/* 로고 */}
-        <div className="mb-8">
+      <div className="h-screen w-full flex flex-col items-center justify-center bg-[#FAFAF8]">
+        {/* 헤더 - 로고 */}
+        <div
+          className="text-center"
+          style={{ position: "absolute", top: "5rem" }}
+        >
           <div
             className="flex flex-col justify-center flex-shrink-0 mx-auto"
             style={{

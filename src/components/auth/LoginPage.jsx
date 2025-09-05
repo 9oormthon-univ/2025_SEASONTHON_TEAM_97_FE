@@ -245,7 +245,7 @@ export default function LoginPage() {
 
           {/* 회원가입 버튼 */}
           <Link
-            to="/signup-1"
+            to="/signup/step1"
             className="w-full bg-[#13D564] text-white rounded-lg font-medium hover:bg-[#0FB055] transition-colors text-center text-[0.85rem]"
             style={{
               paddingTop: "0.75rem",
