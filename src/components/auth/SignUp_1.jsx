@@ -369,14 +369,6 @@ export default function SignUp_1() {
         timestamp: new Date().toISOString(),
       };
       localStorage.setItem("signupStep1Data", JSON.stringify(signupStep1Data));
-
-      console.log("회원가입 1단계 완료:", signupStep1Data);
-      console.log("localStorage에 저장된 데이터:", {
-        tempUserId: localStorage.getItem("tempUserId"),
-        tempPassword: localStorage.getItem("tempPassword"),
-        tempNickname: localStorage.getItem("tempNickname"),
-        signupStep1Data: localStorage.getItem("signupStep1Data"),
-      });
       navigate("/signup/step2"); // 유효성 검사 통과 시 SignUp_2로 이동
     }
   };

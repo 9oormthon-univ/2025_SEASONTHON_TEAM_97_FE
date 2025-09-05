@@ -1,222 +1,99 @@
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { policyAPI } from "../services/api";
 import bookmarkXIcon from "../assets/icons/bookmark-x.svg";
 import bookmarkOIcon from "../assets/icons/bookmark-o.svg";
 
 export default function AllRecommendations() {
   const navigate = useNavigate();
   
-  // 북마크 상태 관리
+  // 상태 관리
   const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
+  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const [allPolicies, setAllPolicies] = useState([]);
+  const [categorizedPolicies, setCategorizedPolicies] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  // 키워드별 게시물 데이터
-  const recommendationsByKeyword = {
-    // 교육 카테고리
-    1: { // 교육지원
-      id: 101,
-      title: "청년 교육지원 프로그램",
-      description: "청년들을 위한 다양한 교육지원 혜택을 제공합니다.",
-      tags: ["#교육지원", "#청년정책"],
-      deadline: "D-5",
-      deadlineColor: "#4A90E2"
-    },
-    2: { // 장기미취업청년
-      id: 102,
-      title: "장기미취업청년 지원사업",
-      description: "장기미취업청년을 위한 맞춤형 지원 프로그램입니다.",
-      tags: ["#장기미취업청년", "#취업지원"],
-      deadline: "D-10",
-      deadlineColor: "#4A90E2"
-    },
-    3: { // 육아
-      id: 103,
-      title: "청년 육아지원 정책",
-      description: "청년층 육아 부담 완화를 위한 지원책입니다.",
-      tags: ["#육아지원", "#청년부모"],
-      deadline: "상시",
-      deadlineColor: "#22C55E"
-    },
-    4: { // 출산
-      id: 104,
-      title: "청년 출산지원 정책",
-      description: "청년층의 출산을 장려하고 지원하는 정책입니다.",
-      tags: ["#출산지원", "#청년출산"],
-      deadline: "상시",
-      deadlineColor: "#22C55E"
-    },
-    
-    // 취업 카테고리
-    5: { // 인턴
-      id: 201,
-      title: "청년 인턴십 지원사업",
-      description: "청년들의 실무경험 쌓기를 위한 인턴십을 지원합니다.",
-      tags: ["#인턴", "#청년취업"],
-      deadline: "D-7",
-      deadlineColor: "#4A90E2"
-    },
-    6: { // 벤처
-      id: 202,
-      title: "청년 벤처 창업지원",
-      description: "혁신적인 벤처 창업을 꿈꾸는 청년들을 지원합니다.",
-      tags: ["#벤처", "#창업지원"],
-      deadline: "오늘 마감",
-      deadlineColor: "#FF4D4D"
-    },
-    7: { // 중소기업
-      id: 203,
-      title: "중소기업 취업 인센티브",
-      description: "중소기업 취업 시 다양한 혜택을 제공합니다.",
-      tags: ["#중소기업", "#취업인센티브"],
-      deadline: "D-3",
-      deadlineColor: "#4A90E2"
-    },
-    8: { // 청년가장
-      id: 204,
-      title: "청년가장 지원사업",
-      description: "가정을 책임지는 청년가장을 위한 지원사업입니다.",
-      tags: ["#청년가장", "#가족지원"],
-      deadline: "D-20",
-      deadlineColor: "#4A90E2"
-    },
-    
-    // 주거 카테고리
-    9: { // 바우처
-      id: 301,
-      title: "청년 주거바우처 지원",
-      description: "청년들의 주거 안정을 위한 바우처 지원사업입니다.",
-      tags: ["#바우처", "#주거지원"],
-      deadline: "D-12",
-      deadlineColor: "#4A90E2"
-    },
-    10: { // 해외진출
-      id: 302,
-      title: "청년 해외진출 지원사업",
-      description: "글로벌 진출을 꿈꾸는 청년들을 위한 지원책입니다.",
-      tags: ["#해외진출", "#글로벌"],
-      deadline: "D-30",
-      deadlineColor: "#4A90E2"
-    },
-    11: { // 주거지원
-      id: 303,
-      title: "청년 주거지원 종합대책",
-      description: "청년층 주거 부담 완화를 위한 종합적인 지원책입니다.",
-      tags: ["#주거지원", "#청년주거"],
-      deadline: "상시",
-      deadlineColor: "#22C55E"
-    },
-    12: { // 공공임대주택
-      id: 304,
-      title: "청년 공공임대주택 지원",
-      description: "청년층을 위한 공공임대주택 입주 지원사업입니다.",
-      tags: ["#공공임대주택", "#주거안정"],
-      deadline: "D-18",
-      deadlineColor: "#4A90E2"
-    },
-    
-    // 금융 카테고리
-    13: { // 대출
-      id: 401,
-      title: "청년 저금리 대출 상품",
-      description: "청년들을 위한 특별 저금리 대출 프로그램입니다.",
-      tags: ["#대출", "#저금리"],
-      deadline: "D-8",
-      deadlineColor: "#4A90E2"
-    },
-    14: { // 보조금
-      id: 402,
-      title: "청년 창업 보조금 지원",
-      description: "창업을 준비하는 청년들을 위한 보조금을 지원합니다.",
-      tags: ["#보조금", "#창업지원"],
-      deadline: "D-14",
-      deadlineColor: "#4A90E2"
-    },
-    15: { // 금리혜택
-      id: 403,
-      title: "청년 특별 금리혜택",
-      description: "청년층 대상 특별 금리 혜택 프로그램입니다.",
-      tags: ["#금리혜택", "#청년금융"],
-      deadline: "D-6",
-      deadlineColor: "#4A90E2"
-    },
-    16: { // 신용회복
-      id: 404,
-      title: "청년 신용회복 지원사업",
-      description: "신용회복이 필요한 청년들을 위한 지원 프로그램입니다.",
-      tags: ["#신용회복", "#금융지원"],
-      deadline: "D-22",
-      deadlineColor: "#4A90E2"
-    },
-    
-    // 복지 카테고리
-    17: { // 맞춤형상담서비스
-      id: 501,
-      title: "청년 맞춤형 상담서비스",
-      description: "청년들을 위한 개별 맞춤형 상담 서비스를 제공합니다.",
-      tags: ["#맞춤형상담서비스", "#청년상담"],
-      deadline: "상시",
-      deadlineColor: "#22C55E"
-    }
-  };
+  // 카테고리 목록
+  const categories = ["전체", "교육", "취업", "주거", "금융", "복지"];
 
-  // 카테고리별 키워드 데이터
-  const categories = [
-    {
-      name: "교육",
-      keywords: [
-        { id: 1, name: "교육지원" },
-        { id: 2, name: "장기미취업청년" },
-        { id: 3, name: "육아" },
-        { id: 4, name: "출산" }
-      ]
-    },
-    {
-      name: "취업",
-      keywords: [
-        { id: 5, name: "인턴" },
-        { id: 6, name: "벤처" },
-        { id: 7, name: "중소기업" },
-        { id: 8, name: "청년가장" }
-      ]
-    },
-    {
-      name: "주거",
-      keywords: [
-        { id: 9, name: "바우처" },
-        { id: 10, name: "해외진출" },
-        { id: 11, name: "주거지원" },
-        { id: 12, name: "공공임대주택" }
-      ]
-    },
-    {
-      name: "금융",
-      keywords: [
-        { id: 13, name: "대출" },
-        { id: 14, name: "보조금" },
-        { id: 15, name: "금리혜택" },
-        { id: 16, name: "신용회복" }
-      ]
-    },
-    {
-      name: "복지",
-      keywords: [
-        { id: 17, name: "맞춤형상담서비스" }
-      ]
-    }
-  ];
+  // API 데이터 로드
+  useEffect(() => {
+    const fetchAllPolicies = async () => {
+      try {
+        setLoading(true);
+        const response = await policyAPI.getAllPolicies();
+        if (response.success && response.data) {
+          setAllPolicies(response.data);
+          
+          // 카테고리별로 데이터 분류
+          const categorized = {
+            "전체": response.data,
+            "교육": response.data.filter(policy => 
+              policy.plcyKywdNm?.some(keyword => 
+                ["교육지원", "장기미취업청년", "육아", "출산"].includes(keyword)
+              )
+            ),
+            "취업": response.data.filter(policy => 
+              policy.plcyKywdNm?.some(keyword => 
+                ["인턴", "벤처", "중소기업", "청년가장"].includes(keyword)
+              )
+            ),
+            "주거": response.data.filter(policy => 
+              policy.plcyKywdNm?.some(keyword => 
+                ["바우처", "해외진출", "주거지원", "공공임대주택"].includes(keyword)
+              )
+            ),
+            "금융": response.data.filter(policy => 
+              policy.plcyKywdNm?.some(keyword => 
+                ["대출", "보조금", "금리혜택", "신용회복"].includes(keyword)
+              )
+            ),
+            "복지": response.data.filter(policy => 
+              policy.plcyKywdNm?.some(keyword => 
+                ["맞춤형상담서비스"].includes(keyword)
+              )
+            )
+          };
+          
+          setCategorizedPolicies(categorized);
+        } else {
+          setAllPolicies([]);
+          setCategorizedPolicies({
+            "전체": [],
+            "교육": [],
+            "취업": [],
+            "주거": [],
+            "금융": [],
+            "복지": []
+          });
+        }
+      } catch (error) {
+        console.error("정책 데이터 가져오기 실패:", error);
+        setAllPolicies([]);
+        setCategorizedPolicies({
+          "전체": [],
+          "교육": [],
+          "취업": [],
+          "주거": [],
+          "금융": [],
+          "복지": []
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // 선택된 카테고리 상태
-  const [selectedCategory, setSelectedCategory] = useState("취업");
+    fetchAllPolicies();
+  }, []);
 
-  // 선택된 카테고리의 키워드들에 해당하는 게시물들을 가져오는 함수
-  const getRecommendationsForCategory = (categoryName) => {
-    const category = categories.find(cat => cat.name === categoryName);
-    if (!category) return [];
-    
-    return category.keywords.map(keyword => recommendationsByKeyword[keyword.id]).filter(Boolean);
+  // 현재 선택된 카테고리의 정책들 가져오기
+  const getCurrentPolicies = () => {
+    return categorizedPolicies[selectedCategory] || [];
   };
 
   const handleBackClick = () => {
-    navigate(-1); // 이전 페이지로 돌아가기
+    navigate(-1);
   };
 
   // 북마크 토글 함수
@@ -230,6 +107,14 @@ export default function AllRecommendations() {
       }
       return newSet;
     });
+  };
+
+  // 마감일 색상 결정 함수
+  const getDeadlineColor = (deadline) => {
+    if (deadline.includes("오늘") || deadline.includes("D-0")) return "#FF4D4D";
+    if (deadline.includes("D-") && parseInt(deadline.match(/\d+/)?.[0]) <= 7) return "#FF4D4D";
+    if (deadline === "상시") return "#22C55E";
+    return "#4A90E2";
   };
 
   return (
@@ -260,7 +145,7 @@ export default function AllRecommendations() {
             </svg>
           </button>
           
-          <div className="w-8"></div> {/* 스페이서 */}
+          <div className="w-8"></div>
         </div>
 
         {/* 콘텐츠 영역 */}
@@ -277,75 +162,85 @@ export default function AllRecommendations() {
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
                 <button
-                  key={category.name}
-                  onClick={() => setSelectedCategory(category.name)}
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
                   className={`px-3 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
-                    selectedCategory === category.name
+                    selectedCategory === category
                       ? "bg-[#FFFFFF] text-[#121212] border-2 border-[#13D564]"
                       : "bg-[#F0F0F0] text-[#121212] border-2 border-transparent"
                   }`}
                 >
-                  #{category.name}
+                  #{category}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* 추천 리스트 */}
-          <div className="overflow-hidden">
-            {getRecommendationsForCategory(selectedCategory).map((item) => (
-              <div
-                key={item.id}
-                className="p-4 cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0"
-              >
-                <div className="flex items-start">
-                  {/* 왼쪽: 북마크 아이콘 */}
-                  <div className="mr-3 mt-1 cursor-pointer" onClick={() => toggleBookmark(item.id)}>
-                    <img 
-                      src={bookmarkedItems.has(item.id) ? bookmarkOIcon : bookmarkXIcon}
-                      alt="북마크"
-                      width="20"
-                      height="23"
-                    />
-                  </div>
-
-                  {/* 중간: 제목과 설명 */}
-                  <div className="flex-1">
-                    <h3 className="text-sm font-medium text-[#000000] mb-1">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-[#666] leading-relaxed mb-2">
-                      {item.description}
+          {/* 정책 리스트 */}
+          <div className="space-y-0 mb-20">
+            {loading ? (
+              <div className="text-center text-[#666] py-8">
+                정책을 불러오는 중...
+              </div>
+            ) : (
+              // 항상 6개 항목 표시 (세로 리스트)
+              Array.from({ length: 6 }).map((_, index) => {
+                const item = getCurrentPolicies()[index];
+                return (
+                  <div key={index} className="bg-white p-4 border-b border-gray-100 last:border-b-0">
+                    <div className="flex justify-between items-start mb-2">
+                      {/* 제목 */}
+                      <h3 className="text-sm font-medium text-[#000000] flex-1 pr-3">
+                        {item?.plcyNm || "정책을 불러올 수 없습니다"}
+                      </h3>
+                      {/* 북마크 아이콘 */}
+                      <button
+                        onClick={() => item && toggleBookmark(item.id)}
+                        className="flex-shrink-0 cursor-pointer"
+                        disabled={!item}
+                      >
+                        <img
+                          src={item && bookmarkedItems.has(item.id) ? bookmarkOIcon : bookmarkXIcon}
+                          alt="북마크"
+                          className="w-5 h-5"
+                          style={{ opacity: item ? 1 : 0.3 }}
+                        />
+                      </button>
+                    </div>
+                    
+                    {/* 설명 */}
+                    <p className="text-xs text-[#666] mb-2">
+                      {item?.plcyExplnCn || "설명을 불러올 수 없습니다"}
                     </p>
                     
                     {/* 태그들 */}
-                    <div className="flex flex-wrap gap-1">
-                      {item.tags.map((tag, index) => (
-                        <span 
-                          key={index}
-                          className="text-xs text-[#A6A6A6]"
-                        >
-                          {tag}
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {item?.plcyKywdNm ? (
+                        item.plcyKywdNm.map((tag, tagIndex) => (
+                          <span key={tagIndex} className="text-xs text-[#13D564]">
+                            #{tag}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-xs text-[#999]">
+                          #태그없음
                         </span>
-                      ))}
+                      )}
+                    </div>
+                    
+                    {/* 마감일 */}
+                    <div className="flex justify-end">
+                      <span 
+                        className="text-xs font-medium"
+                        style={{ color: item?.deadline ? getDeadlineColor(item.deadline) : "#999" }}
+                      >
+                        {item?.deadline || "-"}
+                      </span>
                     </div>
                   </div>
-
-                  {/* 오른쪽: 마감일 */}
-                  <div className="ml-3">
-                    <span 
-                      className="text-xs font-medium px-2 py-1 rounded"
-                      style={{ 
-                        color: item.deadlineColor,
-                        backgroundColor: item.deadlineColor + "20"
-                      }}
-                    >
-                      {item.deadline}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
+                );
+              })
+            )}
           </div>
         </div>
       </div>

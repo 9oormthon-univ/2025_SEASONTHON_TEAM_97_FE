@@ -17,6 +17,7 @@ function MenuBar() {
   const getCurrentTab = () => {
     if (location.pathname === '/home') return 'home';
     if (location.pathname === '/search' || location.pathname === '/search-result') return 'search';
+    if (location.pathname === '/growth-tracker') return 'bookmark';
     if (location.pathname === '/mypage') return 'mypage';
     return 'home'; // 기본값
   };
@@ -33,8 +34,7 @@ function MenuBar() {
         navigate('/search');
         break;
       case 'bookmark':
-        // 북마크 페이지가 구현되면 여기에 경로 추가
-        console.log('북마크 페이지로 이동');
+        navigate('/growth-tracker');
         break;
       case 'mypage':
         navigate('/mypage');

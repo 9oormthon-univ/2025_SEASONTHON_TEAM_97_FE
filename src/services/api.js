@@ -88,5 +88,70 @@ export const setAuthToken = (token) => {
   }
 };
 
+// 정책 API 함수들
+export const policyAPI = {
+  // 맞춤 추천 정책 가져오기
+  getRecommendedPolicies: async (userPreferences = {}) => {
+    try {
+      const response = await api.get('/api/policies/recommended', {
+        ...userPreferences
+      });
+      return response;
+    } catch (error) {
+      console.error("맞춤 추천 정책 API 호출 실패:", error);
+      return {
+        success: false,
+        data: null,
+        error: error.message
+      };
+    }
+  },
+
+  // 키워드별 정책 가져오기
+  getPoliciesByKeyword: async (keyword) => {
+    try {
+      const response = await api.get(`/api/policies/search?keyword=${encodeURIComponent(keyword)}`);
+      return response;
+    } catch (error) {
+      console.error("키워드별 정책 API 호출 실패:", error);
+      return {
+        success: false,
+        data: null,
+        error: error.message
+      };
+    }
+  },
+
+  // 전체 정책 가져오기 (카테고리별)
+  getAllPolicies: async (category = 'all', page = 1, limit = 10) => {
+    try {
+      const response = await api.get(`/api/policies?category=${category}&page=${page}&limit=${limit}`);
+      return response;
+    } catch (error) {
+      console.error("전체 정책 API 호출 실패:", error);
+      return {
+        success: false,
+        data: null,
+        error: error.message
+      };
+    }
+  },
+
+  // 검색 결과 가져오기
+  searchPolicies: async (searchTerm) => {
+    try {
+      const response = await api.get(`/api/policies/search?q=${encodeURIComponent(searchTerm)}`);
+      return response;
+    } catch (error) {
+      console.error("검색 정책 API 호출 실패:", error);
+      return {
+        success: false,
+        data: null,
+        error: error.message
+      };
+    }
+  }
+};
+
 // 기본 export
 export default api;

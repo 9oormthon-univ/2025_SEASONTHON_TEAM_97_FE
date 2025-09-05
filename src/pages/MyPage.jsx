@@ -19,14 +19,11 @@ export default function MyPage() {
   };
 
   const handleLogout = () => {
-    // 로그아웃 로직 구현
-    console.log("로그아웃");
-    // 여기에 실제 로그아웃 로직을 추가할 수 있습니다
+    // 로그아웃 처리
   };
 
   const handleMenuClick = (menuItem) => {
-    console.log(`${menuItem} 클릭됨`);
-    // 여기에 각 메뉴 항목에 대한 실제 기능을 구현할 수 있습니다
+    // 메뉴 클릭 처리
   };
 
   return (

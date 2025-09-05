@@ -35,7 +35,6 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("로그인 시도:", formData);
 
     // 데모 로그인: 바로 성공 처리
     localStorage.setItem("authToken", "demo_token_" + Date.now());

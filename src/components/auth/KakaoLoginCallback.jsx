@@ -12,7 +12,6 @@ export default function KakaoLoginCallback() {
     const code = searchParams.get("code");
 
     if (code) {
-      console.log("카카오 로그인 코드:", code);
       handleKakaoLogin(code);
     } else {
       console.error("카카오 로그인 코드가 없습니다.");
@@ -29,7 +28,6 @@ export default function KakaoLoginCallback() {
       // axios면 여기!
       const result = res.data;
 
-      console.log("카카오 로그인 결과:", result);
 
       if (result.success) {
         if (result.isExistingUser) {

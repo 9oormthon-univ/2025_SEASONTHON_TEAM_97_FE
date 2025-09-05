@@ -1,10 +1,41 @@
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { policyAPI } from "../services/api";
 
 export default function Homepage() {
   const navigate = useNavigate();
+  const [recommendedPolicies, setRecommendedPolicies] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRecommendedPolicies = async () => {
+      try {
+        const response = await policyAPI.getRecommendedPolicies();
+        if (response.success && response.data) {
+          setRecommendedPolicies(response.data);
+        } else {
+          setRecommendedPolicies([]);
+        }
+      } catch (error) {
+        console.error("추천 정책 가져오기 실패:", error);
+        setRecommendedPolicies([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecommendedPolicies();
+  }, []);
 
   const handleMoreClick = () => {
     navigate("/all-recommendations");
+  };
+
+  const getDeadlineColor = (deadline) => {
+    if (deadline.includes("오늘") || deadline.includes("D-0")) return "#FF4D4D";
+    if (deadline.includes("D-") && parseInt(deadline.match(/\d+/)?.[0]) <= 7) return "#FF4D4D";
+    if (deadline === "상시") return "#22C55E";
+    return "#4A90E2";
   };
   return (
     <div className="w-full bg-[#FAFAF8]">
@@ -74,47 +105,51 @@ export default function Homepage() {
 
         {/* 추천 리스트 */}
         <div className="bg-white rounded-xl mb-5 mr-5">
-          <div className="p-4 border-b border-gray-100">
-            <p className="text-sm text-[#000000] font-['Pretendard'] font-medium">
-              [제목] 테스트
-            </p>
-            <p className="text-xs text-[#666] font-['Pretendard'] mt-1">
-              게시글의 첫 문장을 미리 보여줍니다.
-            </p>
-            <div className="flex justify-end mt-2">
-              <span className="text-xs text-[#FF4D4D] font-['Pretendard'] font-medium">
-                오늘 마감
-              </span>
+          {loading ? (
+            <div className="p-4 text-center text-[#666] font-['Pretendard']">
+              추천 정책을 불러오는 중...
             </div>
-          </div>
-
-          <div className="p-4 border-b border-gray-100">
-            <p className="text-sm text-[#000000] font-['Pretendard'] font-medium">
-              [제목] 테스트
-            </p>
-            <p className="text-xs text-[#666] font-['Pretendard'] mt-1">
-              게시글의 첫 문장을 미리 보여줍니다.
-            </p>
-            <div className="flex justify-end mt-2">
-              <span className="text-xs text-[#FF4D4D] font-['Pretendard'] font-medium">
-                오늘 마감
-              </span>
-            </div>
-          </div>
-
-          <div className="p-4">
-            <p className="text-sm text-[#000000] font-['Pretendard'] font-medium">
-              [제목] 테스트
-            </p>
-            <p className="text-xs text-[#666] font-['Pretendard'] mt-1">
-              게시글의 첫 문장을 미리 보여줍니다.
-            </p>
-            <div className="flex justify-end mt-2">
-              <span className="text-xs text-[#4A90E2] font-['Pretendard'] font-medium">
-                D-50 +
-              </span>
-            </div>
-          </div>
+          ) : (
+            <>
+              {/* 항상 기본 구조 표시 */}
+              {[0, 1, 2].map((index) => {
+                const policy = recommendedPolicies[index];
+                return (
+                  <div 
+                    key={index} 
+                    className={`p-4 ${index < 2 ? 'border-b border-gray-100' : ''}`}
+                  >
+                    <p className="text-sm text-[#000000] font-['Pretendard'] font-medium">
+                      {policy?.plcyNm || "API에서 추천 정책을 불러올 수 없습니다."}
+                    </p>
+                    <p className="text-xs text-[#666] font-['Pretendard'] mt-1">
+                      {policy?.plcyExplnCn || "정책 설명을 불러올 수 없습니다."}
+                    </p>
+                    {policy?.plcyKywdNm && (
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {policy.plcyKywdNm.map((tag, tagIndex) => (
+                          <span 
+                            key={tagIndex}
+                            className="text-xs text-[#13D564] font-['Pretendard']"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="flex justify-end mt-2">
+                      <span 
+                        className="text-xs font-['Pretendard'] font-medium"
+                        style={{ color: policy?.deadline ? getDeadlineColor(policy.deadline) : "#666" }}
+                      >
+                        {policy?.deadline || "-"}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </div>
 
         {/* 더보기 버튼 */}

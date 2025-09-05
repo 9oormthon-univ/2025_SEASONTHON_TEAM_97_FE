@@ -45,7 +45,6 @@ export default function KakaoNickname() {
         localStorage.setItem("tempPassword", result.password || "kakao_auth");
         localStorage.setItem("kakaoUserData", JSON.stringify(result.kakaoData));
 
-        console.log("카카오 사용자 닉네임 설정 완료:", result);
 
         // SignUp_2로 이동
         navigate("/signup/step2");
@@ -57,7 +56,6 @@ export default function KakaoNickname() {
 
       // 임시 테스트용: 백엔드가 준비되지 않은 경우
       if (error.message.includes("404")) {
-        console.log("백엔드 API가 준비되지 않음. 테스트 모드로 진행...");
 
         // 기존 카카오 사용자 데이터에 닉네임 추가
         const existingKakaoData = JSON.parse(
@@ -73,7 +71,6 @@ export default function KakaoNickname() {
         localStorage.setItem("tempNickname", nickname.trim());
         localStorage.setItem("kakaoUserData", JSON.stringify(updatedKakaoData));
 
-        console.log("테스트 모드: 카카오 사용자 닉네임 설정 완료");
 
         // SignUp_2로 이동
         navigate("/signup/step2");

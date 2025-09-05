@@ -47,51 +47,8 @@ export default function SignUp_2() {
     const tempPassword = localStorage.getItem("tempPassword");
     const tempNickname = localStorage.getItem("tempNickname");
 
-    console.log("=== SignUp_2 페이지 로드 ===");
-    console.log("1단계에서 넘어온 데이터:", signupStep1Data);
-    console.log("localStorage 데이터:", {
-      tempUserId,
-      tempPassword,
-      tempNickname,
-      signupStep1Data,
-    });
-    console.log("현재 2단계 폼 데이터:", formData);
-    console.log("================================");
   }, []);
 
-  // formData가 변경될 때마다 콘솔에 출력 (디바운스 적용)
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (
-        Object.values(formData).some((value) =>
-          Array.isArray(value) ? value.length > 0 : value !== ""
-        )
-      ) {
-        const signupStep1Data = JSON.parse(
-          localStorage.getItem("signupStep1Data") || "{}"
-        );
-        const employmentStatusNumber =
-          formData.employmentStatus === "학생"
-            ? 0
-            : formData.employmentStatus === "직장인"
-            ? 1
-            : null;
-
-        console.log("=== 2단계 폼 데이터 업데이트 ===");
-        console.log("1단계 데이터:", signupStep1Data);
-        console.log("2단계 현재 데이터:", formData);
-        console.log("고용상태 숫자:", employmentStatusNumber);
-        console.log("전체 회원가입 데이터:", {
-          step1: signupStep1Data,
-          step2: formData,
-          complete: false,
-        });
-        console.log("================================");
-      }
-    }, 1000);
-
-    return () => clearTimeout(timeoutId);
-  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -259,10 +216,6 @@ export default function SignUp_2() {
           profile_image: kakaoUserData.profile_image || null,
         };
 
-        console.log("=== 최종 제출 데이터 ===");
-        console.log("백엔드로 전송할 데이터:", userData);
-        console.log("전체 회원가입 데이터:", completeSignupData);
-        console.log("================================");
 
         // 백엔드 API 호출
         try {
@@ -271,7 +224,6 @@ export default function SignUp_2() {
             completeSignupData: completeSignupData,
           });
 
-          console.log("회원가입 성공:", result);
 
           // 임시 저장된 데이터 삭제
           localStorage.removeItem("tempUserId");
@@ -293,7 +245,6 @@ export default function SignUp_2() {
   };
 
   const handleSkip = () => {
-    console.log("건너뛰기 선택");
     navigate("/home");
   };
 
