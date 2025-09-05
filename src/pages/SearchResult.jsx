@@ -70,6 +70,24 @@ export default function SearchResult() {
     });
   };
 
+  // 검색어 하이라이트 함수
+  const highlightSearchTerm = (text, searchTerm) => {
+    if (!text || !searchTerm) return text;
+    
+    const regex = new RegExp(`(${searchTerm})`, 'gi');
+    const parts = text.split(regex);
+    
+    return parts.map((part, index) => 
+      regex.test(part) ? (
+        <span key={index} className="bg-yellow-200 font-medium">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
   const handleBackClick = () => {
     navigate(-1);
   };
@@ -177,7 +195,11 @@ export default function SearchResult() {
                 <div key={index} className="bg-white p-4 border-b border-gray-100 last:border-b-0">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-sm font-medium text-[#000000] flex-1 pr-3">
-                      {item?.plcyNm || `"${searchTerm}"에 대한 검색 결과를 불러올 수 없습니다`}
+                      {item?.plcyNm ? (
+                        highlightSearchTerm(item.plcyNm, searchTerm)
+                      ) : (
+                        `"${searchTerm}"에 대한 검색 결과를 불러올 수 없습니다`
+                      )}
                     </h3>
                     <button
                       onClick={() => item && toggleBookmark(item.id)}
@@ -194,14 +216,18 @@ export default function SearchResult() {
                   </div>
                   
                   <p className="text-xs text-[#666] mb-2">
-                    {item?.plcyExplnCn || "정책 설명을 불러올 수 없습니다"}
+                    {item?.plcyExplnCn ? (
+                      highlightSearchTerm(item.plcyExplnCn, searchTerm)
+                    ) : (
+                      "정책 설명을 불러올 수 없습니다"
+                    )}
                   </p>
                   
                   <div className="flex flex-wrap gap-1 mb-2">
                     {item?.plcyKywdNm ? (
                       item.plcyKywdNm.map((tag, tagIndex) => (
                         <span key={tagIndex} className="text-xs text-[#13D564]">
-                          #{tag}
+                          #{highlightSearchTerm(tag, searchTerm)}
                         </span>
                       ))
                     ) : (

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
 import { api } from "../../services/api.js";
@@ -7,6 +7,75 @@ export default function KakaoNickname() {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("");
   const [error, setError] = useState("");
+  
+  // 닉네임 중복 검사 관련 상태
+  const [isCheckingNickname, setIsCheckingNickname] = useState(false);
+  const [nicknameCheckResult, setNicknameCheckResult] = useState(null);
+  const [nicknameCheckMessage, setNicknameCheckMessage] = useState("");
+
+  // 닉네임 중복 검사 함수 (SignUp_1과 동일)
+  const checkNicknameDuplicate = async (nickname) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/check-nickname/${nickname}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        return { isAvailable: data.is_available, message: data.message || "" };
+      } else {
+        const errorData = await response.json();
+        console.error("닉네임 중복 검사 실패:", errorData);
+        return {
+          isAvailable: false,
+          message: errorData.message || "닉네임 중복 검사에 실패했습니다.",
+        };
+      }
+    } catch (error) {
+      console.error("닉네임 중복 검사 오류:", error);
+      return {
+        isAvailable: false,
+        message: "닉네임 중복 검사 중 오류가 발생했습니다.",
+      };
+    }
+  };
+
+  // 디바운스 함수
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func.apply(null, args), delay);
+    };
+  };
+
+  // 디바운스된 닉네임 중복 검사
+  const debouncedNicknameCheck = useCallback(
+    debounce(async (nickname) => {
+      if (nickname.length >= 2) {
+        setIsCheckingNickname(true);
+        setNicknameCheckMessage("");
+        try {
+          const result = await checkNicknameDuplicate(nickname);
+          setNicknameCheckResult(result.isAvailable);
+          setNicknameCheckMessage(result.message);
+        } catch (error) {
+          console.error("닉네임 중복 검사 오류:", error);
+          setNicknameCheckResult(false);
+          setNicknameCheckMessage("닉네임 중복 검사 중 오류가 발생했습니다.");
+        } finally {
+          setIsCheckingNickname(false);
+        }
+      }
+    }, 500),
+    []
+  );
 
   // 닉네임 유효성 검사 (SignUp_1과 동일)
   const validateNickname = (nickname) => {
@@ -29,6 +98,17 @@ export default function KakaoNickname() {
     const validationError = validateNickname(nickname.trim());
     if (validationError) {
       setError(validationError);
+      return;
+    }
+
+    // 닉네임 중복 검사 결과 확인
+    if (nicknameCheckResult === false) {
+      setError(nicknameCheckMessage || "이미 사용 중인 닉네임입니다.");
+      return;
+    }
+
+    if (nicknameCheckResult === null && nickname.length >= 2) {
+      setError("닉네임 중복 확인이 필요합니다.");
       return;
     }
 
@@ -135,6 +215,15 @@ export default function KakaoNickname() {
                 // 실시간 유효성 검사
                 const validationError = validateNickname(value);
                 setError(validationError);
+                
+                // 유효성 검사 통과 시 중복 검사 실행
+                if (!validationError && value.length >= 2) {
+                  setNicknameCheckResult(null);
+                  debouncedNicknameCheck(value);
+                } else {
+                  setNicknameCheckResult(null);
+                  setNicknameCheckMessage("");
+                }
               }}
               placeholder="닉네임을 입력해주세요."
               className="w-full px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white transition-colors text-sm"
@@ -146,13 +235,24 @@ export default function KakaoNickname() {
             />
             <div
               style={{ height: "1.25rem" }}
-              className="flex items-center justify-end"
+              className="flex items-center justify-end mt-1"
             >
-              {error && (
-                <p className="text-red-500" style={{ fontSize: "0.7rem" }}>
+              {/* 에러 메시지 또는 중복 검사 결과 표시 */}
+              {error ? (
+                <p className="text-red-500 text-xs">
                   {error}
                 </p>
-              )}
+              ) : isCheckingNickname ? (
+                <p className="text-gray-500 text-xs">확인 중...</p>
+              ) : nicknameCheckResult === true ? (
+                <p className="text-green-500 text-xs">
+                  {nicknameCheckMessage || "사용 가능한 닉네임입니다."}
+                </p>
+              ) : nicknameCheckResult === false ? (
+                <p className="text-red-500 text-xs">
+                  {nicknameCheckMessage || "이미 사용 중인 닉네임입니다."}
+                </p>
+              ) : null}
             </div>
           </div>
 
@@ -161,9 +261,9 @@ export default function KakaoNickname() {
             type="submit"
             className="w-full rounded-lg font-medium transition-colors text-white cursor-pointer py-3"
             style={{
-              backgroundColor: nickname.trim() && !error ? "#13D564" : "#CCF3DB",
+              backgroundColor: nickname.trim() && !error && nicknameCheckResult === true ? "#13D564" : "#CCF3DB",
             }}
-            disabled={!nickname.trim() || !!error}
+            disabled={!nickname.trim() || !!error || nicknameCheckResult !== true || isCheckingNickname}
           >
             다음
           </button>

@@ -5,26 +5,43 @@ import { policyAPI } from "../services/api";
 export default function Homepage() {
   const navigate = useNavigate();
   const [recommendedPolicies, setRecommendedPolicies] = useState([]);
+  const [scholarshipCards, setScholarshipCards] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchRecommendedPolicies = async () => {
+    const fetchData = async () => {
       try {
-        const response = await policyAPI.getRecommendedPolicies();
-        if (response.success && response.data) {
-          setRecommendedPolicies(response.data);
+        // 추천 정책과 장학금 카드 데이터를 병렬로 가져오기
+        const [recommendedResponse, scholarshipResponse] = await Promise.all([
+          policyAPI.getRecommendedPolicies(),
+          policyAPI.getAllPolicies() // 장학금 카드용 데이터
+        ]);
+
+        if (recommendedResponse.success && recommendedResponse.data) {
+          setRecommendedPolicies(recommendedResponse.data);
         } else {
           setRecommendedPolicies([]);
         }
+
+        if (scholarshipResponse.success && scholarshipResponse.data) {
+          // 장학금 관련 정책만 필터링하여 상위 2개 사용
+          const scholarships = scholarshipResponse.data
+            .filter(policy => policy.plcyNm && policy.plcyNm.includes('장학'))
+            .slice(0, 2);
+          setScholarshipCards(scholarships);
+        } else {
+          setScholarshipCards([]);
+        }
       } catch (error) {
-        console.error("추천 정책 가져오기 실패:", error);
+        console.error("데이터 가져오기 실패:", error);
         setRecommendedPolicies([]);
+        setScholarshipCards([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchRecommendedPolicies();
+    fetchData();
   }, []);
 
   const handleMoreClick = () => {
@@ -36,6 +53,55 @@ export default function Homepage() {
     if (deadline.includes("D-") && parseInt(deadline.match(/\d+/)?.[0]) <= 7) return "#FF4D4D";
     if (deadline === "상시") return "#22C55E";
     return "#4A90E2";
+  };
+
+  // 지원금액 정보 추출 함수
+  const extractAmount = (sprtCn) => {
+    if (!sprtCn) return "지원내용 확인 필요";
+    
+    // 다양한 금액 패턴 매칭
+    const patterns = [
+      // "최대 300만원", "최대 500만원까지"
+      /(최대|최고)\s*(\d+[,\d]*)\s*(만원|원)/i,
+      // "월 50만원", "매월 100만원"
+      /(월|매월)\s*(\d+[,\d]*)\s*(만원|원)/i,
+      // "연 1,200만원", "년 600만원"
+      /(연|년|연간)\s*(\d+[,\d]*)\s*(만원|원)/i,
+      // "300만원 지원", "500만원까지"
+      /(\d+[,\d]*)\s*(만원|원)\s*(지원|까지|한도)/i,
+      // "등록금 전액", "학비 100%"
+      /(등록금|학비|수업료)\s*(전액|100%|지원)/i,
+      // 단순 숫자 + 원 (마지막 매칭)
+      /(\d+[,\d]*)\s*(만원|원)/i
+    ];
+    
+    for (const pattern of patterns) {
+      const match = sprtCn.match(pattern);
+      if (match) {
+        if (pattern.source.includes('전액|100%')) {
+          return "등록금 전액 지원";
+        }
+        
+        const prefix = match[1];
+        const amount = match[2];
+        const unit = match[3];
+        
+        // 접두사가 숫자인 경우 (단순 금액)
+        if (/\d/.test(prefix)) {
+          return `최대 ${prefix}${unit}`;
+        }
+        
+        // 접두사가 있는 경우
+        return `${prefix} ${amount}${unit}`;
+      }
+    }
+    
+    // 금액 정보가 없으면 짧은 설명으로 대체
+    if (sprtCn.length > 15) {
+      return sprtCn.substring(0, 15) + "...";
+    }
+    
+    return sprtCn || "지원내용 확인 필요";
   };
   return (
     <div className="w-full bg-[#FAFAF8]">
@@ -49,51 +115,84 @@ export default function Homepage() {
 
         {/* 장학금 카드들 */}
         <div className="flex gap-6 mb-6 overflow-x-auto">
-          {/* 첫 번째 카드 */}
-          <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-5 relative">
-            <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-8">
-              매칭률 90%
-            </div>
-            <div className="text-white mt-1">
-              <h3 className="font-['Pretendard'] text-xl font-bold mb-1">
-                [국가 장학금]
-              </h3>
-              <p className="font-['Pretendard'] text-base font-medium mb-1">
-                최대 300만원
-              </p>
-              <p className="font-['Pretendard'] text-sm absolute bottom-6">
-                2025.09.27 ~ 2025.12.21
-              </p>
-            </div>
-            <div className="absolute bottom-6 right-6">
-              <button className="text-white text-sm font-['Pretendard'] cursor-pointer">
-                더보기
-              </button>
-            </div>
-          </div>
-
-          {/* 두 번째 카드 (일부만 보이도록) */}
-          <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-5 relative">
-            <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-8">
-              매칭률 90%
-            </div>
-            <div className="text-white mt-1">
-              <h3 className="font-['Pretendard'] text-xl font-bold mb-1">
-                [국가 장학금]
-              </h3>
-              <p className="font-['Pretendard'] text-base font-medium mb-1">
-                최대 300만원
-              </p>
-              <p className="font-['Pretendard'] text-sm absolute bottom-6">
-                2025.09.27 ~ 2025.12.21
-              </p>
-            </div>
-            <div className="absolute bottom-6 right-6">
-              <button className="text-white text-sm font-['Pretendard'] cursor-pointer">
-                더보기
-              </button>
-            </div>
-          </div>
+          {loading ? (
+            // 로딩 중 스켈레톤
+            <>
+              <div className="min-w-[280px] h-[200px] bg-gray-200 rounded-[18px] animate-pulse"></div>
+              <div className="min-w-[280px] h-[200px] bg-gray-200 rounded-[18px] animate-pulse"></div>
+            </>
+          ) : scholarshipCards.length > 0 ? (
+            // 실제 장학금 데이터
+            scholarshipCards.map((scholarship, index) => (
+              <div key={scholarship.id || index} className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-5 relative">
+                <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-8">
+                  매칭률 90%
+                </div>
+                <div className="absolute bottom-14 left-5 right-6 text-white">
+                  <h3 className="font-['Pretendard'] text-xl font-bold mb-0.5">
+                    {scholarship.plcyNm || "[장학금 정책]"}
+                  </h3>
+                  <p className="font-['Pretendard'] text-base font-medium">
+                    {extractAmount(scholarship.sprtCn)}
+                  </p>
+                </div>
+                <div className="absolute bottom-6 left-5 right-6 flex justify-between items-center">
+                  <p className="font-['Pretendard'] text-sm text-white">
+                    {scholarship.aplyYmd || "신청기간 정보 없음"}
+                  </p>
+                  <button className="text-white text-sm font-['Pretendard'] cursor-pointer">
+                    더보기
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            // 데이터가 없을 때 기본 카드
+            <>
+              <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-5 relative">
+                <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-8">
+                  매칭률 90%
+                </div>
+                <div className="absolute bottom-14 left-5 right-6 text-white">
+                  <h3 className="font-['Pretendard'] text-xl font-bold mb-0.5">
+                    [장학금 정책]
+                  </h3>
+                  <p className="font-['Pretendard'] text-base font-medium">
+                    지원내용 확인 필요
+                  </p>
+                </div>
+                <div className="absolute bottom-6 left-5 right-6 flex justify-between items-center">
+                  <p className="font-['Pretendard'] text-sm text-white">
+                    신청기간 정보 없음
+                  </p>
+                  <button className="text-white text-sm font-['Pretendard'] cursor-pointer">
+                    더보기
+                  </button>
+                </div>
+              </div>
+              <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-5 relative">
+                <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-8">
+                  매칭률 90%
+                </div>
+                <div className="absolute bottom-14 left-5 right-6 text-white">
+                  <h3 className="font-['Pretendard'] text-xl font-bold mb-0.5">
+                    [장학금 정책]
+                  </h3>
+                  <p className="font-['Pretendard'] text-base font-medium">
+                    지원내용 확인 필요
+                  </p>
+                </div>
+                <div className="absolute bottom-6 left-5 right-6 flex justify-between items-center">
+                  <p className="font-['Pretendard'] text-sm text-white">
+                    신청기간 정보 없음
+                  </p>
+                  <button className="text-white text-sm font-['Pretendard'] cursor-pointer">
+                    더보기
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         {/* 맞춤 추천 제목 */}

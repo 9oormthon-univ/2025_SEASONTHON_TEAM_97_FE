@@ -137,13 +137,34 @@ export const policyAPI = {
     }
   },
 
-  // 검색 결과 가져오기
+  // 검색 결과 가져오기 (정책명, 정책설명, 키워드에서 검색)
   searchPolicies: async (searchTerm) => {
     try {
-      const response = await api.get(`/api/policies/search?q=${encodeURIComponent(searchTerm)}`);
+      // 정책명(plcyNm), 정책설명(plcyExplnCn), 키워드(plcyKywdNm)에서 모두 검색
+      const response = await api.get(`/api/policies/search`, {
+        params: {
+          q: searchTerm,
+          searchFields: ['plcyNm', 'plcyExplnCn', 'plcyKywdNm'] // 검색할 필드들 명시
+        }
+      });
       return response;
     } catch (error) {
       console.error("검색 정책 API 호출 실패:", error);
+      return {
+        success: false,
+        data: null,
+        error: error.message
+      };
+    }
+  },
+
+  // 인기 검색어 가져오기 (조회수 기준)
+  getPopularPolicies: async (limit = 4) => {
+    try {
+      const response = await api.get(`/api/policies/popular?limit=${limit}`);
+      return response;
+    } catch (error) {
+      console.error("인기 정책 API 호출 실패:", error);
       return {
         success: false,
         data: null,

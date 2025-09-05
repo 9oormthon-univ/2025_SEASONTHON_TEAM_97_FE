@@ -1,4 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import alarmOIcon from '../../assets/icons/alarm-o.svg';
+import alarmXIcon from '../../assets/icons/alarm-x.svg';
 
 function Header() {
   const location = useLocation();
@@ -21,7 +23,7 @@ function Header() {
           {hasNewAlarm ? (
             // 신규 알람이 있을 때 alarm-o.svg
             <img
-              src="/src/assets/icons/alarm-o.svg" 
+              src={alarmOIcon} 
               alt="New alarm" 
               className="w-6 h-6 cursor-pointer"
               onClick={handleAlarmClick}
@@ -29,7 +31,7 @@ function Header() {
           ) : (
             // 신규 알람이 없을 때 alarm-x.svg
             <img 
-              src="/src/assets/icons/alarm-x.svg" 
+              src={alarmXIcon} 
               alt="No alarm" 
               className="w-6 h-6 cursor-pointer"
               onClick={handleAlarmClick}
