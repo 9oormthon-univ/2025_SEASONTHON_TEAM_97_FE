@@ -27,12 +27,15 @@ export default function SignUp_2() {
   // 특화 분야 옵션들
   const interestOptions = [
     "중소기업",
-    "여성",
-    "저소득층",
+    "여성", 
+    "기초생활수급자",
+    "한부모가정",
     "장애인",
     "농업인",
     "군인",
     "지역인재",
+    "기타",
+    "제한없음"
   ];
 
   // 페이지 로드 시 localStorage 데이터 콘솔에 출력
@@ -460,6 +463,9 @@ export default function SignUp_2() {
                 <option value="대학 재학">대학 재학</option>
                 <option value="대졸 예정">대졸 예정</option>
                 <option value="대학 졸업">대학 졸업</option>
+                <option value="석,박사">석,박사</option>
+                <option value="기타">기타</option>
+                <option value="제한없음">제한없음</option>
               </select>
               <img
                 src={dropDownSvg}
@@ -597,12 +603,15 @@ export default function SignUp_2() {
                 onTouchStart={(e) => e.stopPropagation()}
               >
                 <option value="">고용 상태를 선택해주세요</option>
-                <option value="미취업자">미취업자</option>
                 <option value="재직자">재직자</option>
                 <option value="자영업자">자영업자</option>
+                <option value="미취업자">미취업자</option>
                 <option value="프리랜서">프리랜서</option>
                 <option value="일용근로자">일용근로자</option>
+                <option value="(예비)창업자">(예비)창업자</option>
                 <option value="단기근로자">단기근로자</option>
+                <option value="영농종사자">영농종사자</option>
+                <option value="기타">기타</option>
                 <option value="제한없음">제한없음</option>
               </select>
               <img
