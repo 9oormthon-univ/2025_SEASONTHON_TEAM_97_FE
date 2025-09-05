@@ -10,6 +10,7 @@ import Homepage from "./pages/HomePage.jsx";
 import SearchPage from "./pages/Search.jsx";
 import MyPage from "./pages/MyPage.jsx";
 import AlarmPage from "./pages/AlarmPage.jsx";
+import AllRecommendations from "./pages/AllRecommendations.jsx";
 import Header from "./components/layout/Header";
 import MainLayout from "./components/layout/MainLayout";
 import MenuBar from "./components/layout/MenuBar";
@@ -34,7 +35,7 @@ function App() {
           
           {/* 메인 앱 페이지 (헤더 + 콘텐츠 + 네비 포함) */}
           <Route path="/home" element={
-            <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col">
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
               <Header />
               <MainLayout>
                 <Homepage />
@@ -43,7 +44,7 @@ function App() {
             </div>
           } />
           <Route path="/search" element={
-            <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col">
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
               <Header />
               <MainLayout>
                 <SearchPage />
@@ -52,7 +53,7 @@ function App() {
             </div>
           } />
           <Route path="/mypage" element={
-            <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col">
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
               <Header />
               <MainLayout>
                 <MyPage />
@@ -61,6 +62,7 @@ function App() {
             </div>
           } />
           <Route path="/alarm" element={<AlarmPage />} />
+          <Route path="/all-recommendations" element={<AllRecommendations />} />
         </Routes>
       </div>
     </Router>

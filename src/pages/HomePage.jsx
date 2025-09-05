@@ -1,6 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Homepage() {
+  const navigate = useNavigate();
+
+  const handleMoreClick = () => {
+    navigate("/all-recommendations");
+  };
   return (
-    <div className="w-full bg-[#F5F5F5]">
+    <div className="w-full bg-[#FAFAF8]">
       <div className="ml-5 mx-auto pt-6">
         {/* 비슷한 연령대 추천 */}
         <div className="mb-1.5">
@@ -58,18 +65,15 @@ export default function Homepage() {
           </div>
         </div>
 
-        {/* 맞춤 추천 제목과 더보기 */}
-        <div className="mb-1.5 flex justify-between items-center mr-5">
+        {/* 맞춤 추천 제목 */}
+        <div className="mb-1.5">
           <h1 className="ml-3 text-[#000000] font-['Pretendard'] text-xl font-semibold leading-normal">
             맞춤 추천
           </h1>
-          <button className="text-[#666666] font-['Pretendard'] text-sm cursor-pointer">
-            더보기
-          </button>
         </div>
 
         {/* 추천 리스트 */}
-        <div className="bg-white rounded-xl mb-20 mr-5">
+        <div className="bg-white rounded-xl mb-5 mr-5">
           <div className="p-4 border-b border-gray-100">
             <p className="text-sm text-[#000000] font-['Pretendard'] font-medium">
               [제목] 테스트
@@ -111,6 +115,16 @@ export default function Homepage() {
               </span>
             </div>
           </div>
+        </div>
+
+        {/* 더보기 버튼 */}
+        <div className="flex justify-center mr-5 mb-20">
+          <button 
+            onClick={handleMoreClick}
+            className="text-[#D5D5D5] font-['Pretendard'] text-sm cursor-pointer"
+          >
+            더보기
+          </button>
         </div>
       </div>
     </div>

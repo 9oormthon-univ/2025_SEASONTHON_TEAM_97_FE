@@ -10,7 +10,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="w-full bg-[#F5F5F5]">
+    <div className="w-full bg-[#FAFAF8]">
       <div className="ml-5 mr-5 mx-auto pt-6">
         {/* 제목 */}
         <div className="ml-3 mb-2">
