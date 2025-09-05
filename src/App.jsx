@@ -11,6 +11,7 @@ import SearchPage from "./pages/Search.jsx";
 import MyPage from "./pages/MyPage.jsx";
 import AlarmPage from "./pages/AlarmPage.jsx";
 import AllRecommendations from "./pages/AllRecommendations.jsx";
+import SearchResult from "./pages/SearchResult.jsx";
 import Header from "./components/layout/Header";
 import MainLayout from "./components/layout/MainLayout";
 import MenuBar from "./components/layout/MenuBar";
@@ -63,6 +64,7 @@ function App() {
           } />
           <Route path="/alarm" element={<AlarmPage />} />
           <Route path="/all-recommendations" element={<AllRecommendations />} />
+          <Route path="/search-result" element={<SearchResult />} />
         </Routes>
       </div>
     </Router>

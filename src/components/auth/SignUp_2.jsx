@@ -633,7 +633,7 @@ export default function SignUp_2() {
                   key={interest}
                   type="button"
                   onClick={() => handleInterestToggle(interest)}
-                  className={`px-3 py-2 rounded-full text-[0.8rem] font-medium transition-colors cursor-pointer ${
+                  className={`px-2 py-2 rounded-full text-[0.7rem] font-medium transition-colors cursor-pointer ${
                     formData.interests.includes(interest)
                       ? "bg-[#FFFFFF] text-[#121212] border-2 border-[#13D564]"
                       : "bg-[#F0F0F0] text-[#121212] border-2 border-transparent"

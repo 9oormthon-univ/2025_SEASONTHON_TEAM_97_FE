@@ -16,7 +16,7 @@ function MenuBar() {
   // 현재 경로에 따라 활성 탭 결정
   const getCurrentTab = () => {
     if (location.pathname === '/home') return 'home';
-    if (location.pathname === '/search') return 'search';
+    if (location.pathname === '/search' || location.pathname === '/search-result') return 'search';
     if (location.pathname === '/mypage') return 'mypage';
     return 'home'; // 기본값
   };
