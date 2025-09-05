@@ -157,7 +157,7 @@ export default function LoginPage() {
           {/* 로그인 버튼 */}
           <button
             type="submit"
-            className="w-full bg-[#13D564] text-white rounded-lg font-medium hover:bg-[#0FB055] transition-colors text-[0.85rem]"
+            className="w-full bg-[#13D564] text-white rounded-lg font-medium hover:bg-[#0FB055] transition-colors text-[0.85rem] cursor-pointer"
             style={{
               marginBottom: "0.75rem",
               paddingTop: "0.75rem",

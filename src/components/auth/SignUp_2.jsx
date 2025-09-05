@@ -480,7 +480,7 @@ export default function SignUp_2() {
               <button
                 type="button"
                 onClick={() => setIncomeInputType('dropdown')}
-                className={`flex-1 py-2 px-3 rounded-md text-xs font-medium transition-colors ${
+                className={`flex-1 py-2 px-3 rounded-md text-xs font-medium transition-colors cursor-pointer ${
                   incomeInputType === 'dropdown'
                     ? 'bg-white text-[#13D564] shadow-sm'
                     : 'text-gray-600 hover:text-gray-800'
@@ -491,7 +491,7 @@ export default function SignUp_2() {
               <button
                 type="button"
                 onClick={() => setIncomeInputType('manual')}
-                className={`flex-1 py-2 px-3 rounded-md text-xs font-medium transition-colors ${
+                className={`flex-1 py-2 px-3 rounded-md text-xs font-medium transition-colors cursor-pointer ${
                   incomeInputType === 'manual'
                     ? 'bg-white text-[#13D564] shadow-sm'
                     : 'text-gray-600 hover:text-gray-800'
@@ -551,7 +551,7 @@ export default function SignUp_2() {
                   <button
                     type="button"
                     onClick={calculateIncomeLevel}
-                    className="px-5 py-3 bg-[#13D564] text-white rounded-lg text-sm font-medium hover:bg-[#0FB055] transition-colors whitespace-nowrap shadow-sm"
+                    className="px-5 py-3 bg-[#13D564] text-white rounded-lg text-sm font-medium hover:bg-[#0FB055] transition-colors whitespace-nowrap shadow-sm cursor-pointer"
                   >
                     계산
                   </button>
@@ -624,7 +624,7 @@ export default function SignUp_2() {
                   key={interest}
                   type="button"
                   onClick={() => handleInterestToggle(interest)}
-                  className={`px-3 py-2 rounded-full text-[0.8rem] font-medium transition-colors ${
+                  className={`px-3 py-2 rounded-full text-[0.8rem] font-medium transition-colors cursor-pointer ${
                     formData.interests.includes(interest)
                       ? "bg-[#FFFFFF] text-[#121212] border-2 border-[#13D564]"
                       : "bg-[#F0F0F0] text-[#121212] border-2 border-transparent"
@@ -639,7 +639,7 @@ export default function SignUp_2() {
           {/* 등록하기 버튼 */}
           <button
             type="submit"
-            className="w-full bg-[#13D564] text-white rounded-lg font-medium py-3 text-[0.85rem] mb-4"
+            className="w-full bg-[#13D564] text-white rounded-lg font-medium py-3 text-[0.85rem] mb-4 cursor-pointer"
           >
             등록하기
           </button>
@@ -648,7 +648,7 @@ export default function SignUp_2() {
           <button
             type="button"
             onClick={handleSkip}
-            className="w-full text-center text-green-600 hover:text-green-700 transition-colors py-2 text-[0.85rem]"
+            className="w-full text-center text-green-600 hover:text-green-700 transition-colors py-2 text-[0.85rem] cursor-pointer"
           >
             건너뛰기
           </button>

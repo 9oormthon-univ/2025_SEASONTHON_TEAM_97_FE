@@ -28,7 +28,7 @@ export default function Homepage() {
               </p>
             </div>
             <div className="absolute bottom-6 right-6">
-              <button className="text-white text-sm font-['Pretendard']">
+              <button className="text-white text-sm font-['Pretendard'] cursor-pointer">
                 더보기
               </button>
             </div>

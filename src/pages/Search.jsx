@@ -36,7 +36,7 @@ export default function SearchPage() {
               />
               <button
                 type="submit"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
               >
                 <svg
                   className="w-5 h-5 text-green-500"

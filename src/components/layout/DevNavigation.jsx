@@ -49,7 +49,7 @@ function DevNavigation() {
                 <button
                   key={page.path}
                   onClick={() => handlePageChange(page.path)}
-                  className={`w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-150 flex items-center gap-2 ${
+                  className={`w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-150 flex items-center gap-2 cursor-pointer ${
                     isCurrentPage
                       ? 'bg-gray-100 text-gray-800 font-semibold'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
