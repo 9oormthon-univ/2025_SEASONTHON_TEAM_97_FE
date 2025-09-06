@@ -15,7 +15,7 @@ function Header() {
   };
 
   return (
-    <header className="w-full bg-[#FAFAF8] text-white pt-10 pb-4 px-4 text-center fixed top-0 left-0 z-50 relative border-0 border-b-0">
+    <header className="w-full bg-[#FAFAF8] text-white pt-10 pb-4 px-4 text-center fixed top-0 left-0 z-50 relative border-0 border-b-0 h-16 flex items-center justify-center flex-shrink-0">
       
       {/* 홈페이지일 때만 알람 아이콘 표시 */}
       {isHomePage && (

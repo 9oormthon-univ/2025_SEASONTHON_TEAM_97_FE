@@ -18,7 +18,7 @@ function MenuBar() {
     if (location.pathname === '/home') return 'home';
     if (location.pathname === '/search' || location.pathname === '/search-result') return 'search';
     if (location.pathname === '/growth-tracker') return 'bookmark';
-    if (location.pathname === '/mypage') return 'mypage';
+    if (location.pathname === '/mypage' || location.pathname === '/scrap') return 'mypage';
     return 'home'; // 기본값
   };
 
@@ -52,7 +52,7 @@ function MenuBar() {
   ];
 
   return (
-    <footer className="w-full bg-white border-t border-gray-200 py-3 px-2 fixed bottom-0 left-0 z-50 flex justify-around items-center shadow-lg">
+    <footer className="w-full bg-white border-t border-gray-200 py-3 px-2 fixed bottom-0 left-0 z-50 flex justify-around items-center shadow-lg h-16 flex-shrink-0">
       {tabs.map((tab) => {
         const isActive = currentTab === tab.id;
         const currentIcon = isActive ? tab.iconO : tab.iconX;
@@ -67,7 +67,7 @@ function MenuBar() {
             <img 
               src={currentIcon} 
               alt={tab.label}
-              className="w-4 h-4 transition-all duration-200"
+              className="w-[1rem] h-[1rem] transition-all duration-200"
             />
           </button>
         );

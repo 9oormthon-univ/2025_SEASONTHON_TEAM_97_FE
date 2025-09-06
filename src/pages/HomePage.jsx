@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { policyAPI } from "../services/api";
+import clippageButton from "../assets/icons/clippage-button.svg";
 
 export default function Homepage() {
   const navigate = useNavigate();
@@ -122,7 +123,7 @@ export default function Homepage() {
       <div className="ml-5 mx-auto pt-6">
         {/* 비슷한 연령대 추천 */}
         <div className="mb-1.5">
-          <h1 className="ml-3 text-[#121212] font-['Pretendard'] text-xl font-semibold leading-normal text-left">
+          <h1 className="ml-3 text-[#121212] font-['Pretendard'] text-[1.25rem] font-semibold leading-normal text-left flex flex-col justify-center" style={{ fontWeight: 600, display: 'flex', width: '16.5625rem', height: '1.25rem', flexDirection: 'column', justifyContent: 'center', flexShrink: 0 }}>
             비슷한 연령대 추천
           </h1>
         </div>
@@ -138,23 +139,23 @@ export default function Homepage() {
           ) : scholarshipCards.length > 0 ? (
             // 실제 장학금 데이터
             scholarshipCards.map((scholarship, index) => (
-              <div key={scholarship.id || index} className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-5 relative">
-                <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-8">
+              <div key={scholarship.id || index} className="p-5 relative" style={{ borderRadius: '18px', border: '2px solid #13D564', background: '#13D564', width: '17.5rem', height: '12.5rem', flexShrink: 0 }}>
+                <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[0.625rem] font-bold leading-5 text-center text-white mb-8">
                   매칭률 90%
                 </div>
                 <div className="absolute bottom-14 left-5 right-6 text-white">
-                  <h3 className="font-['Pretendard'] text-xl font-bold mb-0.5">
+                  <h3 className="font-['Pretendard'] text-[1.5rem] mb-0.5 leading-normal flex flex-col justify-center" style={{ color: '#FFF', fontWeight: 500, display: 'flex', width: '160px', height: '27px', flexDirection: 'column', justifyContent: 'center', flexShrink: 0 }}>
                     {scholarship.plcyNm || "[장학금 정책]"}
                   </h3>
-                  <p className="font-['Pretendard'] text-base font-medium">
+                  <p className="font-['Pretendard'] text-[1rem] leading-normal flex flex-col justify-center" style={{ color: '#FFF', fontWeight: 500, display: 'flex', width: '127px', height: '16px', flexDirection: 'column', justifyContent: 'center', flexShrink: 0 }}>
                     {extractAmount(scholarship.sprtCn)}
                   </p>
                 </div>
                 <div className="absolute bottom-6 left-5 right-6 flex justify-between items-center">
-                  <p className="font-['Pretendard'] text-sm text-white">
+                  <p className="font-['Pretendard'] text-[0.75rem] leading-normal" style={{ color: '#FFF', fontWeight: 300 }}>
                     {scholarship.aplyYmd || "신청기간 정보 없음"}
                   </p>
-                  <button className="text-white text-sm font-['Pretendard'] cursor-pointer">
+                  <button className="font-['Pretendard'] text-[0.625rem] cursor-pointer leading-normal" style={{ color: '#FFF', textAlign: 'right', fontWeight: 500 }}>
                     더보기
                   </button>
                 </div>
@@ -163,44 +164,44 @@ export default function Homepage() {
           ) : (
             // 데이터가 없을 때 기본 카드
             <>
-              <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-5 relative">
-                <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-8">
+              <div className="p-5 relative" style={{ borderRadius: '18px', border: '2px solid #13D564', background: '#13D564', width: '17.5rem', height: '12.5rem', flexShrink: 0 }}>
+                <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[0.625rem] font-bold leading-5 text-center text-white mb-8">
                   매칭률 90%
                 </div>
                 <div className="absolute bottom-14 left-5 right-6 text-white">
-                  <h3 className="font-['Pretendard'] text-xl font-bold mb-0.5">
+                  <h3 className="font-['Pretendard'] text-[1.5rem] mb-0.5 leading-normal flex flex-col justify-center" style={{ color: '#FFF', fontWeight: 500, display: 'flex', width: '127px', height: '27px', flexDirection: 'column', justifyContent: 'center', flexShrink: 0 }}>
                     [장학금 정책]
                   </h3>
-                  <p className="font-['Pretendard'] text-base font-medium">
+                  <p className="font-['Pretendard'] text-[1rem] leading-normal flex flex-col justify-center" style={{ color: '#FFF', fontWeight: 500, display: 'flex', width: '127px', height: '16px', flexDirection: 'column', justifyContent: 'center', flexShrink: 0 }}>
                     지원내용 확인 필요
                   </p>
                 </div>
                 <div className="absolute bottom-6 left-5 right-6 flex justify-between items-center">
-                  <p className="font-['Pretendard'] text-sm text-white">
+                  <p className="font-['Pretendard'] text-[0.75rem] leading-normal" style={{ color: '#FFF', fontWeight: 300 }}>
                     신청기간 정보 없음
                   </p>
-                  <button className="text-white text-sm font-['Pretendard'] cursor-pointer">
+                  <button className="font-['Pretendard'] text-[0.625rem] cursor-pointer leading-normal" style={{ color: '#FFF', textAlign: 'right', fontWeight: 500 }}>
                     더보기
                   </button>
                 </div>
               </div>
-              <div className="min-w-[280px] h-[200px] bg-[#13D564] rounded-[18px] p-5 relative">
-                <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[10px] font-bold leading-5 text-center text-white mb-8">
+              <div className="p-5 relative" style={{ borderRadius: '18px', border: '2px solid #13D564', background: '#13D564', width: '17.5rem', height: '12.5rem', flexShrink: 0 }}>
+                <div className="w-[70px] h-5 rounded-md bg-[#27AA5E] font-['Pretendard'] text-[0.625rem] font-bold leading-5 text-center text-white mb-8">
                   매칭률 90%
                 </div>
                 <div className="absolute bottom-14 left-5 right-6 text-white">
-                  <h3 className="font-['Pretendard'] text-xl font-bold mb-0.5">
+                  <h3 className="font-['Pretendard'] text-[1.5rem] mb-0.5 leading-normal flex flex-col justify-center" style={{ color: '#FFF', fontWeight: 500, display: 'flex', width: '127px', height: '27px', flexDirection: 'column', justifyContent: 'center', flexShrink: 0 }}>
                     [장학금 정책]
                   </h3>
-                  <p className="font-['Pretendard'] text-base font-medium">
+                  <p className="font-['Pretendard'] text-[1rem] leading-normal flex flex-col justify-center" style={{ color: '#FFF', fontWeight: 500, display: 'flex', width: '127px', height: '16px', flexDirection: 'column', justifyContent: 'center', flexShrink: 0 }}>
                     지원내용 확인 필요
                   </p>
                 </div>
                 <div className="absolute bottom-6 left-5 right-6 flex justify-between items-center">
-                  <p className="font-['Pretendard'] text-sm text-white">
+                  <p className="font-['Pretendard'] text-[0.75rem] leading-normal" style={{ color: '#FFF', fontWeight: 300 }}>
                     신청기간 정보 없음
                   </p>
-                  <button className="text-white text-sm font-['Pretendard'] cursor-pointer">
+                  <button className="font-['Pretendard'] text-[0.625rem] cursor-pointer leading-normal" style={{ color: '#FFF', textAlign: 'right', fontWeight: 500 }}>
                     더보기
                   </button>
                 </div>
@@ -217,7 +218,7 @@ export default function Homepage() {
         </div>
 
         {/* 추천 리스트 */}
-        <div className="bg-white rounded-xl mb-5 mr-5">
+        <div className="rounded-xl mb-5 mr-5">
           {loading ? (
             <div className="p-4 text-center text-[#666] font-['Pretendard']">
               추천 정책을 불러오는 중...
@@ -228,14 +229,12 @@ export default function Homepage() {
               {[0, 1, 2].map((index) => {
                 const policy = recommendedPolicies[index];
                 return (
-                  <div 
-                    key={index} 
-                    className={`p-4 ${index < 2 ? 'border-b border-gray-100' : ''}`}
-                  >
-                    <p className="text-sm text-[#000000] font-['Pretendard'] font-medium">
+                  <div key={index}>
+                    <div className="p-4">
+                    <p className="text-[0.75rem] text-[#121212] font-['Pretendard'] leading-normal" style={{ fontWeight: 600 }}>
                       {policy?.plcyNm || "API에서 추천 정책을 불러올 수 없습니다."}
                     </p>
-                    <p className="text-xs text-[#666] font-['Pretendard'] mt-1">
+                    <p className="text-[0.625rem] text-[#121212] font-['Pretendard'] mt-1 leading-normal" style={{ fontWeight: 400 }}>
                       {policy?.plcyExplnCn || "정책 설명을 불러올 수 없습니다."}
                     </p>
                     {policy?.plcyKywdNm && (
@@ -258,6 +257,17 @@ export default function Homepage() {
                         {policy?.deadline || "-"}
                       </span>
                     </div>
+                    </div>
+                    {index < 2 && (
+                      <div 
+                        style={{ 
+                          width: '390px', 
+                          height: '0', 
+                          flexShrink: 0,
+                          borderBottom: '1px solid #e5e7eb'
+                        }}
+                      />
+                    )}
                   </div>
                 );
               })}
@@ -269,12 +279,37 @@ export default function Homepage() {
         <div className="flex justify-center mr-5 mb-20">
           <button 
             onClick={handleMoreClick}
-            className="text-[#D5D5D5] font-['Pretendard'] text-sm cursor-pointer"
+            className="font-['Pretendard'] text-[0.625rem] cursor-pointer leading-normal"
+            style={{ color: '#D5D5D5', textAlign: 'center', fontWeight: 700 }}
           >
             더보기
           </button>
         </div>
       </div>
+
+      {/* 플로팅 버튼 */}
+      <button
+        onClick={() => navigate('/scrap')}
+        className="fixed bottom-24 right-5 z-50 transition-all duration-300 hover:scale-110 active:scale-95"
+        aria-label="스크랩 페이지로 이동"
+        style={{
+          width: '4rem',
+          height: '4rem',
+          flexShrink: 0,
+          borderRadius: '4rem',
+          background: '#13D564',
+          boxShadow: '0 5px 7.7px 0 rgba(0, 0, 0, 0.20)',
+          border: 'none',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundImage: `url(${clippageButton})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+      </button>
 
     </div>
   );

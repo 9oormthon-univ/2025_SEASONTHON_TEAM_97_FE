@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MyPage() {
   const [profileImage, setProfileImage] = useState(null);
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -23,7 +25,10 @@ export default function MyPage() {
   };
 
   const handleMenuClick = (menuItem) => {
-    // 메뉴 클릭 처리
+    if (menuItem === "북마크") {
+      navigate("/scrap");
+    }
+    // 다른 메뉴 클릭 처리
   };
 
   return (

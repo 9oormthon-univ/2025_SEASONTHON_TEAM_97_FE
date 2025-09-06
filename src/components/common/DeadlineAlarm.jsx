@@ -17,7 +17,7 @@ const DeadlineAlarm = ({
         }`}
       >
         {/* 알람 배경 - 흰색 둥근 모서리 */}
-        <div className="bg-white rounded-t-3xl relative overflow-hidden">
+        <div className="bg-white relative overflow-hidden" style={{ width: '24.375rem', height: '19.75rem', flexShrink: 0, borderRadius: '2.25rem 2.25rem 0 0', background: '#FFF' }}>
           
           {/* 상단 컨텐츠 영역 */}
           <div className="px-6 pt-8 pb-6 text-center">
@@ -35,7 +35,7 @@ const DeadlineAlarm = ({
           </div>
           
           {/* 하단 버튼 영역 */}
-          <div className="bg-[#13D564] py-4 px-6">
+          <div style={{ background: '#13D564' }} className="py-4 px-6">
             <button
               onClick={onClose}
               className="text-white text-sm font-medium font-['Pretendard'] w-full text-center"
