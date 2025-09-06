@@ -17,6 +17,12 @@ import MenuBar from "./components/layout/MenuBar";
 import DevNavigation from "./components/layout/DevNavigation";
 import Dashboard from "./pages/Dashboard.jsx";
 import Scrap from "./pages/Scrap.jsx";
+import Search3 from "./pages/Search3.jsx";
+import Search4 from "./pages/Search4.jsx";
+import Search5 from "./pages/Search5.jsx";
+import Detail from "./pages/Detail.jsx";
+
+
 function App() {
   return (
     <Router>
@@ -80,6 +86,30 @@ function App() {
               <MenuBar />
             </div>
           } />
+          <Route path="/search3" element={
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
+              <Search3 />
+            </div>
+          } />
+          <Route path="/search4" element={
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
+              <Search4 />
+            </div>
+          } />
+          <Route path="/search5" element={
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
+              <Search5 />
+            </div>
+          } />
+          <Route path="/detail" element={
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
+              <Header />
+              <MainLayout>
+                <Detail />
+              </MainLayout>
+              <MenuBar />
+            </div>
+          }/>
           <Route path="/alarm" element={<AlarmPage />} />
           <Route path="/all-recommendations" element={<AllRecommendations />} />
         </Routes>

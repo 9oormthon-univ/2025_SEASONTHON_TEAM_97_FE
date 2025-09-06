@@ -17,7 +17,9 @@ function DevNavigation() {
     { name: '검색', path: '/search', color: 'bg-teal-500' },
     { name: '마이페이지', path: '/mypage', color: 'bg-orange-500' },
     { name: '대시보드', path: '/dashboard', color:'bg-pink-500'},
-    { name: '스크랩', path: '/scrap', color:'bg-red-500'}
+    { name: '스크랩', path: '/scrap', color:'bg-red-500'},
+    { name: '검색후 상세페이지', path: '/search3', color:'bg-purple-500'},
+    {name: '상세 내용 보기', path: '/detail', color:'bg-yellow-500'}
   ];
 
   const handlePageChange = (path) => {
@@ -47,20 +49,26 @@ function DevNavigation() {
           <div className="space-y-1">
             {pages.map((page) => {
               const isCurrentPage = location.pathname === page.path;
+              const isDetailPage = page.path === '/detail';
               return (
                 <button
                   key={page.path}
                   onClick={() => handlePageChange(page.path)}
                   className={`w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-150 flex items-center gap-2 cursor-pointer ${
-                    isCurrentPage
+                    isDetailPage
+                      ? 'bg-blue-500 text-white font-semibold hover:bg-blue-600 shadow-md border-2 border-blue-300'
+                      : isCurrentPage
                       ? 'bg-gray-100 text-gray-800 font-semibold'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
                   }`}
                 >
-                  <div className={`w-3 h-3 rounded-full ${page.color}`}></div>
-                  {page.name}
+                  <div className={`w-3 h-3 rounded-full ${page.color} ${isDetailPage ? 'ring-2 ring-white' : ''}`}></div>
+                  {isDetailPage ? '📄 ' + page.name : page.name}
                   {isCurrentPage && (
                     <span className="ml-auto text-xs text-green-600">●</span>
+                  )}
+                  {isDetailPage && !isCurrentPage && (
+                    <span className="ml-auto text-xs text-blue-200">★</span>
                   )}
                 </button>
               );
