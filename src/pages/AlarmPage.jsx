@@ -71,26 +71,41 @@ export default function AlarmPage() {
             className="p-2 cursor-pointer"
             aria-label="뒤로가기"
           >
-            <svg 
-              width="0.625rem" 
-              height="1.125rem" 
-              viewBox="0 0 24 24" 
-              fill="none" 
+            <svg
+              width="0.625rem"
+              height="1.125rem"
+              viewBox="0 0 24 24"
+              fill="none"
               xmlns="http://www.w3.org/2000/svg"
               style={{ flexShrink: 0 }}
             >
-              <path 
-                d="M15 18L9 12L15 6" 
-                stroke="#13D564" 
-                strokeWidth="3" 
-                strokeLinecap="round" 
+              <path
+                d="M15 18L9 12L15 6"
+                stroke="#13D564"
+                strokeWidth="3"
+                strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
           </button>
-          
-          <h1 className="font-['Pretendard'] flex flex-col justify-center" style={{ display: 'flex', width: '2.875rem', height: '1.5rem', flexDirection: 'column', justifyContent: 'center', flexShrink: 0, color: '#121212', textAlign: 'center', fontSize: '1.5rem', fontWeight: 700, lineHeight: 'normal' }}>알림</h1>
-          
+          <h1
+            className=" flex flex-col justify-center"
+            style={{
+              display: "flex",
+              width: "2.875rem",
+              height: "1.5rem",
+              flexDirection: "column",
+              justifyContent: "center",
+              flexShrink: 0,
+              color: "#121212",
+              textAlign: "center",
+              fontSize: "1.5rem",
+              fontWeight: 700,
+              lineHeight: "normal",
+            }}
+          >
+            알림
+          </h1>
           <div className="w-8"></div> {/* 스페이서 */}
         </div>
 
@@ -100,24 +115,75 @@ export default function AlarmPage() {
             <div
               key={notification.id}
               className="px-4 py-4 hover:bg-gray-50 transition-colors cursor-pointer"
-              style={{ borderBottom: '1px solid #E9E9E9' }}
+              style={{ borderBottom: "1px solid #E9E9E9" }}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center mb-2">
-                    <span className="font-['Pretendard'] bg-gray-100 px-2 py-1 rounded" style={{ width: '8.6875rem', height: '1.125rem', flexShrink: 0, color: '#121212', fontSize: '0.875rem', fontWeight: 600, lineHeight: 'normal', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span
+                      className=" bg-gray-100 px-2 py-1 rounded"
+                      style={{
+                        width: "8.6875rem",
+                        height: "1.125rem",
+                        flexShrink: 0,
+                        color: "#121212",
+                        fontSize: "0.875rem",
+                        fontWeight: 600,
+                        lineHeight: "normal",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
                       [{notification.type}]
                     </span>
                     {!notification.isRead && (
-                      <div className="bg-[#13D564] rounded-full ml-2" style={{ width: '0.25rem', height: '0.25rem', flexShrink: 0, fill: '#13D564' }}></div>
+                      <div
+                        className="bg-[#13D564] rounded-full ml-2"
+                        style={{
+                          width: "0.25rem",
+                          height: "0.25rem",
+                          flexShrink: 0,
+                          fill: "#13D564",
+                        }}
+                      ></div>
                     )}
                   </div>
-                  <p className="font-['Pretendard'] whitespace-pre-line flex flex-col justify-center" style={{ display: 'flex', width: '10rem', height: '0.75rem', flexDirection: 'column', justifyContent: 'center', flexShrink: 0, color: '#121212', fontSize: '0.75rem', fontWeight: 400, lineHeight: 'normal' }}>
+                  <p
+                    className=" whitespace-pre-line flex flex-col justify-center"
+                    style={{
+                      display: "flex",
+                      width: "10rem",
+                      height: "0.75rem",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      color: "#121212",
+                      fontSize: "0.75rem",
+                      fontWeight: 400,
+                      lineHeight: "normal",
+                    }}
+                  >
                     {notification.title}
                   </p>
                 </div>
                 <div className="ml-4 flex-shrink-0">
-                  <span className="font-['Pretendard'] flex flex-col justify-center" style={{ display: 'flex', width: '3.25rem', height: '0.75rem', flexDirection: 'column', justifyContent: 'center', flexShrink: 0, color: '#121212', textAlign: 'center', fontSize: '0.625rem', fontWeight: 500, lineHeight: 'normal' }}>
+                  <span
+                    className=" flex flex-col justify-center"
+                    style={{
+                      display: "flex",
+                      width: "3.25rem",
+                      height: "0.75rem",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      color: "#121212",
+                      textAlign: "center",
+                      fontSize: "0.625rem",
+                      fontWeight: 500,
+                      lineHeight: "normal",
+                    }}
+                  >
                     {notification.time}
                   </span>
                 </div>

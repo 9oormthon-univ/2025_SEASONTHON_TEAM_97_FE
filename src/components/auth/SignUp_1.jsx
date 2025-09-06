@@ -37,9 +37,9 @@ export default function SignUp_1() {
         };
       }
       */
-      
+
       // 임시 처리: 모든 아이디를 사용 가능하다고 반환
-      await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
+      await new Promise((resolve) => setTimeout(resolve, 500)); // 로딩 시뮬레이션
       return {
         isAvailable: true,
         message: "사용 가능한 아이디입니다.",
@@ -69,9 +69,9 @@ export default function SignUp_1() {
         };
       }
       */
-      
+
       // 임시 처리: 모든 닉네임을 사용 가능하다고 반환
-      await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
+      await new Promise((resolve) => setTimeout(resolve, 500)); // 로딩 시뮬레이션
       return {
         isAvailable: true,
         message: "사용 가능한 닉네임입니다.",
@@ -84,7 +84,6 @@ export default function SignUp_1() {
       };
     }
   };
-
 
   // 디바운스 함수
   const debounce = (func, delay) => {
@@ -146,8 +145,7 @@ export default function SignUp_1() {
       return "아이디는 4자 이상 16자 이하여야 합니다.";
 
     const idRegex = /^[a-zA-Z][a-zA-Z0-9_-]*$/;
-    if (!idRegex.test(id))
-      return "영문자로 시작, 영문+숫자+_,- 사용 가능";
+    if (!idRegex.test(id)) return "영문자로 시작, 영문+숫자+_,- 사용 가능";
 
     if (/(\.\.|__)/.test(id)) return "연속된 특수문자는 사용할 수 없습니다.";
 
@@ -336,7 +334,7 @@ export default function SignUp_1() {
       console.log("loginId (아이디):", formData.id);
       console.log("password (비밀번호):", formData.password);
       console.log("name (닉네임):", formData.nickname);
-      
+
       // 임시로 localStorage에 저장 (SignUp_2에서 사용)
       localStorage.setItem("tempUserId", formData.id);
       localStorage.setItem("tempPassword", formData.password);
@@ -351,13 +349,13 @@ export default function SignUp_1() {
         timestamp: new Date().toISOString(),
       };
       localStorage.setItem("signupStep1Data", JSON.stringify(signupStep1Data));
-      
+
       console.log("=== localStorage에 저장된 데이터 ===");
       console.log("tempUserId:", localStorage.getItem("tempUserId"));
       console.log("tempPassword:", localStorage.getItem("tempPassword"));
       console.log("tempNickname:", localStorage.getItem("tempNickname"));
       console.log("signupStep1Data:", localStorage.getItem("signupStep1Data"));
-      
+
       navigate("/signup/step2"); // 유효성 검사 통과 시 SignUp_2로 이동
     }
   };
@@ -411,7 +409,6 @@ export default function SignUp_1() {
               className="block text-left"
               style={{
                 color: "#00B44B",
-                fontFamily: "Pretendard",
                 fontSize: "0.875rem",
                 fontStyle: "normal",
                 fontWeight: 600,
@@ -470,7 +467,6 @@ export default function SignUp_1() {
               className="block text-left"
               style={{
                 color: "#00B44B",
-                fontFamily: "Pretendard",
                 fontSize: "0.875rem",
                 fontStyle: "normal",
                 fontWeight: 600,
@@ -516,7 +512,6 @@ export default function SignUp_1() {
               className="block text-left"
               style={{
                 color: "#00B44B",
-                fontFamily: "Pretendard",
                 fontSize: "0.875rem",
                 fontStyle: "normal",
                 fontWeight: 600,
@@ -569,7 +564,6 @@ export default function SignUp_1() {
               className="block text-left"
               style={{
                 color: "#00B44B",
-                fontFamily: "Pretendard",
                 fontSize: "0.875rem",
                 fontStyle: "normal",
                 fontWeight: 600,

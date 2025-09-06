@@ -7,7 +7,7 @@ export default function KakaoNickname() {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("");
   const [error, setError] = useState("");
-  
+
   // 닉네임 중복 검사 관련 상태
   const [isCheckingNickname, setIsCheckingNickname] = useState(false);
   const [nicknameCheckResult, setNicknameCheckResult] = useState(null);
@@ -125,7 +125,6 @@ export default function KakaoNickname() {
         localStorage.setItem("tempPassword", result.password || "kakao_auth");
         localStorage.setItem("kakaoUserData", JSON.stringify(result.kakaoData));
 
-
         // SignUp_2로 이동
         navigate("/signup/step2");
       } else {
@@ -136,7 +135,6 @@ export default function KakaoNickname() {
 
       // 임시 테스트용: 백엔드가 준비되지 않은 경우
       if (error.message.includes("404")) {
-
         // 기존 카카오 사용자 데이터에 닉네임 추가
         const existingKakaoData = JSON.parse(
           localStorage.getItem("kakaoUserData") || "{}"
@@ -151,7 +149,6 @@ export default function KakaoNickname() {
         localStorage.setItem("tempNickname", nickname.trim());
         localStorage.setItem("kakaoUserData", JSON.stringify(updatedKakaoData));
 
-
         // SignUp_2로 이동
         navigate("/signup/step2");
       } else {
@@ -161,13 +158,13 @@ export default function KakaoNickname() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-[#BDBDBD]">
+    <div className="h-screen bg-[#FAFAF8]">
       {/* 메인 콘텐츠 영역 */}
-      <div className="h-screen w-[480px] mx-auto flex flex-col items-center justify-center bg-[#FAFAF8]">
+      <div className="h-screen w-full flex flex-col items-center justify-center bg-[#FAFAF8]">
         {/* 헤더 - 로고 */}
         <div
           className="text-center"
-          style={{ position: "absolute", top: "3rem" }}
+          style={{ position: "absolute", top: "5rem" }}
         >
           <div
             className="flex flex-col justify-center flex-shrink-0 mx-auto"
@@ -187,7 +184,7 @@ export default function KakaoNickname() {
         <form
           onSubmit={handleSubmit}
           className="w-full flex flex-col"
-          style={{ maxWidth: "22.5rem", marginTop: "8rem" }}
+          style={{ width: "90%", maxWidth: "20rem", marginTop: "8rem" }}
         >
           {/* 닉네임 입력 */}
           <div style={{ marginBottom: "1rem" }}>
@@ -195,7 +192,6 @@ export default function KakaoNickname() {
               className="block text-left"
               style={{
                 color: "#00B44B",
-                fontFamily: "Pretendard",
                 fontSize: "0.875rem",
                 fontStyle: "normal",
                 fontWeight: 600,
@@ -211,11 +207,11 @@ export default function KakaoNickname() {
               onChange={(e) => {
                 const value = e.target.value;
                 setNickname(value);
-                
+
                 // 실시간 유효성 검사
                 const validationError = validateNickname(value);
                 setError(validationError);
-                
+
                 // 유효성 검사 통과 시 중복 검사 실행
                 if (!validationError && value.length >= 2) {
                   setNicknameCheckResult(null);
@@ -239,9 +235,7 @@ export default function KakaoNickname() {
             >
               {/* 에러 메시지 또는 중복 검사 결과 표시 */}
               {error ? (
-                <p className="text-red-500 text-xs">
-                  {error}
-                </p>
+                <p className="text-red-500 text-xs">{error}</p>
               ) : isCheckingNickname ? (
                 <p className="text-gray-500 text-xs">확인 중...</p>
               ) : nicknameCheckResult === true ? (
@@ -261,9 +255,17 @@ export default function KakaoNickname() {
             type="submit"
             className="w-full rounded-lg font-medium transition-colors text-white cursor-pointer py-3"
             style={{
-              backgroundColor: nickname.trim() && !error && nicknameCheckResult === true ? "#13D564" : "#CCF3DB",
+              backgroundColor:
+                nickname.trim() && !error && nicknameCheckResult === true
+                  ? "#13D564"
+                  : "#CCF3DB",
             }}
-            disabled={!nickname.trim() || !!error || nicknameCheckResult !== true || isCheckingNickname}
+            disabled={
+              !nickname.trim() ||
+              !!error ||
+              nicknameCheckResult !== true ||
+              isCheckingNickname
+            }
           >
             다음
           </button>

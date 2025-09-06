@@ -20,66 +20,66 @@ export default function SignUp_2() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  
+
   // 소득분위 자동 계산 관련 상태
-  const [incomeInputType, setIncomeInputType] = useState('dropdown'); // 'manual' 또는 'dropdown'
-  const [manualIncome, setManualIncome] = useState('');
-  const [calculatedLevel, setCalculatedLevel] = useState('');
+  const [incomeInputType, setIncomeInputType] = useState("dropdown"); // 'manual' 또는 'dropdown'
+  const [manualIncome, setManualIncome] = useState("");
+  const [calculatedLevel, setCalculatedLevel] = useState("");
 
   // 학력 코드 매핑 (schoolCd)
   const schoolCodeMap = {
     "고졸 미만": "0049001",
-    "고교 재학": "0049002", 
+    "고교 재학": "0049002",
     "고졸 예정": "0049003",
     "고교 졸업": "0049004",
     "대학 재학": "0049005",
     "대졸 예정": "0049006",
     "대학 졸업": "0049007",
-    "석박사": "0049008",
-    "기타": "0049009",
-    "제한없음": "0049010"
+    석박사: "0049008",
+    기타: "0049009",
+    제한없음: "0049010",
   };
 
   // 지역 코드 매핑 (5자리 정수)
   const regionCodeMap = {
-    "전국": 11000,
-    "서울특별시": 11000,
-    "부산광역시": 21000,
-    "대구광역시": 22000,
-    "인천광역시": 23000,
-    "광주광역시": 24000,
-    "대전광역시": 25000,
-    "울산광역시": 26000,
-    "세종특별자치시": 29000,
-    "경기도": 31000,
-    "강원도": 32000,
-    "충청북도": 33000,
-    "충청남도": 34000,
-    "전라북도": 35000,
-    "전라남도": 36000,
-    "경상북도": 37000,
-    "경상남도": 38000,
-    "제주특별자치도": 39000
+    전국: 11000,
+    서울특별시: 11000,
+    부산광역시: 21000,
+    대구광역시: 22000,
+    인천광역시: 23000,
+    광주광역시: 24000,
+    대전광역시: 25000,
+    울산광역시: 26000,
+    세종특별자치시: 29000,
+    경기도: 31000,
+    강원도: 32000,
+    충청북도: 33000,
+    충청남도: 34000,
+    전라북도: 35000,
+    전라남도: 36000,
+    경상북도: 37000,
+    경상남도: 38000,
+    제주특별자치도: 39000,
   };
 
   // 관심분야 코드 매핑 (sbizCd)
   const interestCodeMap = {
-    "중소기업": "0014001",
-    "여성": "0014002",
-    "기초생활수급자": "0014003", 
-    "한부모가정": "0014004",
-    "장애인": "0014005",
-    "농업인": "0014006",
-    "군인": "0014007",
-    "지역인재": "0014008",
-    "기타": "0014009",
-    "제한없음": "0014010"
+    중소기업: "0014001",
+    여성: "0014002",
+    기초생활수급자: "0014003",
+    한부모가정: "0014004",
+    장애인: "0014005",
+    농업인: "0014006",
+    군인: "0014007",
+    지역인재: "0014008",
+    기타: "0014009",
+    제한없음: "0014010",
   };
 
   // 특화 분야 옵션들
   const interestOptions = [
     "중소기업",
-    "여성", 
+    "여성",
     "기초생활수급자",
     "한부모가정",
     "장애인",
@@ -87,13 +87,13 @@ export default function SignUp_2() {
     "군인",
     "지역인재",
     "기타",
-    "제한없음"
+    "제한없음",
   ];
 
   // 페이지 로드 시 localStorage 데이터 콘솔에 출력
   useEffect(() => {
     console.log("=== 회원가입 2단계 페이지 로드 ===");
-    
+
     const signupStep1Data = JSON.parse(
       localStorage.getItem("signupStep1Data") || "{}"
     );
@@ -109,12 +109,11 @@ export default function SignUp_2() {
     console.log("=====================================");
   }, []);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log(`=== 2단계 폼 입력 변경 ===`);
     console.log(`필드: ${name}, 값: ${value}`);
-    
+
     setFormData((prev) => {
       const newFormData = {
         ...prev,
@@ -162,7 +161,7 @@ export default function SignUp_2() {
     const value = e.target.value;
     setManualIncome(value);
     // 입력할 때마다 계산 결과 초기화
-    setCalculatedLevel('');
+    setCalculatedLevel("");
   };
 
   // 소득분위 자동 계산 함수 (2025년 기준, 만원 단위)
@@ -176,44 +175,44 @@ export default function SignUp_2() {
   const calculateIncomeLevel = () => {
     const incomeInWon = parseInt(manualIncome) * 10000; // 만원을 원으로 변환
     if (!manualIncome || parseInt(manualIncome) <= 0) {
-      alert('올바른 소득 금액을 입력해주세요.');
+      alert("올바른 소득 금액을 입력해주세요.");
       return;
     }
 
     const medianIncome = 2392013; // 2025년 기준 1인 가구 중위소득 (원)
     const ratio = (incomeInWon / medianIncome) * 100;
 
-    let level = '';
+    let level = "";
     if (ratio <= 30) {
-      level = '1분위';
+      level = "1분위";
     } else if (ratio <= 50) {
-      level = '2분위';
+      level = "2분위";
     } else if (ratio <= 70) {
-      level = '3분위';
+      level = "3분위";
     } else if (ratio <= 90) {
-      level = '4분위';
+      level = "4분위";
     } else if (ratio <= 100) {
-      level = '5분위';
+      level = "5분위";
     } else if (ratio <= 130) {
-      level = '6분위';
+      level = "6분위";
     } else if (ratio <= 150) {
-      level = '7분위';
+      level = "7분위";
     } else if (ratio <= 200) {
-      level = '8분위';
+      level = "8분위";
     } else if (ratio <= 300) {
-      level = '9분위';
+      level = "9분위";
     } else {
-      level = '10분위';
+      level = "10분위";
     }
 
     setCalculatedLevel(level);
-    
+
     // 계산된 결과를 formData에도 반영
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      incomeLevel: level
+      incomeLevel: level,
     }));
-    
+
     console.log(`=== financialStatus (소득분위) 계산 결과 ===`);
     console.log(`입력 소득: ${manualIncome}만원 (${incomeInWon}원)`);
     console.log(`계산된 분위: ${level}`);
@@ -249,12 +248,12 @@ export default function SignUp_2() {
         console.log("organizationStatus (학력):", formData.school);
         console.log("financialStatus (소득분위):", formData.incomeLevel);
         console.log("goal (관심분야):", formData.interests);
-        
+
         // 회원가입 1단계 데이터 가져오기
         const signupStep1Data = JSON.parse(
           localStorage.getItem("signupStep1Data") || "{}"
         );
-        
+
         console.log("=== localStorage에서 가져온 1단계 데이터 ===");
         console.log("signupStep1Data:", signupStep1Data);
         console.log("tempUserId:", localStorage.getItem("tempUserId"));
@@ -266,40 +265,58 @@ export default function SignUp_2() {
           2,
           "0"
         )}-${formData.birthDay.padStart(2, "0")}`;
-        
+
         console.log("=== birth (생년월일) ===");
         console.log("birth:", birthDate);
 
         // 지역 코드 변환
         const locationCode = regionCodeMap[formData.region] || 11000; // 기본값: 전국(11000)
-        
+
         console.log("=== location (지역) 코드 변환 ===");
         console.log("선택된 지역:", formData.region);
         console.log("변환된 지역 코드:", locationCode);
 
         // API 명세에 맞는 회원가입 데이터 구성
         const userData = {
-          loginId: localStorage.getItem("tempUserId") || signupStep1Data.id,        // 로그인 아이디
-          password: localStorage.getItem("tempPassword") || signupStep1Data.password, // 비밀번호  
-          name: localStorage.getItem("tempNickname") || signupStep1Data.nickname,    // 닉네임
-          birth: birthDate,                                                          // 생년월일 (YYYY-MM-DD)
-          location: locationCode,                                                    // 지역 (5자리 정수 코드)
-          organizationStatus: schoolCodeMap[formData.school] || formData.employmentStatus, // 학력 (코드 매핑)
-          financialStatus: extractIncomeNumber(formData.incomeLevel),                // 소득분위 (숫자)
-          goal: interestCodeMap[formData.interests[0]] || "0014010"                  // 관심분야 (첫 번째 선택, 코드 매핑)
+          loginId: localStorage.getItem("tempUserId") || signupStep1Data.id, // 로그인 아이디
+          password:
+            localStorage.getItem("tempPassword") || signupStep1Data.password, // 비밀번호
+          name:
+            localStorage.getItem("tempNickname") || signupStep1Data.nickname, // 닉네임
+          birth: birthDate, // 생년월일 (YYYY-MM-DD)
+          location: locationCode, // 지역 (5자리 정수 코드)
+          organizationStatus:
+            schoolCodeMap[formData.school] || formData.employmentStatus, // 학력 (코드 매핑)
+          financialStatus: extractIncomeNumber(formData.incomeLevel), // 소득분위 (숫자)
+          goal: interestCodeMap[formData.interests[0]] || "0014010", // 관심분야 (첫 번째 선택, 코드 매핑)
         };
-        
+
         console.log("=== 코드 매핑 결과 ===");
         console.log("location (지역):", formData.region, "→", locationCode);
-        console.log("organizationStatus (학력):", formData.school, "→", schoolCodeMap[formData.school]);
-        console.log("financialStatus (소득분위):", formData.incomeLevel, "→", extractIncomeNumber(formData.incomeLevel));
-        console.log("goal (관심분야):", formData.interests, "→", interestCodeMap[formData.interests[0]]);
-        
+        console.log(
+          "organizationStatus (학력):",
+          formData.school,
+          "→",
+          schoolCodeMap[formData.school]
+        );
+        console.log(
+          "financialStatus (소득분위):",
+          formData.incomeLevel,
+          "→",
+          extractIncomeNumber(formData.incomeLevel)
+        );
+        console.log(
+          "goal (관심분야):",
+          formData.interests,
+          "→",
+          interestCodeMap[formData.interests[0]]
+        );
+
         console.log("=== 최종 API 전송 데이터 (API 필드명) ===");
         console.log("userData:", userData);
         console.log("개별 필드 확인:");
         console.log("- loginId:", userData.loginId);
-        console.log("- password:", userData.password);  
+        console.log("- password:", userData.password);
         console.log("- name:", userData.name);
         console.log("- birth:", userData.birth);
         console.log("- location:", userData.location);
@@ -311,16 +328,16 @@ export default function SignUp_2() {
         console.log("=== API 호출 시작 ===");
         console.log("=== 백엔드로 전송되는 실제 데이터 ===");
         console.log(JSON.stringify(userData, null, 2));
-        
+
         const response = await authAPI.signup(userData);
-        
+
         console.log("=== API 응답 결과 ===");
         console.log("response:", response);
 
         if (response.success) {
           console.log("=== 회원가입 성공 ===");
           console.log("성공 메시지:", response.message);
-          
+
           // 성공 시 임시 저장된 데이터 삭제
           localStorage.removeItem("tempUserId");
           localStorage.removeItem("tempPassword");
@@ -328,13 +345,13 @@ export default function SignUp_2() {
           localStorage.removeItem("signupStep1Data");
 
           console.log("=== localStorage 데이터 삭제 완료 ===");
-          
+
           // 로그인 성공 페이지로 이동
           navigate("/login-success");
         } else {
           console.log("=== 회원가입 실패 ===");
           console.log("실패 원인:", response.error);
-          
+
           // 실패 시 에러 메시지 표시
           setSubmitError(response.error || "회원가입에 실패했습니다.");
         }
@@ -369,10 +386,14 @@ export default function SignUp_2() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 pb-6" style={{ width: "90%", maxWidth: "20rem", margin: "0 auto" }}>
+        <form
+          onSubmit={handleSubmit}
+          className="flex-1 pb-6"
+          style={{ width: "90%", maxWidth: "20rem", margin: "0 auto" }}
+        >
           {/* 생년월일 */}
           <div className="mb-6">
-            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
+            <label className="block text-left text-[#00B44B]  text-sm font-semibold mb-2">
               생년월일
             </label>
             <div className="flex gap-3">
@@ -382,7 +403,7 @@ export default function SignUp_2() {
                   value={formData.birthYear}
                   onChange={handleChange}
                   className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-black"
-                  style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                  style={{ WebkitAppearance: "none", MozAppearance: "none" }}
                   onTouchStart={(e) => e.stopPropagation()}
                 >
                   <option value="">년도</option>
@@ -406,7 +427,7 @@ export default function SignUp_2() {
                   value={formData.birthMonth}
                   onChange={handleChange}
                   className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-black"
-                  style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                  style={{ WebkitAppearance: "none", MozAppearance: "none" }}
                   onTouchStart={(e) => e.stopPropagation()}
                 >
                   <option value="">월</option>
@@ -428,7 +449,7 @@ export default function SignUp_2() {
                   value={formData.birthDay}
                   onChange={handleChange}
                   className="w-full px-4 py-[0.7rem] pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none text-black"
-                  style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                  style={{ WebkitAppearance: "none", MozAppearance: "none" }}
                   onTouchStart={(e) => e.stopPropagation()}
                 >
                   <option value="">일</option>
@@ -452,7 +473,7 @@ export default function SignUp_2() {
 
           {/* 지역 */}
           <div className="mb-6">
-            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
+            <label className="block text-left text-[#00B44B]  text-sm font-semibold mb-2">
               지역
             </label>
             <div className="relative">
@@ -465,7 +486,7 @@ export default function SignUp_2() {
                     ? "border-red-500 focus:border-red-500"
                     : "border-[#13D564] focus:border-[#13D564]"
                 }`}
-                style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                style={{ WebkitAppearance: "none", MozAppearance: "none" }}
                 onTouchStart={(e) => e.stopPropagation()}
               >
                 <option value="">지역을 선택해주세요</option>
@@ -501,7 +522,7 @@ export default function SignUp_2() {
 
           {/* 학력 */}
           <div className="mb-6">
-            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
+            <label className="block text-left text-[#00B44B]  text-sm font-semibold mb-2">
               학력
             </label>
             <div className="relative">
@@ -510,7 +531,7 @@ export default function SignUp_2() {
                 value={formData.school}
                 onChange={handleChange}
                 className="w-full px-4 py-3 pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none"
-                style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                style={{ WebkitAppearance: "none", MozAppearance: "none" }}
                 onTouchStart={(e) => e.stopPropagation()}
               >
                 <option value="">학력을 선택해주세요</option>
@@ -535,45 +556,45 @@ export default function SignUp_2() {
 
           {/* 소득분위 */}
           <div className="mb-6">
-            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
+            <label className="block text-left text-[#00B44B]  text-sm font-semibold mb-2">
               소득분위
             </label>
-            
+
             {/* 탭 스타일의 선택 버튼 */}
             <div className="flex mb-3 bg-gray-100 rounded-lg p-1">
               <button
                 type="button"
-                onClick={() => setIncomeInputType('dropdown')}
+                onClick={() => setIncomeInputType("dropdown")}
                 className={`flex-1 py-2 px-3 rounded-md text-xs font-medium transition-colors cursor-pointer ${
-                  incomeInputType === 'dropdown'
-                    ? 'bg-white text-[#13D564] shadow-sm'
-                    : 'text-gray-600 hover:text-gray-800'
+                  incomeInputType === "dropdown"
+                    ? "bg-white text-[#13D564] shadow-sm"
+                    : "text-gray-600 hover:text-gray-800"
                 }`}
               >
                 직접 선택
               </button>
               <button
                 type="button"
-                onClick={() => setIncomeInputType('manual')}
+                onClick={() => setIncomeInputType("manual")}
                 className={`flex-1 py-2 px-3 rounded-md text-xs font-medium transition-colors cursor-pointer ${
-                  incomeInputType === 'manual'
-                    ? 'bg-white text-[#13D564] shadow-sm'
-                    : 'text-gray-600 hover:text-gray-800'
+                  incomeInputType === "manual"
+                    ? "bg-white text-[#13D564] shadow-sm"
+                    : "text-gray-600 hover:text-gray-800"
                 }`}
               >
                 소득으로 계산
               </button>
             </div>
-            
+
             {/* 드롭다운 선택 */}
-            {incomeInputType === 'dropdown' && (
+            {incomeInputType === "dropdown" && (
               <div className="relative">
                 <select
                   name="incomeLevel"
                   value={formData.incomeLevel}
                   onChange={handleChange}
                   className="w-full px-4 py-3 pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none"
-                  style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                  style={{ WebkitAppearance: "none", MozAppearance: "none" }}
                   onTouchStart={(e) => e.stopPropagation()}
                 >
                   <option value="">소득분위를 선택해주세요</option>
@@ -595,9 +616,9 @@ export default function SignUp_2() {
                 />
               </div>
             )}
-            
+
             {/* 소득 직접 입력 */}
-            {incomeInputType === 'manual' && (
+            {incomeInputType === "manual" && (
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <div className="relative flex-1">
@@ -620,18 +641,22 @@ export default function SignUp_2() {
                     계산
                   </button>
                 </div>
-                
+
                 {calculatedLevel && (
                   <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
                     <p className="text-sm text-green-700 font-semibold">
                       {calculatedLevel}
                     </p>
                     <p className="text-xs text-green-600 mt-0.5">
-                      중위소득 대비 {Math.round((parseInt(manualIncome) * 10000 / 2392013) * 100 * 10) / 10}%
+                      중위소득 대비{" "}
+                      {Math.round(
+                        ((parseInt(manualIncome) * 10000) / 2392013) * 100 * 10
+                      ) / 10}
+                      %
                     </p>
                   </div>
                 )}
-                
+
                 <div className="flex items-center justify-end">
                   <a
                     href="https://www.hometax.go.kr/websquare/websquare.html?w2xPath=/ui/pp/index_pp.xml"
@@ -648,7 +673,7 @@ export default function SignUp_2() {
 
           {/* 고용상태 */}
           <div className="mb-6">
-            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-2">
+            <label className="block text-left text-[#00B44B]  text-sm font-semibold mb-2">
               고용상태
             </label>
             <div className="relative">
@@ -657,7 +682,7 @@ export default function SignUp_2() {
                 value={formData.employmentStatus}
                 onChange={handleChange}
                 className="w-full px-4 py-3 pr-10 border-2 border-[#13D564] rounded-lg focus:outline-none focus:border-[#13D564] bg-white text-sm outline-none appearance-none"
-                style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                style={{ WebkitAppearance: "none", MozAppearance: "none" }}
                 onTouchStart={(e) => e.stopPropagation()}
               >
                 <option value="">고용 상태를 선택해주세요</option>
@@ -682,7 +707,7 @@ export default function SignUp_2() {
 
           {/* 관심분야 */}
           <div className="mb-8">
-            <label className="block text-left text-[#00B44B] font-['Pretendard'] text-sm font-semibold mb-4">
+            <label className="block text-left text-[#00B44B]  text-sm font-semibold mb-4">
               관심분야
             </label>
             <div className="grid grid-cols-3 gap-3">
@@ -715,9 +740,9 @@ export default function SignUp_2() {
             type="submit"
             disabled={loading}
             className={`w-full rounded-lg font-medium py-3 text-[0.85rem] mb-4 ${
-              loading 
-                ? 'bg-gray-400 cursor-not-allowed' 
-                : 'bg-[#13D564] hover:bg-[#0FB055] cursor-pointer'
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[#13D564] hover:bg-[#0FB055] cursor-pointer"
             } text-white transition-colors`}
           >
             {loading ? "등록하는 중..." : "등록하기"}
