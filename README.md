@@ -9,9 +9,15 @@
 <br/>
 
 # 2. Team Members (팀원 및 팀 소개)
-| 최민호 | 구민경 | 권태영 | 이감재 | 전예지 | 이명진 |
 
-| PM | DE | FE | FE | BE | BE |
+| 이름 | 역할 |
+|------|------|
+| 최민호 | PM |
+| 구민경 | DE |
+| 권태영 | FE |
+| 이감재 | FE |
+| 전예지 | BE |
+| 이명진 | BE |
 
 <br/>
 <br/>
@@ -30,52 +36,51 @@
 
 # 4. Technology Stack (기술 스택)
 
-## 4.1 Frotend
-|  |  |  |
-|-----------------|-----------------|-----------------|
-| React    | tailwindcss   | javascript   | 
+### 4.1 Frotend
+[![React](https://img.shields.io/badge/React-61DAFB.svg?&style=for-the-badge&logo=react&logoColor=black)]()
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=black)]()
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4.svg?&style=for-the-badge&logo=tailwindcss&logoColor=white)]()
 
 <br/>
 
 
-## 4.2 Backend
-|  |  |  |
-|-----------------|-----------------|-----------------|
-| Maria DB | Java | Spring | 
+### 4.2 Backend
+[![mariadb](https://img.shields.io/badge/MariaDB-003545.svg?&style=for-the-badge&logo=mariadb&logoColor=white)]()
+[![spring](https://img.shields.io/badge/Spring-6DB33F.svg?&style=for-the-badge&logo=spring&logoColor=white)]()
+[![java](https://img.shields.io/badge/JAVA-FC4C02.svg?&style=for-the-badge&logo=java&logoColor=white)]()
+
+
 <br/>
 
-## 4.3 Cooperation
-|  |  |  |  |  
-|-----------------|-----------------|-----------------|-----------------|
-| Git  | Notion | Discord | Slack |
+### 4.3 Cooperation
+[![GitHub](https://img.shields.io/badge/GitHub-181717.svg?&style=for-the-badge&logo=github&logoColor=white)]()
+[![Notion](https://img.shields.io/badge/Notion-000000.svg?&style=for-the-badge&logo=notion&logoColor=white)]()
+[![Figma](https://img.shields.io/badge/Figma-F24E1E.svg?&style=for-the-badge&logo=figma&logoColor=white)]()
+[![slack](https://img.shields.io/badge/slack-4A154B.svg?&style=for-the-badge&logo=slack&logoColor=white)]()
 
 <br/>
 
 # 5. Project Structure (프로젝트 구조)
 ```plaintext
-project/
-├── public/
-│   |─ vite.svg      # HTML 템플릿 파일
-├── src/
-│   ├── assets/              # 이미지, 아이콘 등  파일
-│   ├── components/          # 재사용 가능한 UI 컴포넌트
-│   ├── contexts/               # 각 페이지별 컴포넌트
-│   ├── pages/               # 각 페이지
-│   ├── services/               # 서비스에서 사용하는 api
-│   ├── App.js               # 메인 애플리케이션 컴포넌트
-│   ├── index.css            # 전역 css 파일
-│   ├── main.jsx    # firebase 인스턴스 초기화 파일
-│   package-lock.json    # 정확한 종속성 버전이 기록된 파일로, 일관된 빌드를 보장
-│   package.json         # 프로젝트 종속성 및 스크립트 정의
-├── .gitignore               # Git 무시 파일 목록
-└── README.md                # 프로젝트 개요 및 사용법
+src/
+├── components/
+│   ├── auth/           # 인증 관련 컴포넌트들
+│   ├── common/         # 공통 컴포넌트들
+│   └── layout/         # 레이아웃 컴포넌트들
+├── pages/              # 페이지 컴포넌트들
+├── services/           # API 서비스
+├── contexts/           # React Context들
+├── assets/             # 이미지, 아이콘 등
+│   ├── icons/          # SVG 아이콘들
+│   └── images/         # 기타 이미지 파일들
+└── hooks/              # 커스텀 훅 (현재 비어있음)
 ```
 
 <br/>
 <br/>
 
 # 6. Development Workflow (개발 워크플로우)
-## 브랜치 전략 (Branch Strategy)
+### 브랜치 전략 (Branch Strategy)
 우리의 브랜치 전략은 Git Flow를 기반으로 하며, 다음과 같은 브랜치를 사용합니다.
 
 - Main Branch
