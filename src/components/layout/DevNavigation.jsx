@@ -20,6 +20,7 @@ function DevNavigation() {
     { name: '홈', path: '/home', color: 'bg-emerald-500' },
     { name: '검색', path: '/search', color: 'bg-teal-500' },
     { name: '마이페이지', path: '/mypage', color: 'bg-orange-500' },
+    { name: '스크랩', path: '/scrap', color:'bg-red-500'}
   ];
 
   const handlePageChange = (path) => {
@@ -61,10 +62,10 @@ function DevNavigation() {
   const currentPage = pages.find(page => page.path === location.pathname);
 
   return (
-    <div className="fixed top-4 left-4 z-[9999]">
+    <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[9999]">
       {/* 클릭 트리거 영역 */}
       <div 
-        className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-red-600 transition-all duration-200"
+        className="w-[3rem] h-[3rem] bg-red-500 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-red-600 transition-all duration-200"
         onClick={() => setIsVisible(!isVisible)}
       >
         <span className="text-white text-xs font-bold">DEV</span>
@@ -72,7 +73,7 @@ function DevNavigation() {
 
       {/* 네비게이션 메뉴 */}
       {isVisible && (
-        <div className="absolute top-14 left-0 bg-white rounded-lg shadow-xl border border-gray-200 p-3 min-w-[200px]">
+        <div className="absolute top-14 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-xl border border-gray-200 p-3 min-w-[200px]">
           <div className="text-xs text-gray-500 mb-2 font-semibold">
             현재: {currentPage?.name || '알 수 없음'}
           </div>
@@ -90,7 +91,7 @@ function DevNavigation() {
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
                   }`}
                 >
-                  <div className={`w-3 h-3 rounded-full ${page.color}`}></div>
+                  <div className={`w-[0.75rem] h-[0.75rem] rounded-full ${page.color}`}></div>
                   {page.name}
                   {isCurrentPage && (
                     <span className="ml-auto text-xs text-green-600">●</span>
@@ -110,14 +111,14 @@ function DevNavigation() {
                 onClick={testRecommendationAlarm}
                 className="w-full text-left px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-700 transition-all duration-150 flex items-center gap-2 cursor-pointer"
               >
-                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                <div className="w-[0.75rem] h-[0.75rem] rounded-full bg-blue-500"></div>
                 알람 1 (맞춤 추천)
               </button>
               <button
                 onClick={testDeadlineAlarm}
                 className="w-full text-left px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-red-50 hover:text-red-700 transition-all duration-150 flex items-center gap-2 cursor-pointer"
               >
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                <div className="w-[0.75rem] h-[0.75rem] rounded-full bg-red-500"></div>
                 알람 2 (마감일)
               </button>
             </div>

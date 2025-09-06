@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { policyAPI } from "../services/api";
 import bookmarkXIcon from "../assets/icons/bookmark-x.svg";
 import bookmarkOIcon from "../assets/icons/bookmark-o.svg";
+import MenuBar from "../components/layout/MenuBar";
 
 export default function AllRecommendations() {
   const navigate = useNavigate();
@@ -122,23 +123,24 @@ export default function AllRecommendations() {
       {/* 메인 콘텐츠 영역 */}
       <div className="h-screen w-[480px] mx-auto flex flex-col bg-[#FAFAF8]">
         {/* 헤더 */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
+        <div className="flex items-center justify-between px-4 py-3 h-16 flex-shrink-0">
           <button
             onClick={handleBackClick}
             className="p-2 cursor-pointer"
             aria-label="뒤로가기"
           >
             <svg 
-              width="24" 
-              height="24" 
+              width="1.5rem" 
+              height="1.5rem" 
               viewBox="0 0 24 24" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
+              style={{ flexShrink: 0 }}
             >
               <path 
                 d="M15 18L9 12L15 6" 
                 stroke="#13D564" 
-                strokeWidth="2" 
+                strokeWidth="3" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
               />
@@ -152,7 +154,7 @@ export default function AllRecommendations() {
         <div className="flex-1 overflow-y-auto px-5 py-6">
           {/* 제목 */}
           <div className="mb-6">
-            <h1 className="text-xl font-bold text-[#121212] text-left">
+            <h1 className="text-[1rem] font-['Pretendard'] text-left" style={{ width: '18.75rem', height: '1.125rem', flexShrink: 0, color: '#464646', fontWeight: 600, lineHeight: 'normal' }}>
               원하는 키워드를 선택하세요!
             </h1>
           </div>
@@ -164,11 +166,19 @@ export default function AllRecommendations() {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-3 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
-                    selectedCategory === category
-                      ? "bg-[#FFFFFF] text-[#121212] border-2 border-[#13D564]"
-                      : "bg-[#F0F0F0] text-[#121212] border-2 border-transparent"
-                  }`}
+                  className="font-['Pretendard'] text-xs font-medium transition-colors cursor-pointer"
+                  style={{
+                    width: '4.5rem',
+                    height: '1.5rem',
+                    flexShrink: 0,
+                    borderRadius: '0.75rem',
+                    background: selectedCategory === category ? '#FFFFFF' : '#F0F0F0',
+                    color: '#121212',
+                    border: selectedCategory === category ? '2px solid #13D564' : '2px solid transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
                 >
                   #{category}
                 </button>
@@ -177,7 +187,7 @@ export default function AllRecommendations() {
           </div>
 
           {/* 정책 리스트 */}
-          <div className="space-y-0 mb-20">
+          <div className="space-y-2 mb-20">
             {loading ? (
               <div className="text-center text-[#666] py-8">
                 정책을 불러오는 중...
@@ -187,55 +197,80 @@ export default function AllRecommendations() {
               Array.from({ length: 6 }).map((_, index) => {
                 const item = getCurrentPolicies()[index];
                 return (
-                  <div key={index} className="bg-white p-4 border-b border-gray-100 last:border-b-0">
-                    <div className="flex justify-between items-start mb-2">
+                  <div key={index} className="p-3 last:border-b-0 min-h-[4.5rem] flex" style={{ borderBottom: index < 5 ? '1px solid #E9E9E9' : 'none' }}>
+                    {/* 북마크 아이콘 */}
+                    <button
+                      onClick={() => item && toggleBookmark(item.id)}
+                      className="flex-shrink-0 cursor-pointer mr-3 mt-1"
+                      disabled={!item}
+                    >
+                      <img
+                        src={item && bookmarkedItems.has(item.id) ? bookmarkOIcon : bookmarkXIcon}
+                        alt="북마크"
+                        className=""
+                        style={{ 
+                          width: '1rem', 
+                          height: '1.1875rem', 
+                          flexShrink: 0, 
+                          aspectRatio: '16/19', 
+                          fill: '#D5D5D5',
+                          opacity: item ? 1 : 0.3 
+                        }}
+                      />
+                    </button>
+                    
+                    {/* 콘텐츠 영역 */}
+                    <div className="flex-1 flex flex-col">
+                      {/* 태그들 - 맨 위로 이동 */}
+                      <div className="flex flex-wrap gap-1 mb-1 min-h-[16px]">
+                        {item?.plcyKywdNm ? (
+                          item.plcyKywdNm.slice(0, 3).map((tag, tagIndex) => (
+                            <span key={tagIndex} className="font-['Pretendard'] text-[0.625rem] flex flex-col justify-center" style={{ display: 'flex', width: '3.3125rem', height: '0.625rem', flexDirection: 'column', justifyContent: 'center', flexShrink: 0, color: '#A2A2A2', textAlign: 'right', fontWeight: 400, lineHeight: 'normal' }}>
+                              #{tag}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-xs text-[#999]">
+                            #태그없음
+                          </span>
+                        )}
+                        {item?.plcyKywdNm && item.plcyKywdNm.length > 3 && (
+                          <span className="text-xs text-[#999]">
+                            +{item.plcyKywdNm.length - 3}
+                          </span>
+                        )}
+                      </div>
+
                       {/* 제목 */}
-                      <h3 className="text-sm font-medium text-[#000000] flex-1 pr-3">
+                      <h3 className="font-['Pretendard'] text-[0.75rem] mb-1 overflow-hidden text-ellipsis flex flex-col justify-center" style={{ display: 'flex', width: '19.875rem', height: '0.875rem', flexDirection: 'column', justifyContent: 'center', flexShrink: 0, color: '#121212', fontWeight: 700, lineHeight: 'normal' }}>
                         {item?.plcyNm || "정책을 불러올 수 없습니다"}
                       </h3>
-                      {/* 북마크 아이콘 */}
-                      <button
-                        onClick={() => item && toggleBookmark(item.id)}
-                        className="flex-shrink-0 cursor-pointer"
-                        disabled={!item}
-                      >
-                        <img
-                          src={item && bookmarkedItems.has(item.id) ? bookmarkOIcon : bookmarkXIcon}
-                          alt="북마크"
-                          className="w-5 h-5"
-                          style={{ opacity: item ? 1 : 0.3 }}
-                        />
-                      </button>
-                    </div>
-                    
-                    {/* 설명 */}
-                    <p className="text-xs text-[#666] mb-2">
-                      {item?.plcyExplnCn || "설명을 불러올 수 없습니다"}
-                    </p>
-                    
-                    {/* 태그들 */}
-                    <div className="flex flex-wrap gap-1 mb-2">
-                      {item?.plcyKywdNm ? (
-                        item.plcyKywdNm.map((tag, tagIndex) => (
-                          <span key={tagIndex} className="text-xs text-[#13D564]">
-                            #{tag}
-                          </span>
-                        ))
-                      ) : (
-                        <span className="text-xs text-[#999]">
-                          #태그없음
+                      
+                      {/* 설명과 마감일을 같은 높이에 배치 */}
+                      <div className="flex items-center justify-between">
+                        {/* 설명 */}
+                        <p className="font-['Pretendard'] text-[0.75rem] overflow-hidden text-ellipsis flex flex-col justify-center flex-1 mr-2" style={{ display: 'flex', width: '16.1875rem', height: '1.625rem', flexDirection: 'column', justifyContent: 'center', flexShrink: 0, color: '#121212', fontWeight: 400, lineHeight: 'normal' }}>
+                          {item?.plcyExplnCn || "설명을 불러올 수 없습니다"}
+                        </p>
+                        
+                        {/* 마감일 */}
+                        <span 
+                          className="font-['Pretendard'] text-xs font-medium flex-shrink-0"
+                          style={{ 
+                            width: '4rem',
+                            height: '1.875rem',
+                            flexShrink: 0,
+                            borderRadius: '0.875rem',
+                            background: '#F0F0F0',
+                            color: item?.deadline ? getDeadlineColor(item.deadline) : "#999",
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          {item?.deadline || "-"}
                         </span>
-                      )}
-                    </div>
-                    
-                    {/* 마감일 */}
-                    <div className="flex justify-end">
-                      <span 
-                        className="text-xs font-medium"
-                        style={{ color: item?.deadline ? getDeadlineColor(item.deadline) : "#999" }}
-                      >
-                        {item?.deadline || "-"}
-                      </span>
+                      </div>
                     </div>
                   </div>
                 );
@@ -243,6 +278,9 @@ export default function AllRecommendations() {
             )}
           </div>
         </div>
+        
+        {/* 네비게이션 바 */}
+        <MenuBar />
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ import MenuBar from "./components/layout/MenuBar";
 import DevNavigation from "./components/layout/DevNavigation";
 import { AlarmProvider } from "./contexts/AlarmContext";
 
+import Scrap from "./pages/Scrap.jsx";
 function App() {
   return (
     <Router>
@@ -65,10 +66,27 @@ function App() {
               <MenuBar />
             </div>
           } />
+          <Route path="/scrap" element={
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
+              <Header />
+              <MainLayout>
+                <Scrap />
+              </MainLayout>
+              <MenuBar />
+            </div>
+          } />
           <Route path="/alarm" element={<AlarmPage />} />
           <Route path="/all-recommendations" element={<AllRecommendations />} />
           <Route path="/search-result" element={<SearchResult />} />
-          <Route path="/growth-tracker" element={<GrowthTracker />} />
+          <Route path="/growth-tracker" element={
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
+              <Header />
+              <MainLayout>
+                <GrowthTracker />
+              </MainLayout>
+              <MenuBar />
+            </div>
+          } />
         </Routes>
         </div>
       </AlarmProvider>

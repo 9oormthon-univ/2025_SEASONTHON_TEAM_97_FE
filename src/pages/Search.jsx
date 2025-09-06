@@ -25,7 +25,7 @@ export default function SearchPage() {
         setPopularPolicies(null); // 에러 시 null로 설정
       } finally {
         setLoading(false);
-      }
+      } 
     };
 
     fetchPopularPolicies();
@@ -47,7 +47,7 @@ export default function SearchPage() {
     <div className="w-full bg-[#FAFAF8]">
       <div className="ml-5 mx-auto pt-6">
         <div className="ml-3 mb-2 mt-4">
-          <h2 className="text-[#121212] font-['Pretendard'] text-xl font-semibold">
+          <h2 className="font-['Pretendard']" style={{ width: '18.75rem', height: '1.125rem', flexShrink: 0, color: '#464646', fontSize: '1rem', fontWeight: 600, lineHeight: 'normal' }}>
             필요한 정보를 직접 검색해보세요!
           </h2>
         </div>
@@ -61,7 +61,8 @@ export default function SearchPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="검색어를 입력해주세요."
-                className="w-full px-4 py-[0.7rem] pr-12 border-2 border-[#13D564] rounded-full focus:outline-none text-sm text-black placeholder-[#D5E5DC]"
+                className="px-4 pr-12 focus:outline-none text-sm text-black placeholder-[#D5E5DC]"
+                style={{ width: '20rem', height: '2.25rem', flexShrink: 0, borderRadius: '1.3125rem', border: '1px solid #13D564', background: '#FFF' }}
               />
               <button
                 type="submit"
@@ -86,8 +87,30 @@ export default function SearchPage() {
         </div>
 
         <div className="ml-3 mb-4">
-          <h2 className="text-lg font-semibold text-[#121212] font-['Pretendard'] mb-4">추천 검색어</h2>
-          <div className="flex flex-wrap gap-2 mr-5">
+          <h2 className="font-['Pretendard'] mb-4" style={{ width: '3.4375rem', height: '0.75rem', flexShrink: 0, color: '#464646', fontSize: '0.75rem', fontWeight: 600, lineHeight: 'normal' }}>추천 검색어</h2>
+          <div className="flex flex-wrap gap-2">
+            {/* 추천 검색어 버튼들 - 빈 구역으로 유지 */}
+            <div className="flex items-center justify-center" style={{ width: '4.5rem', height: '1.5rem', flexShrink: 0, borderRadius: '0.75rem', background: '#F0F0F0' }}>
+              {/* 빈 구역 */}
+
+            </div>
+            <div className="flex items-center justify-center" style={{ width: '4.5rem', height: '1.5rem', flexShrink: 0, borderRadius: '0.75rem', background: '#F0F0F0' }}>
+              {/* 빈 구역 */}
+
+            </div>
+            <div className="flex items-center justify-center" style={{ width: '4.5rem', height: '1.5rem', flexShrink: 0, borderRadius: '0.75rem', background: '#F0F0F0' }}>
+              {/* 빈 구역 */}
+
+            </div>
+            <div className="flex items-center justify-center" style={{ width: '4.5rem', height: '1.5rem', flexShrink: 0, borderRadius: '0.75rem', background: '#F0F0F0' }}>
+              {/* 빈 구역 */}
+
+            </div>
+          </div>
+          
+          <div className="ml-3 mb-4">
+            <h2 className="text-lg font-semibold text-[#121212] font-['Pretendard'] mb-4">인기 정책</h2>
+            <div className="flex flex-wrap gap-2 mr-5">
             {loading ? (
               // 로딩 중 스켈레톤 UI
               Array.from({ length: 4 }).map((_, index) => (
@@ -110,18 +133,19 @@ export default function SearchPage() {
                 추천 검색어를 불러올 수 없습니다.
               </div>
             )}
+            </div>
           </div>
-        </div>
 
-        <div className="ml-3 mb-20 mr-5">
-          <h3 className="text-base text-[#A6A6A6] font-['Pretendard'] mb-2">
-            이렇게 검색하면 원하는 검색 내용을 찾을 수 있어요!
-          </h3>
-          <ul className="space-y-2 text-sm text-[#A6A6A6]">
-            <li>• 문장보다는 단어로 검색을 해주세요!</li>
-            <li>• 검색어의 맞춤법, 오타를 확인한 후 검색해주세요!</li>
-            <li>• 특수 기호는 검색 내용을 찾는데 어려움을 줄 수 있습니다!</li>
-          </ul>
+          <div className="ml-3 mb-20 mr-5">
+            <h3 className="font-['Pretendard'] mb-2" style={{ width: '15.1875rem', height: '0.75rem', flexShrink: 0, color: '#A6A6A6', fontSize: '0.75rem', fontWeight: 400, lineHeight: 'normal' }}>
+              이렇게 검색하면 원하는 검색 내용을 찾을 수 있어요!
+            </h3>
+            <ul className="space-y-2 font-['Pretendard']" style={{ width: '14.875rem', height: '2.5rem', flexShrink: 0, color: '#A6A6A6', fontSize: '0.625rem', fontWeight: 300, lineHeight: 'normal' }}>
+              <li>• 문장보다는 단어로 검색을 해주세요!</li>
+              <li>• 검색어의 맞춤법, 오타를 확인한 후 검색해주세요!</li>
+              <li>• 특수 기호는 검색 내용을 찾는데 어려움을 줄 수 있습니다!</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
