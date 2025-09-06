@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
 import { useNavigate } from "react-router-dom"; // 라우트 이동을 위한 임포트
+import { api } from "../../services/api";
 
 export default function SignUp_1() {
   const [formData, setFormData] = useState({
@@ -20,91 +21,70 @@ export default function SignUp_1() {
 
   const navigate = useNavigate(); // 라우트 이동을 위한 훅
 
-  // 아이디 중복 검사 함수 (FastAPI)
+  // 아이디 중복 검사 함수 - 임시로 사용 가능하다고 반환
   const checkIdDuplicate = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8000/check-id/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        return { isAvailable: data.is_available, message: data.message || "" };
+      // 현재는 중복 검사 API가 없으므로 임시로 사용 가능하다고 반환
+      // 추후 실제 API가 구현되면 아래 주석을 해제하여 사용
+      /*
+      const response = await api.get(`/api/v1/check-id/${id}`);
+      if (response.success) {
+        return { isAvailable: response.data.isAvailable, message: response.message || "" };
       } else {
-        const errorData = await response.json();
-        console.error("아이디 중복 검사 실패:", errorData);
         return {
           isAvailable: false,
-          message: errorData.message || "아이디 중복 검사에 실패했습니다.",
+          message: response.error || "아이디 중복 검사에 실패했습니다.",
         };
       }
+      */
+      
+      // 임시 처리: 모든 아이디를 사용 가능하다고 반환
+      await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
+      return {
+        isAvailable: true,
+        message: "사용 가능한 아이디입니다.",
+      };
     } catch (error) {
       console.error("아이디 중복 검사 오류:", error);
       return {
-        isAvailable: false,
-        message: "아이디 중복 검사 중 오류가 발생했습니다.",
+        isAvailable: true, // 에러 시에도 임시로 사용 가능하다고 처리
+        message: "사용 가능한 아이디입니다.",
       };
     }
   };
 
-  // 닉네임 중복 검사 함수 (FastAPI)
+  // 닉네임 중복 검사 함수 - 임시로 사용 가능하다고 반환
   const checkNicknameDuplicate = async (nickname) => {
     try {
-      const response = await fetch(
-        `http://localhost:8000/check-nickname/${nickname}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        return { isAvailable: data.is_available, message: data.message || "" };
+      // 현재는 중복 검사 API가 없으므로 임시로 사용 가능하다고 반환
+      // 추후 실제 API가 구현되면 아래 주석을 해제하여 사용
+      /*
+      const response = await api.get(`/api/v1/check-nickname/${nickname}`);
+      if (response.success) {
+        return { isAvailable: response.data.isAvailable, message: response.message || "" };
       } else {
-        const errorData = await response.json();
-        console.error("닉네임 중복 검사 실패:", errorData);
         return {
           isAvailable: false,
-          message: errorData.message || "닉네임 중복 검사에 실패했습니다.",
+          message: response.error || "닉네임 중복 검사에 실패했습니다.",
         };
       }
+      */
+      
+      // 임시 처리: 모든 닉네임을 사용 가능하다고 반환
+      await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
+      return {
+        isAvailable: true,
+        message: "사용 가능한 닉네임입니다.",
+      };
     } catch (error) {
       console.error("닉네임 중복 검사 오류:", error);
       return {
-        isAvailable: false,
-        message: "닉네임 중복 검사 중 오류가 발생했습니다.",
+        isAvailable: true, // 에러 시에도 임시로 사용 가능하다고 처리
+        message: "사용 가능한 닉네임입니다.",
       };
     }
   };
 
-  // 아이디 중복 검사 함수 (Node.js)
-  const checkIdDuplicateNode = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:3000/api/check-id/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        return data.isAvailable;
-      } else {
-        console.error("아이디 중복 검사 실패");
-        return false;
-      }
-    } catch (error) {
-      console.error("아이디 중복 검사 오류:", error);
-      return false;
-    }
-  };
 
   // 디바운스 함수
   const debounce = (func, delay) => {
@@ -122,11 +102,7 @@ export default function SignUp_1() {
         setIsCheckingId(true);
         setIdCheckMessage("");
         try {
-          // FastAPI 사용 시
           const result = await checkIdDuplicate(id);
-          // Node.js 사용 시
-          // const result = await checkIdDuplicateNode(id);
-
           setIdCheckResult(result.isAvailable);
           setIdCheckMessage(result.message);
         } catch (error) {
@@ -355,6 +331,12 @@ export default function SignUp_1() {
       Object.keys(newErrors).length === 0 ||
       Object.values(newErrors).every((error) => !error)
     ) {
+      console.log("=== 회원가입 1단계 폼 데이터 ===");
+      console.log("현재 formData:", formData);
+      console.log("loginId (아이디):", formData.id);
+      console.log("password (비밀번호):", formData.password);
+      console.log("name (닉네임):", formData.nickname);
+      
       // 임시로 localStorage에 저장 (SignUp_2에서 사용)
       localStorage.setItem("tempUserId", formData.id);
       localStorage.setItem("tempPassword", formData.password);
@@ -369,6 +351,13 @@ export default function SignUp_1() {
         timestamp: new Date().toISOString(),
       };
       localStorage.setItem("signupStep1Data", JSON.stringify(signupStep1Data));
+      
+      console.log("=== localStorage에 저장된 데이터 ===");
+      console.log("tempUserId:", localStorage.getItem("tempUserId"));
+      console.log("tempPassword:", localStorage.getItem("tempPassword"));
+      console.log("tempNickname:", localStorage.getItem("tempNickname"));
+      console.log("signupStep1Data:", localStorage.getItem("signupStep1Data"));
+      
       navigate("/signup/step2"); // 유효성 검사 통과 시 SignUp_2로 이동
     }
   };

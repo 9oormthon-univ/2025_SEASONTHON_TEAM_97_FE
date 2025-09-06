@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
 import dropDownSvg from "../../assets/icons/drop-down.svg";
-import { api } from "../../services/api.js";
+import { api, authAPI } from "../../services/api.js";
 
 export default function SignUp_2() {
   const navigate = useNavigate();
@@ -18,11 +18,63 @@ export default function SignUp_2() {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   
   // 소득분위 자동 계산 관련 상태
   const [incomeInputType, setIncomeInputType] = useState('dropdown'); // 'manual' 또는 'dropdown'
   const [manualIncome, setManualIncome] = useState('');
   const [calculatedLevel, setCalculatedLevel] = useState('');
+
+  // 학력 코드 매핑 (schoolCd)
+  const schoolCodeMap = {
+    "고졸 미만": "0049001",
+    "고교 재학": "0049002", 
+    "고졸 예정": "0049003",
+    "고교 졸업": "0049004",
+    "대학 재학": "0049005",
+    "대졸 예정": "0049006",
+    "대학 졸업": "0049007",
+    "석박사": "0049008",
+    "기타": "0049009",
+    "제한없음": "0049010"
+  };
+
+  // 지역 코드 매핑 (5자리 정수)
+  const regionCodeMap = {
+    "전국": 11000,
+    "서울특별시": 11000,
+    "부산광역시": 21000,
+    "대구광역시": 22000,
+    "인천광역시": 23000,
+    "광주광역시": 24000,
+    "대전광역시": 25000,
+    "울산광역시": 26000,
+    "세종특별자치시": 29000,
+    "경기도": 31000,
+    "강원도": 32000,
+    "충청북도": 33000,
+    "충청남도": 34000,
+    "전라북도": 35000,
+    "전라남도": 36000,
+    "경상북도": 37000,
+    "경상남도": 38000,
+    "제주특별자치도": 39000
+  };
+
+  // 관심분야 코드 매핑 (sbizCd)
+  const interestCodeMap = {
+    "중소기업": "0014001",
+    "여성": "0014002",
+    "기초생활수급자": "0014003", 
+    "한부모가정": "0014004",
+    "장애인": "0014005",
+    "농업인": "0014006",
+    "군인": "0014007",
+    "지역인재": "0014008",
+    "기타": "0014009",
+    "제한없음": "0014010"
+  };
 
   // 특화 분야 옵션들
   const interestOptions = [
@@ -40,6 +92,8 @@ export default function SignUp_2() {
 
   // 페이지 로드 시 localStorage 데이터 콘솔에 출력
   useEffect(() => {
+    console.log("=== 회원가입 2단계 페이지 로드 ===");
+    
     const signupStep1Data = JSON.parse(
       localStorage.getItem("signupStep1Data") || "{}"
     );
@@ -47,15 +101,28 @@ export default function SignUp_2() {
     const tempPassword = localStorage.getItem("tempPassword");
     const tempNickname = localStorage.getItem("tempNickname");
 
+    console.log("=== 1단계에서 전달받은 데이터 ===");
+    console.log("signupStep1Data:", signupStep1Data);
+    console.log("tempUserId:", tempUserId);
+    console.log("tempPassword:", tempPassword);
+    console.log("tempNickname:", tempNickname);
+    console.log("=====================================");
   }, []);
 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    console.log(`=== 2단계 폼 입력 변경 ===`);
+    console.log(`필드: ${name}, 값: ${value}`);
+    
+    setFormData((prev) => {
+      const newFormData = {
+        ...prev,
+        [name]: value,
+      };
+      console.log("업데이트된 formData:", newFormData);
+      return newFormData;
+    });
 
     // 실시간 유효성 검사
     const newErrors = { ...errors };
@@ -99,6 +166,13 @@ export default function SignUp_2() {
   };
 
   // 소득분위 자동 계산 함수 (2025년 기준, 만원 단위)
+  // 소득분위에서 숫자만 추출하는 함수
+  const extractIncomeNumber = (incomeLevel) => {
+    if (!incomeLevel) return 0;
+    const match = incomeLevel.match(/(\d+)/);
+    return match ? parseInt(match[1]) : 0;
+  };
+
   const calculateIncomeLevel = () => {
     const incomeInWon = parseInt(manualIncome) * 10000; // 만원을 원으로 변환
     if (!manualIncome || parseInt(manualIncome) <= 0) {
@@ -139,10 +213,17 @@ export default function SignUp_2() {
       ...prev,
       incomeLevel: level
     }));
+    
+    console.log(`=== financialStatus (소득분위) 계산 결과 ===`);
+    console.log(`입력 소득: ${manualIncome}만원 (${incomeInWon}원)`);
+    console.log(`계산된 분위: ${level}`);
+    console.log(`financialStatus 값: ${extractIncomeNumber(level)}`);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setSubmitError("");
 
     // 전체 유효성 검사
     const newErrors = {};
@@ -162,85 +243,110 @@ export default function SignUp_2() {
       Object.values(newErrors).every((error) => !error)
     ) {
       try {
+        console.log("=== 회원가입 2단계 폼 제출 시작 ===");
+        console.log("현재 2단계 formData:", formData);
+        console.log("location (지역):", formData.region);
+        console.log("organizationStatus (학력):", formData.school);
+        console.log("financialStatus (소득분위):", formData.incomeLevel);
+        console.log("goal (관심분야):", formData.interests);
+        
         // 회원가입 1단계 데이터 가져오기
         const signupStep1Data = JSON.parse(
           localStorage.getItem("signupStep1Data") || "{}"
         );
+        
+        console.log("=== localStorage에서 가져온 1단계 데이터 ===");
+        console.log("signupStep1Data:", signupStep1Data);
+        console.log("tempUserId:", localStorage.getItem("tempUserId"));
+        console.log("tempPassword:", localStorage.getItem("tempPassword"));
+        console.log("tempNickname:", localStorage.getItem("tempNickname"));
 
-        // 생년월일 합치기
-        const birthDate = `${formData.birthYear}/${formData.birthMonth.padStart(
+        // 생년월일 합치기 (API 명세에 맞게 YYYY-MM-DD 형식)
+        const birthDate = `${formData.birthYear}-${formData.birthMonth.padStart(
           2,
           "0"
-        )}/${formData.birthDay.padStart(2, "0")}`;
+        )}-${formData.birthDay.padStart(2, "0")}`;
+        
+        console.log("=== birth (생년월일) ===");
+        console.log("birth:", birthDate);
 
-        // 회원가입 2단계 데이터 구성
-        const signupStep2Data = {
-          step: 2,
-          birthDate: birthDate,
-          region: formData.region,
-          school: formData.school,
-          incomeLevel: formData.incomeLevel,
-          employmentStatus: formData.employmentStatus,
-          interests: formData.interests,
-          timestamp: new Date().toISOString(),
-        };
+        // 지역 코드 변환
+        const locationCode = regionCodeMap[formData.region] || 11000; // 기본값: 전국(11000)
+        
+        console.log("=== location (지역) 코드 변환 ===");
+        console.log("선택된 지역:", formData.region);
+        console.log("변환된 지역 코드:", locationCode);
 
-        // 전체 회원가입 데이터 통합
-        const completeSignupData = {
-          step1: signupStep1Data,
-          step2: signupStep2Data,
-          complete: true,
-          finalTimestamp: new Date().toISOString(),
-        };
-
-        // 카카오 사용자 데이터 가져오기
-        const kakaoUserData = JSON.parse(
-          localStorage.getItem("kakaoUserData") || "{}"
-        );
-
-        // ERD에 맞춰 백엔드로 전송할 데이터 구성
+        // API 명세에 맞는 회원가입 데이터 구성
         const userData = {
-          login_id: localStorage.getItem("tempUserId") || "kakao_user",
-          password: localStorage.getItem("tempPassword") || "kakao_auth",
-          name: localStorage.getItem("tempNickname") || "사용자",
-          birth: birthDate.replace(/\//g, "-"),
-          location: formData.region,
-          organization_status: formData.employmentStatus === "학생" ? 0 : 1,
-          financial_status: formData.incomeLevel
-            ? parseInt(formData.incomeLevel)
-            : 0,
-          goal: 0,
-          created_at: new Date().toISOString().split("T")[0],
-          kakao_id: kakaoUserData.id || null,
-          email: kakaoUserData.email || null,
-          profile_image: kakaoUserData.profile_image || null,
+          loginId: localStorage.getItem("tempUserId") || signupStep1Data.id,        // 로그인 아이디
+          password: localStorage.getItem("tempPassword") || signupStep1Data.password, // 비밀번호  
+          name: localStorage.getItem("tempNickname") || signupStep1Data.nickname,    // 닉네임
+          birth: birthDate,                                                          // 생년월일 (YYYY-MM-DD)
+          location: locationCode,                                                    // 지역 (5자리 정수 코드)
+          organizationStatus: schoolCodeMap[formData.school] || formData.employmentStatus, // 학력 (코드 매핑)
+          financialStatus: extractIncomeNumber(formData.incomeLevel),                // 소득분위 (숫자)
+          goal: interestCodeMap[formData.interests[0]] || "0014010"                  // 관심분야 (첫 번째 선택, 코드 매핑)
         };
+        
+        console.log("=== 코드 매핑 결과 ===");
+        console.log("location (지역):", formData.region, "→", locationCode);
+        console.log("organizationStatus (학력):", formData.school, "→", schoolCodeMap[formData.school]);
+        console.log("financialStatus (소득분위):", formData.incomeLevel, "→", extractIncomeNumber(formData.incomeLevel));
+        console.log("goal (관심분야):", formData.interests, "→", interestCodeMap[formData.interests[0]]);
+        
+        console.log("=== 최종 API 전송 데이터 (API 필드명) ===");
+        console.log("userData:", userData);
+        console.log("개별 필드 확인:");
+        console.log("- loginId:", userData.loginId);
+        console.log("- password:", userData.password);  
+        console.log("- name:", userData.name);
+        console.log("- birth:", userData.birth);
+        console.log("- location:", userData.location);
+        console.log("- organizationStatus:", userData.organizationStatus);
+        console.log("- financialStatus:", userData.financialStatus);
+        console.log("- goal:", userData.goal);
 
+        // 실제 회원가입 API 호출
+        console.log("=== API 호출 시작 ===");
+        console.log("=== 백엔드로 전송되는 실제 데이터 ===");
+        console.log(JSON.stringify(userData, null, 2));
+        
+        const response = await authAPI.signup(userData);
+        
+        console.log("=== API 응답 결과 ===");
+        console.log("response:", response);
 
-        // 백엔드 API 호출
-        try {
-          const result = await api.post("/api/register", {
-            userData: userData,
-            completeSignupData: completeSignupData,
-          });
-
-
-          // 임시 저장된 데이터 삭제
+        if (response.success) {
+          console.log("=== 회원가입 성공 ===");
+          console.log("성공 메시지:", response.message);
+          
+          // 성공 시 임시 저장된 데이터 삭제
           localStorage.removeItem("tempUserId");
           localStorage.removeItem("tempPassword");
           localStorage.removeItem("tempNickname");
           localStorage.removeItem("signupStep1Data");
 
+          console.log("=== localStorage 데이터 삭제 완료 ===");
+          
           // 로그인 성공 페이지로 이동
           navigate("/login-success");
-        } catch (error) {
-          console.error("회원가입 오류:", error);
-          alert("회원가입 중 오류가 발생했습니다.");
+        } else {
+          console.log("=== 회원가입 실패 ===");
+          console.log("실패 원인:", response.error);
+          
+          // 실패 시 에러 메시지 표시
+          setSubmitError(response.error || "회원가입에 실패했습니다.");
         }
       } catch (error) {
-        console.error("전체 처리 오류:", error);
-        alert("처리 중 오류가 발생했습니다.");
+        console.log("=== 회원가입 처리 중 예외 발생 ===");
+        console.error("오류 상세:", error);
+        setSubmitError("회원가입 처리 중 오류가 발생했습니다.");
+      } finally {
+        setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
   };
 
@@ -363,6 +469,7 @@ export default function SignUp_2() {
                 onTouchStart={(e) => e.stopPropagation()}
               >
                 <option value="">지역을 선택해주세요</option>
+                <option value="전국">전국</option>
                 <option value="서울특별시">서울특별시</option>
                 <option value="부산광역시">부산광역시</option>
                 <option value="대구광역시">대구광역시</option>
@@ -414,7 +521,7 @@ export default function SignUp_2() {
                 <option value="대학 재학">대학 재학</option>
                 <option value="대졸 예정">대졸 예정</option>
                 <option value="대학 졸업">대학 졸업</option>
-                <option value="석,박사">석,박사</option>
+                <option value="석박사">석박사</option>
                 <option value="기타">기타</option>
                 <option value="제한없음">제한없음</option>
               </select>
@@ -596,12 +703,24 @@ export default function SignUp_2() {
             </div>
           </div>
 
+          {/* 에러 메시지 */}
+          {submitError && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-600 text-sm font-medium">{submitError}</p>
+            </div>
+          )}
+
           {/* 등록하기 버튼 */}
           <button
             type="submit"
-            className="w-full bg-[#13D564] text-white rounded-lg font-medium py-3 text-[0.85rem] mb-4 cursor-pointer"
+            disabled={loading}
+            className={`w-full rounded-lg font-medium py-3 text-[0.85rem] mb-4 ${
+              loading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-[#13D564] hover:bg-[#0FB055] cursor-pointer'
+            } text-white transition-colors`}
           >
-            등록하기
+            {loading ? "등록하는 중..." : "등록하기"}
           </button>
 
           {/* 건너뛰기 링크 */}
