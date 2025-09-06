@@ -61,17 +61,21 @@ export default function SearchPage() {
           <h2 className="text-lg font-semibold text-[#121212] font-['Pretendard'] mb-4">추천 검색어</h2>
           <div className="flex flex-wrap gap-2">
             {/* 추천 검색어 버튼들 - 빈 구역으로 유지 */}
-            <div className="w-20 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+            <div className="w-30 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               {/* 빈 구역 */}
+
             </div>
-            <div className="w-20 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+            <div className="w-30 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               {/* 빈 구역 */}
+
             </div>
-            <div className="w-20 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+            <div className="w-30 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               {/* 빈 구역 */}
+
             </div>
-            <div className="w-20 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+            <div className="w-30 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               {/* 빈 구역 */}
+
             </div>
           </div>
         </div>

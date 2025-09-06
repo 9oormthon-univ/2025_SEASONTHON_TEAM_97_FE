@@ -16,6 +16,8 @@ function DevNavigation() {
     { name: '홈', path: '/home', color: 'bg-emerald-500' },
     { name: '검색', path: '/search', color: 'bg-teal-500' },
     { name: '마이페이지', path: '/mypage', color: 'bg-orange-500' },
+    { name: '대시보드', path: '/dashboard', color:'bg-pink-500'},
+    { name: '스크랩', path: '/scrap', color:'bg-red-500'}
   ];
 
   const handlePageChange = (path) => {

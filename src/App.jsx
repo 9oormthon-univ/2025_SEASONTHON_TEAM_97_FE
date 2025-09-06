@@ -15,7 +15,8 @@ import Header from "./components/layout/Header";
 import MainLayout from "./components/layout/MainLayout";
 import MenuBar from "./components/layout/MenuBar";
 import DevNavigation from "./components/layout/DevNavigation";
-
+import Dashboard from "./pages/Dashboard.jsx";
+import Scrap from "./pages/Scrap.jsx";
 function App() {
   return (
     <Router>
@@ -57,6 +58,24 @@ function App() {
               <Header />
               <MainLayout>
                 <MyPage />
+              </MainLayout>
+              <MenuBar />
+            </div>
+          } />
+          <Route path="/dashboard" element={
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
+              <Header />
+              <MainLayout>
+                <Dashboard />
+              </MainLayout>
+              <MenuBar />
+            </div>  
+          } />
+          <Route path="/scrap" element={
+            <div className="w-full min-h-screen bg-[#FAFAF8] flex flex-col">
+              <Header />
+              <MainLayout>
+                <Scrap />
               </MainLayout>
               <MenuBar />
             </div>
