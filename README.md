@@ -1,5 +1,5 @@
 <a href="https://club-project-one.vercel.app/" target="_blank">
-<img src="https://github.com/user-attachments/assets/daa622b9-7c69-4786-8db3-4996b7f140be" alt="배너" width="100%"/>
+<img src="" alt="배너" width="100%"/>
 </a>
 
 <br/>
@@ -51,19 +51,20 @@
 ## 5.1 Frotend
 |  |  |  |
 |-----------------|-----------------|-----------------|
-| React    | tailwindcss   |javascript   | 
+| React    | tailwindcss   | javascript   | 
 
 <br/>
-마이아 DB 
+
+
 ## 5.2 Backend
 |  |  |  |
 |-----------------|-----------------|-----------------|
 | Maria DB | Java | Spring | 
 <br/>
 
-## 5.4 Cooperation
-|  |  |
-|-----------------|-----------------|
+## 5.3 Cooperation
+|  |  |  |  |  
+|-----------------|-----------------|-----------------|-----------------|
 | Git  | Notion | Discord | Slack |
 
 <br/>
