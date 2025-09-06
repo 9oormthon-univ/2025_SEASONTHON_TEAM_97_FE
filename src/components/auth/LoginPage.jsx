@@ -59,13 +59,13 @@ export default function LoginPage() {
       console.log("=== 로그인 API 호출 시작 ===");
       console.log("로그인 데이터:", {
         loginId: formData.id,
-        password: "****" // 보안상 비밀번호는 숨김
+        password: "****", // 보안상 비밀번호는 숨김
       });
 
       // 백엔드로 전송되는 실제 데이터
       const loginData = {
         loginId: formData.id,
-        password: formData.password
+        password: formData.password,
       };
 
       console.log("=== 백엔드로 전송되는 실제 데이터 ===");
@@ -80,7 +80,7 @@ export default function LoginPage() {
       if (response.success) {
         console.log("=== 로그인 성공 ===");
         console.log("성공 메시지:", response.message);
-        
+
         // 로그인 성공
         localStorage.setItem(
           "userInfo",
@@ -93,7 +93,7 @@ export default function LoginPage() {
       } else {
         console.log("=== 로그인 실패 ===");
         console.log("실패 원인:", response.error);
-        
+
         // 로그인 실패
         setError(response.error || "로그인에 실패했습니다.");
       }
@@ -141,7 +141,6 @@ export default function LoginPage() {
               className="block text-left"
               style={{
                 color: "#00B44B",
-                fontFamily: "Pretendard",
                 fontSize: "0.875rem",
                 fontStyle: "normal",
                 fontWeight: 600,
@@ -163,7 +162,7 @@ export default function LoginPage() {
                 paddingBottom: "0.7rem",
                 marginBottom: "0.1rem",
                 outline: "none",
-                boxShadow: "none"
+                boxShadow: "none",
               }}
               required
             />
@@ -179,7 +178,6 @@ export default function LoginPage() {
               className="block text-left"
               style={{
                 color: "#00B44B",
-                fontFamily: "Pretendard",
                 fontSize: "0.875rem",
                 fontStyle: "normal",
                 fontWeight: 600,
@@ -201,7 +199,7 @@ export default function LoginPage() {
                 paddingBottom: "0.7rem",
                 marginBottom: "0.1rem",
                 outline: "none",
-                boxShadow: "none"
+                boxShadow: "none",
               }}
               required
             />
@@ -223,9 +221,9 @@ export default function LoginPage() {
             type="submit"
             disabled={loading}
             className={`w-full rounded-lg font-medium transition-colors text-[0.85rem] ${
-              loading 
-                ? 'bg-gray-400 cursor-not-allowed' 
-                : 'bg-[#13D564] hover:bg-[#0FB055] cursor-pointer'
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[#13D564] hover:bg-[#0FB055] cursor-pointer"
             } text-white`}
             style={{
               marginBottom: "0.75rem",
@@ -285,13 +283,15 @@ export default function LoginPage() {
               style={{ width: "1.2rem", height: "1.2rem" }}
               className="absolute left-4 top-1/2 transform -translate-y-1/2 flex items-center justify-center"
             >
-              <img 
-                src={kakaoTalkSvg} 
-                alt="kakao talk" 
+              <img
+                src={kakaoTalkSvg}
+                alt="kakao talk"
                 className="w-full h-full object-contain"
               />
             </div>
-            <span className="w-full text-center block">카카오로 로그인하기</span>
+            <span className="w-full text-center block">
+              카카오로 로그인하기
+            </span>
           </button>
 
           {/* 구분선 */}

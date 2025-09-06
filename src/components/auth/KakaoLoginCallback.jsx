@@ -28,7 +28,6 @@ export default function KakaoLoginCallback() {
       // axios면 여기!
       const result = res.data;
 
-
       if (result.success) {
         if (result.isExistingUser) {
           // ⚠️ 가능하면 HttpOnly 쿠키로 처리하고, localStorage에는 최소한만 저장 권장

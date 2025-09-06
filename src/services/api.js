@@ -1,5 +1,5 @@
 // API 서비스 - HTTP 요청을 처리하는 함수들
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? '' : 'http://3.34.177.187:8080');
 
 // 기본 fetch 설정
 const defaultOptions = {

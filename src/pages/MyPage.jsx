@@ -17,7 +17,7 @@ export default function MyPage() {
   };
 
   const triggerFileInput = () => {
-    document.getElementById('profile-image-input').click();
+    document.getElementById("profile-image-input").click();
   };
 
   const handleLogout = () => {
