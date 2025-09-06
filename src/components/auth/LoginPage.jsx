@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logoSvg from "../../assets/icons/cheongchun-sketch.svg";
 import kakaoTalkSvg from "../../assets/icons/kakao-talk.svg";
+import { authAPI } from "../../services/api";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -23,6 +24,9 @@ export default function LoginPage() {
     autoLogin: true,
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   // 로그인 페이지는 데모 모드로 유효성 검사를 수행하지 않습니다.
 
   const handleChange = (e) => {
@@ -35,17 +39,71 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    // 데모 로그인: 바로 성공 처리
-    localStorage.setItem("authToken", "demo_token_" + Date.now());
-    localStorage.setItem(
-      "userInfo",
-      JSON.stringify({
-        id: formData.id,
-        loginType: "local",
-      })
-    );
-    navigate("/login-success");
+    // 기본 유효성 검사
+    if (!formData.id.trim()) {
+      setError("아이디를 입력해주세요.");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.password.trim()) {
+      setError("비밀번호를 입력해주세요.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      console.log("=== 로그인 API 호출 시작 ===");
+      console.log("로그인 데이터:", {
+        loginId: formData.id,
+        password: "****" // 보안상 비밀번호는 숨김
+      });
+
+      // 백엔드로 전송되는 실제 데이터
+      const loginData = {
+        loginId: formData.id,
+        password: formData.password
+      };
+
+      console.log("=== 백엔드로 전송되는 실제 데이터 ===");
+      console.log(JSON.stringify(loginData, null, 2));
+
+      // 실제 API 호출
+      const response = await authAPI.login(loginData);
+
+      console.log("=== 로그인 API 응답 결과 ===");
+      console.log("response:", response);
+
+      if (response.success) {
+        console.log("=== 로그인 성공 ===");
+        console.log("성공 메시지:", response.message);
+        
+        // 로그인 성공
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify({
+            id: formData.id,
+            loginType: "local",
+          })
+        );
+        navigate("/login-success");
+      } else {
+        console.log("=== 로그인 실패 ===");
+        console.log("실패 원인:", response.error);
+        
+        // 로그인 실패
+        setError(response.error || "로그인에 실패했습니다.");
+      }
+    } catch (error) {
+      console.log("=== 로그인 처리 중 예외 발생 ===");
+      console.error("오류 상세:", error);
+      setError("로그인 처리 중 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -153,17 +211,29 @@ export default function LoginPage() {
             ></div>
           </div>
 
+          {/* 에러 메시지 */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-600 text-sm font-medium">{error}</p>
+            </div>
+          )}
+
           {/* 로그인 버튼 */}
           <button
             type="submit"
-            className="w-full bg-[#13D564] text-white rounded-lg font-medium hover:bg-[#0FB055] transition-colors text-[0.85rem] cursor-pointer"
+            disabled={loading}
+            className={`w-full rounded-lg font-medium transition-colors text-[0.85rem] ${
+              loading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-[#13D564] hover:bg-[#0FB055] cursor-pointer'
+            } text-white`}
             style={{
               marginBottom: "0.75rem",
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
             }}
           >
-            로그인
+            {loading ? "로그인 중..." : "로그인"}
           </button>
 
           {/* 아이디/비밀번호 찾기 & 자동 로그인 */}

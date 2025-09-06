@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import SplashScreen from "./components/auth/SplashScreen";
 import LoginPage from "./components/auth/LoginPage";
 import SignUp_1 from "./components/auth/SignUp_1";
@@ -18,9 +19,14 @@ import MainLayout from "./components/layout/MainLayout";
 import MenuBar from "./components/layout/MenuBar";
 import DevNavigation from "./components/layout/DevNavigation";
 import { AlarmProvider } from "./contexts/AlarmContext";
+import { authAPI } from "./services/api";
 
 import Scrap from "./pages/Scrap.jsx";
 function App() {
+  // 앱 초기화 시 저장된 토큰 확인
+  useEffect(() => {
+    authAPI.checkToken();
+  }, []);
   return (
     <Router>
       <AlarmProvider>

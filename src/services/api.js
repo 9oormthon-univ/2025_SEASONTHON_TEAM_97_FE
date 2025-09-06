@@ -1,5 +1,5 @@
 // API 서비스 - HTTP 요청을 처리하는 함수들
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://84e87d01-5c0b-4a05-a00d-c4f82bfa8a31.mock.pstmn.io';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 // 기본 fetch 설정
 const defaultOptions = {
@@ -171,6 +171,118 @@ export const policyAPI = {
         error: error.message
       };
     }
+  }
+};
+
+// 인증 API 함수들
+export const authAPI = {
+  // 회원가입
+  signup: async (userData) => {
+    try {
+      console.log("=== authAPI.signup 호출 ===");
+      console.log("전송할 데이터:", {
+        loginId: userData.loginId,
+        password: userData.password,
+        name: userData.name,
+        birth: userData.birth, // YYYY-MM-DD 형식
+        location: userData.location,
+        organizationStatus: userData.organizationStatus,
+        financialStatus: userData.financialStatus,
+        goal: userData.goal
+      });
+      
+      const response = await api.post('/api/v1/signup', {
+        loginId: userData.loginId,
+        password: userData.password,
+        name: userData.name,
+        birth: userData.birth, // YYYY-MM-DD 형식
+        location: userData.location,
+        organizationStatus: userData.organizationStatus,
+        financialStatus: userData.financialStatus,
+        goal: userData.goal
+      });
+      return {
+        success: true,
+        data: response.data,
+        message: response.message
+      };
+    } catch (error) {
+      console.error("회원가입 API 호출 실패:", error);
+      console.log("=== 실패한 요청 데이터 ===");
+      console.log("URL:", `${BASE_URL}/api/v1/signup`);
+      console.log("Method: POST");
+      console.log("Headers:", { 'Content-Type': 'application/json' });
+      console.log("Body:", JSON.stringify({
+        loginId: userData.loginId,
+        password: userData.password,
+        name: userData.name,
+        birth: userData.birth,
+        location: userData.location,
+        organizationStatus: userData.organizationStatus,
+        financialStatus: userData.financialStatus,
+        goal: userData.goal
+      }, null, 2));
+      
+      return {
+        success: false,
+        data: null,
+        error: error.message
+      };
+    }
+  },
+
+  // 로그인
+  login: async (loginData) => {
+    try {
+      const response = await api.post('/api/v1/login', {
+        loginId: loginData.loginId,
+        password: loginData.password
+      });
+      
+      // 로그인 성공 시 토큰 저장
+      if (response.data && response.data.accessToken) {
+        localStorage.setItem('accessToken', response.data.accessToken);
+        setAuthToken(response.data.accessToken);
+      }
+      
+      return {
+        success: true,
+        data: response.data,
+        message: response.message
+      };
+    } catch (error) {
+      console.error("로그인 API 호출 실패:", error);
+      return {
+        success: false,
+        data: null,
+        error: error.message
+      };
+    }
+  },
+
+  // 로그아웃
+  logout: () => {
+    localStorage.removeItem('accessToken');
+    setAuthToken(null);
+    return {
+      success: true,
+      message: '로그아웃되었습니다.'
+    };
+  },
+
+  // 토큰 확인
+  checkToken: () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      setAuthToken(token);
+      return true;
+    }
+    return false;
+  },
+
+  // 현재 로그인 상태 확인
+  isLoggedIn: () => {
+    return !!localStorage.getItem('accessToken');
   }
 };
 
